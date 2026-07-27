@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: "YellowTail";
+    src: url(Fonts/Yellowtail/Yellowtail-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: "Unbounded";
+    src: url(Fonts/Unbounded/Unbounded-VariableFont_wght.ttf) format('truetype');
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image: url(Imagens/LoginBackground.png);
+}
+
+#message{
+    opacity: 0%;
+    text-align: center;
+    margin-top: 4%;
+    font-size: 24px;
+    transition: .25s;
+}
+
+#message.show{
+    opacity: 100%;
+}
+
+#infoCampus{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 600px;
+    height: 700px;
+    border-radius: 25px;
+    box-shadow: 5px 5px 5px #00000022;
+}
+
+img{
+    width: 100%;
+    height: 35%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 25px 25px 0px 0px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2{
+    font-family: "Unbounded";
+    margin: 0 auto;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+p{
+    font-family: "Unbounded";
+    font-weight: 500;
+    margin-bottom: 4%;
+}
+
+input{
+    font-family: "Unbounded";
+    width: 300px;
+    height: 30px;
+    margin-bottom: 4%;
+    background-color: rgba(250, 204, 204, 0.589);
+    border: 2px solid #FDA9B9ff;
+    border-radius: 5px;
+}
+
+input:focus{
+    outline: none;
+}
+
+#entrar{
+    height: 50px;
+    margin-top: 6%;
+    margin-bottom: 2%;
+}
+
+#entrar:hover{
+    cursor: pointer;
+}
+
+#register{
+    margin-top: 3%;
+}
+
+a{
+    color: #FDA9B9ff;
+    text-decoration: none;
+}

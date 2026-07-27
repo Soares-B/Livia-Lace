@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="Imagens/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="Login.css">
+    <title>Livia Lace</title>
+</head>
+<body>
+    <p id="message">Login realizado com sucesso!</p>
+    <div id="infoCampus">
+        <img src="Imagens/HeaderBackground.jpeg" alt="">
+        <form action="/loginClient" method="POST">
+            <h2>Entrar</h2>
+            <p>Email</p>
+            <input type="email" name="email" id="emailEnter" required autocomplete="off">
+            <p>Senha</p>
+            <input type="password" name="password" id="passwordEnter" required autocomplete="off">
+            <input type="submit" value="Entrar" id="entrar">
+        </form>
+        <p id="register">Ainda não possui uma conta? <a href="http://localhost:5000/Register.html">Registre aqui!</a></p>
+    </div>
+    <script src="Login.js"></script>
+</body>
+</html>

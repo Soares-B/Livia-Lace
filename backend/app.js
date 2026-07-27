@@ -2,11 +2,15 @@ import "dotenv/config";
 import express from "express";
 import db from "./database.js";
 import bcrypt from "bcrypt"
+import cors from "cors";
 
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 
+app.use(cors({
+  origin: "https://livia-lace.vercel.app"
+}));
 app.use(express.json());
 app.use(express.static('public'));
 

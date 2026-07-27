@@ -6,7 +6,7 @@ form.addEventListener("submit", async (event) => {
     const email = document.querySelector('#emailEnter').value
     const password = document.querySelector('#passwordEnter').value
 
-    const response = await fetch("/loginClient", {
+    const response = await fetch("https://livia-lace.onrender.com/loginClient", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

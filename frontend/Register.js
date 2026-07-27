@@ -7,7 +7,7 @@ form.addEventListener("submit", async (event) => {
     const username = document.querySelector('#usernameRegister').value
     const password = document.querySelector('#passwordRegister').value
 
-    const response = await fetch("/registerClient", {
+    const response = await fetch("https://livia-lace.onrender.com/registerClient", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

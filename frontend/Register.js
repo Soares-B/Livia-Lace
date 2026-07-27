@@ -23,7 +23,7 @@ form.addEventListener("submit", async (event) => {
         document.querySelector('#message').classList.add('show')
 
         setTimeout(() =>{
-            window.location.href = "http://localhost:5000/Login.html"
+            window.location.href = "/Login.html"
         }, 2000);
     }
 });

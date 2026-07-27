@@ -21,7 +21,7 @@ form.addEventListener("submit", async (event) => {
         document.querySelector('#message').classList.add('show')
         
         setTimeout(() =>{
-            window.location.href = "http://localhost:5000"
+            window.location.href = "https://livia-lace.vercel.app"
         }, 2000);
     }
 });

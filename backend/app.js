@@ -10,25 +10,32 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.static('public'));
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "online",
+    message: "Servidor funcionando",
+    timestamp: new Date()
+  });
+});
 
-    app.post("/registerClient", async (req, res) => {
+app.post("/registerClient", async (req, res) => {
 
-        const {email, username, password} = req.body;
+    const {email, username, password} = req.body;
 
-        const hash = await bcrypt.hash(password, 10);
+    const hash = await bcrypt.hash(password, 10);
 
-        const result = await db.query(
-            `
-            INSERT INTO clientes(nome,email,senha)
-            VALUES($1,$2,$3)
-            RETURNING *
-            `,
-            [username,email,hash]
-        );
+    const result = await db.query(
+        `
+        INSERT INTO clientes(nome,email,senha)
+        VALUES($1,$2,$3)
+        RETURNING *
+        `,
+        [username,email,hash]
+    );
 
 
-        res.json(true);
-    });
+    res.json(true);
+});
 
 app.post("/loginClient", async (req, res) => {
 

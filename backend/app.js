@@ -82,7 +82,7 @@ app.post("/loginClient", async (req, res) => {
     
     const token = jwt.sign(
         { id: cliente.id },
-        process.env.JWT_Secret,
+        process.env.JWT_SECRET,
         { expiresIn: "7d" }
         )
 

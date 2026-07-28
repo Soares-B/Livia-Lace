@@ -3,16 +3,24 @@ import express from "express";
 import db from "./database.js";
 import bcrypt from "bcrypt"
 import cors from "cors";
+import jwt from "jsonwebtoken";
 
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: "https://livia-lace.vercel.app"
+  origin: [
+    "http://localhost:5000",
+    "https://livia-lace.vercel.app"
+  ]
 }));
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('../frontend'));
+
+app.get("/", (req, res) => {
+    res.sendFile("index.html", { root: "../frontend" });
+});
 
 app.get("/health", (req, res) => {
   res.status(200).json({
@@ -60,7 +68,6 @@ app.post("/loginClient", async (req, res) => {
         });
     }
 
-
     const senhaCorreta = await bcrypt.compare(
         password,
         cliente.senha
@@ -72,9 +79,14 @@ app.post("/loginClient", async (req, res) => {
             message: "Senha incorreta"
         });
     }
+    
+    const token = jwt.sign(
+        { id: cliente.id },
+        process.env.JWT_Secret,
+        { expiresIn: "7d" }
+        )
 
-
-    res.json(true);
+    res.json({token});
 });
 
 db.query("SELECT NOW()", (err, result) => {

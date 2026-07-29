@@ -7,7 +7,7 @@ form.addEventListener("submit", async (event) => {
     const username = document.querySelector('#usernameRegister').value
     const password = document.querySelector('#passwordRegister').value
 
-    const response = await fetch("https://livia-lace.onrender.com/registerClient", {
+    const response = await fetch("http://localhost:5000/registerClient", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -19,7 +19,7 @@ form.addEventListener("submit", async (event) => {
         })
     })
     const data = await response.json();
-    if (data === true){
+    if (response.ok){
         document.querySelector('#message').classList.add('show')
 
         setTimeout(() =>{

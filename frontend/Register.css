@@ -10,13 +10,25 @@
     src: url(Fonts/Unbounded/Unbounded-VariableFont_wght.ttf) format('truetype');
 }
 
+:root{
+    --stylized-Font: "Unbounded";
+    --handWrite-Font: "YellowTail";
+    --lilac-Pastel: #D99EC9ff;
+    --blue-Pastel: #98C2DBff;
+    --gren-Pastel: #BBD4BFff;
+    --yellow-Pastel: #FDD677ff;
+    --orange-Pastel: #FDA982ff;
+    --darkPink-Pastel: #FDA9B9ff;
+    --lighPink-Pastel: #FACCCCff;
+}
+
 *{
     margin: 0;
     padding: 0;
 }
 
 body{
-    background-image: url(Imagens/LoginBackground.png);
+    background-image: url(Imagens/BackgroundStyle.png);
 }
 
 #message{

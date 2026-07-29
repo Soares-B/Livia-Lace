@@ -105,16 +105,35 @@ body{
 
 #logo{
     position: absolute;
-    left: 10%;
+    left: 5%;
     width: 100px;
     height: 60px;
+}
+
+.icon{
+    position: absolute;
+    top: 25%;
+    right: 2%;
+    width: fit-content;
+    height: fit-content;
+    color: var(--darkPink-Pastel);
+}
+
+.icon svg{
+    width: 40px;
+    height: 40px;
+    margin: 0 10px;
+}
+
+.icon svg:hover{
+    cursor: pointer;
 }
 
 
 header {
     width: 100%;
     height: 300px;
-    background-image: linear-gradient(rgba(0,0,0,.33), rgba(0,0,0,.33)), url(../Imagens/HeaderBackground.jpeg);
+    background-image: linear-gradient(rgba(0,0,0,.33), rgba(0,0,0,.33)), url(Imagens/LogoBackground.jpeg);
     scroll-margin-top: 80px;
     background-size: cover;
     background-position: center 35%;

@@ -38,11 +38,11 @@ app.post("/registerClient", async (req, res) => {
 
     const result = await db.query(
         `
-        INSERT INTO clientes(nome,email,senha)
-        VALUES($1,$2,$3)
+        INSERT INTO clientes(nome,email,senha,is_admin)
+        VALUES($1,$2,$3,$4)
         RETURNING *
         `,
-        [username,email,hash]
+        [username,email,hash,false]
     );
 
 
@@ -82,6 +82,7 @@ app.post("/loginClient", async (req, res) => {
     
     const token = jwt.sign(
         { id: cliente.id },
+        { admin: cliente.is_admin},
         process.env.JWT_SECRET,
         { expiresIn: "7d" }
         )

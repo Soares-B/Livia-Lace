@@ -1,0 +1,258 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: "YellowTail";
+    src: url(Fonts/Yellowtail/Yellowtail-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: "Unbounded";
+    src: url(Fonts/Unbounded/Unbounded-VariableFont_wght.ttf) format('truetype');
+}
+
+:root{
+    --stylized-Font: "Unbounded";
+    --handWrite-Font: "YellowTail";
+    --lilac-Pastel: #D99EC9ff;
+    --blue-Pastel: #98C2DBff;
+    --gren-Pastel: #BBD4BFff;
+    --yellow-Pastel: #FDD677ff;
+    --orange-Pastel: #FDA982ff;
+    --darkPink-Pastel: #FDA9B9ff;
+    --lighPink-Pastel: #FACCCCff;
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    background-image: url(Imagens/BackgroundStyle.png);
+}
+
+#top{
+    position: relative;
+    background-color: white;
+    width: 100%;
+    height: 60px;
+    padding: 10px 0px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#logo{
+    position: absolute;
+    left: 5%;
+    width: 100px;
+    height: 60px;
+}
+
+.icon{
+    position: absolute;
+    top: 25%;
+    right: 2%;
+    width: fit-content;
+    height: fit-content;
+    color: var(--darkPink-Pastel);
+}
+
+.icon svg{
+    width: 40px;
+    height: 40px;
+    margin: 0 10px;
+}
+
+.icon svg:hover{
+    cursor: pointer;
+}
+
+#user{
+    background-color: white;
+    width: 95vw;
+    height: 85vh;
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-rows: 1.5fr .5fr .5fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin: 20px auto;
+    border-radius: 25px;
+    box-shadow: 5px 5px 5px #00000022;
+}
+
+aside{
+    grid-row: 1 / 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    justify-content: space-around;
+}
+
+.option{
+    color: var(--darkPink-Pastel);
+    width: 25%;
+    height: 25%;
+}
+
+.option:hover{
+    cursor: pointer;
+}
+
+#principal{
+    grid-column: 2;
+    grid-row: 1;
+    width: 200px;
+    height: auto;
+}
+
+#userImage{
+    user-select: none;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+#username{
+    margin-top: 5%;
+    text-align: center;
+    width: 100%;
+    font-family: var(--stylized-Font);
+    font-size: 24px;
+    font-weight: 400;
+}
+
+#email{
+    position: relative;
+    grid-column: 2;
+    grid-row: 2;
+    display: none;
+    align-items: center;
+    width: 40%;
+    height: 50%;
+    background-color: white;
+    border: 3px solid var(--darkPink-Pastel);
+    border-radius: 15px;
+}
+
+#email.show{
+    display: flex;
+}
+
+#email h2{
+    position: absolute;
+    top: -60%;
+    left: 1%;
+    font-family: var(--stylized-Font);
+    font-weight: 400;
+}
+
+#email p{
+    margin-left: 2%;
+    font-family: var(--stylized-Font);
+    font-size: 20px;
+}
+
+#address{
+    position: relative;
+    grid-column: 2;
+    grid-row: 2/-1;
+    width: 100%;
+    height: 100%;
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+#address.show{
+    display: grid;
+}
+
+#stateArea{
+    grid-column: 1;
+    grid-row: 1;
+    width: 90%;
+    height: 60%;
+}
+
+#stateArea h2{
+    position: absolute;
+    top: -2%;
+    font-family: var(--stylized-Font);
+    font-weight: 400;
+}
+
+#state{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: 3px solid var(--darkPink-Pastel);
+    border-radius: 15px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-family: var(--stylized-Font);
+    font-size: 20px;
+    text-align: start;
+    padding-left: 10px;
+}
+
+#state:hover{
+    cursor: pointer;
+}
+
+#state:focus{
+    outline: none;
+}
+
+ul{
+    list-style-type: none;
+    position: absolute;
+    margin-top: 1%;
+    width: 44%;
+    height: 50%;
+    border: 3px solid var(--darkPink-Pastel);
+    border-radius: 15px;
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: none;
+}
+
+ul.show{
+    display: block;
+}
+
+ul::-webkit-scrollbar{
+    margin-right: 10px;
+    width: 5px;
+}
+
+ul::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+ul::-webkit-scrollbar-thumb {
+    background: var(--darkPink-Pastel);
+    border-radius: 3px;
+}
+
+ul li{
+    font-family: var(--stylized-Font);
+    font-size: 14px;
+    margin: 2% 2%;
+}
+
+li:hover{
+    cursor: pointer;
+}

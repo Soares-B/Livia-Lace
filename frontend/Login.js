@@ -6,7 +6,7 @@ form.addEventListener("submit", async (event) => {
     const email = document.querySelector('#emailEnter').value
     const password = document.querySelector('#passwordEnter').value
 
-    const response = await fetch("https://livia-lace.onrender.com/loginClient", {
+    const response = await fetch("http://localhost:5000/loginClient", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -17,11 +17,23 @@ form.addEventListener("submit", async (event) => {
         })
     })
     const data = await response.json();
-    if (data === true){
-        document.querySelector('#message').classList.add('show')
+    const message = document.querySelector('#message')
+
+    if (response.ok){
+        message.textContent = 'Login realizado com sucesso!'
+        message.classList.add('show')
+        localStorage.setItem('Token', data.token)
         
         setTimeout(() =>{
-            window.location.href = "https://livia-lace.vercel.app"
+            window.location.href = "/"
+        }, 2000);
+    }
+
+    if (response.status !== 200){
+        message.textContent = data.message
+        message.classList.add('show')
+        setTimeout(() =>{
+            message.classList.remove('show')
         }, 2000);
     }
 });

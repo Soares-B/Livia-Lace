@@ -405,7 +405,7 @@ app.get("/melhor-envio/callback", async (req, res) => {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "User-Agent": "Livia Lace (seu-email@exemplo.com)"
+                    "User-Agent": "Livia Lace (Livia_lace@gmail.com)"
                 }
             }
         );

@@ -396,7 +396,7 @@ app.get("/melhor-envio/callback", async (req, res) => {
             "https://sandbox.melhorenvio.com.br/oauth/token",
             {
                 grant_type: "authorization_code",
-                client_id: process.env.MELHOR_ENVIO_CLIENT_ID,
+                client_id: process.env.MELHOR_ENVIO_CLIENTID,
                 client_secret: process.env.MELHOR_ENVIO_CLIENT_SECRET,
                 redirect_uri: process.env.MELHOR_ENVIO_REDIRECT_URI,
                 code

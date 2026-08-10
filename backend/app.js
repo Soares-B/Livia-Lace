@@ -399,30 +399,29 @@ app.get("/melhor-envio/callback", async (req, res) => {
                 client_id: process.env.MELHOR_ENVIO_CLIENTID,
                 client_secret: process.env.MELHOR_ENVIO_SECRET,
                 redirect_uri: process.env.MELHOR_ENVIO_REDIRECT_URI,
-                code
+                code: code
             },
             {
                 headers: {
-                    "User-Agent": "Livia Lace"
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "User-Agent": "Livia Lace (seu-email@exemplo.com)"
                 }
             }
         );
 
-        console.log("Token recebido!");
+        console.log("TOKEN RECEBIDO!");
+        console.log(response.data);
 
         res.json({
             message: "Autorização concluída com sucesso!"
         });
 
-        console.log(response.data);
-
     } catch (err) {
-        console.error(
-            err.response?.data || err.message
-        );
+        console.error("ERRO:", err.response?.data || err.message);
 
         res.status(500).json({
-            message: "Erro ao obter token do Melhor Envio",
+            message: "Erro ao obter token",
             error: err.response?.data || err.message
         });
     }

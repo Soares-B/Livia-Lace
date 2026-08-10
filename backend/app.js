@@ -382,7 +382,7 @@ app.get("/melhor-envio/auth", (req, res) => {
     res.redirect(url);
 });
 
-app.get("/melhor-envio/callback", async (req, res) => {
+app.get("/api/melhor-envio/callback", async (req, res) => {
     console.log("QUERY RECEBIDA:");
     console.log(req.query);
 

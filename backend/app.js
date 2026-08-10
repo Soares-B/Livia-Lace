@@ -383,48 +383,29 @@ app.get("/melhor-envio/auth", (req, res) => {
 });
 
 app.get("/melhor-envio/callback", async (req, res) => {
-    const { code } = req.query;
+    console.log("QUERY RECEBIDA:");
+    console.log(req.query);
+
+    const { code, error, error_description } = req.query;
+
+    if (error) {
+        return res.status(400).json({
+            error,
+            error_description
+        });
+    }
 
     if (!code) {
         return res.status(400).json({
-            message: "Código de autorização não recebido."
+            message: "Código de autorização não recebido.",
+            query: req.query
         });
     }
 
-    try {
-        const response = await axios.post(
-            "https://sandbox.melhorenvio.com.br/oauth/token",
-            {
-                grant_type: "authorization_code",
-                client_id: process.env.MELHOR_ENVIO_CLIENTID,
-                client_secret: process.env.MELHOR_ENVIO_SECRET,
-                redirect_uri: process.env.MELHOR_ENVIO_REDIRECT_URI,
-                code: code
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                    "User-Agent": "Livia Lace (Livia_lace@gmail.com)"
-                }
-            }
-        );
-
-        console.log("TOKEN RECEBIDO!");
-        console.log(response.data);
-
-        res.json({
-            message: "Autorização concluída com sucesso!"
-        });
-
-    } catch (err) {
-        console.error("ERRO:", err.response?.data || err.message);
-
-        res.status(500).json({
-            message: "Erro ao obter token",
-            error: err.response?.data || err.message
-        });
-    }
+    res.json({
+        message: "Código recebido!",
+        code
+    });
 });
 
 db.query("SELECT NOW()", (err, result) => {

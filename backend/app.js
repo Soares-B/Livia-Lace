@@ -397,7 +397,7 @@ app.get("/melhor-envio/callback", async (req, res) => {
             {
                 grant_type: "authorization_code",
                 client_id: process.env.MELHOR_ENVIO_CLIENTID,
-                client_secret: process.env.MELHOR_ENVIO_CLIENT_SECRET,
+                client_secret: process.env.MELHOR_ENVIO_SECRET,
                 redirect_uri: process.env.MELHOR_ENVIO_REDIRECT_URI,
                 code
             },

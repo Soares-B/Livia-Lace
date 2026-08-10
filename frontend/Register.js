@@ -7,7 +7,7 @@ form.addEventListener("submit", async (event) => {
     const username = document.querySelector('#usernameRegister').value
     const password = document.querySelector('#passwordRegister').value
 
-    const response = await fetch("http://localhost:5000/registerClient", {
+    const response = await fetch("/api/registerClient", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

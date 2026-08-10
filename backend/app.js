@@ -4,6 +4,7 @@ import db from "./database.js";
 import bcrypt from "bcrypt"
 import cors from "cors";
 import jwt from "jsonwebtoken";
+import axios from "axios";
 
 const app = express();
 
@@ -333,6 +334,99 @@ app.post("/api/AddtoCart", async (req, res) =>{
 
     return res.json({message: 'chegou'})
 })
+
+app.post("/api/inserttoCart", async (req, res) => {
+    try {
+        const { IDCliente, carrinhoCompleto, valorTotal } = req.body;
+
+        const result = await db.query(
+            `UPDATE "Carrinho"
+             SET produtos = $1::jsonb,
+             valor_total = $2
+             WHERE id_client = $3
+             RETURNING *`,
+            [
+                JSON.stringify(carrinhoCompleto),
+                valorTotal,
+                IDCliente
+            ]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Carrinho não encontrado"
+            });
+        }
+
+        return res.json(result.rows[0]);
+
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            message: "Erro ao atualizar carrinho"
+        });
+    }
+});
+
+app.get("/melhor-envio/auth", (req, res) => {
+    const params = new URLSearchParams({
+        client_id: process.env.MELHOR_ENVIO_CLIENTID,
+        redirect_uri: process.env.MELHOR_ENVIO_REDIRECT_URI,
+        response_type: "code",
+        scope: "shipping-calculate",
+    });
+
+    const url = `https://sandbox.melhorenvio.com.br/oauth/authorize?${params.toString()}`;
+
+    res.redirect(url);
+});
+
+app.get("/melhor-envio/callback", async (req, res) => {
+    const { code } = req.query;
+
+    if (!code) {
+        return res.status(400).json({
+            message: "Código de autorização não recebido."
+        });
+    }
+
+    try {
+        const response = await axios.post(
+            "https://sandbox.melhorenvio.com.br/oauth/token",
+            {
+                grant_type: "authorization_code",
+                client_id: process.env.MELHOR_ENVIO_CLIENT_ID,
+                client_secret: process.env.MELHOR_ENVIO_CLIENT_SECRET,
+                redirect_uri: process.env.MELHOR_ENVIO_REDIRECT_URI,
+                code
+            },
+            {
+                headers: {
+                    "User-Agent": "Livia Lace"
+                }
+            }
+        );
+
+        console.log("Token recebido!");
+
+        res.json({
+            message: "Autorização concluída com sucesso!"
+        });
+
+        console.log(response.data);
+
+    } catch (err) {
+        console.error(
+            err.response?.data || err.message
+        );
+
+        res.status(500).json({
+            message: "Erro ao obter token do Melhor Envio",
+            error: err.response?.data || err.message
+        });
+    }
+});
 
 db.query("SELECT NOW()", (err, result) => {
     if(err){

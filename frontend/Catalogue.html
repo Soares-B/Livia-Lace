@@ -22,117 +22,22 @@
         <aside>
             <h2>Filtros</h2>
             <hr>
-            <label for="checkbico"><input type="checkbox" name="Bico de pato" id="checkbico">Laço Bico de Pato</label>
-            <label for="checkxuxinha"><input type="checkbox" name="Bico de pato" id="checkxuxinha">Laço Xuxinha</label>
-            <label for="checktiara"><input type="checkbox" name="Bico de pato" id="checktiara">Tiara</label>
-            <label for="checkfaixa"><input type="checkbox" name="Bico de pato" id="checkfaixa">Laço faixa de bebe</label>
-            <label for="checkpresilha"><input type="checkbox" name="Bico de pato" id="checkpresilha">Laço Presilha de cabelo</label>
-            <label for="checkpulseira"><input type="checkbox" name="Bico de pato" id="checkpulseira">Pulseira</label>
+            <label for="checkbico"><input type="checkbox" name="Bico de pato" id="checkbico" onclick="option(this)">Laço Bico de Pato</label>
+            <label for="checkxuxinha"><input type="checkbox" name="Bico de pato" id="checkxuxinha" onclick="option(this)">Laço Xuxinha</label>
+            <label for="checktiara"><input type="checkbox" name="Bico de pato" id="checktiara" onclick="option(this)">Tiara</label>
+            <label for="checkfaixa"><input type="checkbox" name="Bico de pato" id="checkfaixa" onclick="option(this)">Laço faixa de bebe</label>
+            <label for="checkpresilha"><input type="checkbox" name="Bico de pato" id="checkpresilha" onclick="option(this)">Laço Presilha de cabelo</label>
+            <label for="checkpulseira"><input type="checkbox" name="Bico de pato" id="checkpulseira" onclick="option(this)">Pulseira</label>
+            <hr>
+            <h2>Valor</h2>
+            <div id="value">
+                <input type="text" name="inicial" id="preco-inicial" class="campus" placeholder="De R$0,00" oninput="this.value = this.value.replace(/\D/g, '')">
+                <input type="text" name="final" id="preco-final" class="campus" placeholder="Até R$99,99" oninput="this.value = this.value.replace(/\D/g, '')">
+            </div>
         </aside>
         <section>
              <div class="products">
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
-
-                <article>
-                    <img src="../Imagens/Laços/HeaderExample.png" alt="">
-                    <p class="productName">Nome do Laço</p>
-                    <p class="productValue">R$99,99</p>
-                    <input type="button" value="Adicionar ao Carrinho" class="productButton">
-                </article>
+                
             </div>
         </section>
     </main>
@@ -147,6 +52,7 @@
         <a href="https://www.instagram.com/livia_lacebr/" id="InstagramPage" class="footerItem link position" target="_blank" rel="nofollow">Instagram</a>
     </footer>
     <script src="https://kit.fontawesome.com/0c24622cda.js" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="main.js"></script>
+    <script src="Catalogue.js"></script>
 </body>
 </html>

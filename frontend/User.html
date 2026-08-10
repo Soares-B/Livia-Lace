@@ -15,57 +15,102 @@
             <i class="fa-solid fa-user" id="account" onclick="changePage(this)"></i>
         </div>
     </div>
-    <div id="user">
+    <div id="user"> 
+
         <aside>
             <i class="fa-solid fa-user option" id="frontUser" onclick="changeUserPage(this)"></i>
             <i class="fa-solid fa-address-card option" id="addressUser" onclick="changeUserPage(this)"></i>
             <i class="fa-solid fa-chart-pie option" id="dashboardUser" onclick="changeUserPage(this)"></i>
         </aside>
+
         <div id="principal">
             <img src="Imagens/PfP/Default_2.png" alt="" id="userImage">
-            <p id="username">Bruno Soares dos Santos</p>
+            <p id="username"></p>
         </div>
+
         <div id="email" class="show">
             <h2>Email</h2>
-            <p></p>
+            <p id="emailHere"></p>
         </div>
+
+        <div id="cpf" class="show">
+            <h2>CPF</h2>
+            <form action="" method="POST" id="cpfForm">
+                <input type="text" name="cpfText" id="cpfText" maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required autocomplete="off" placeholder="123.456.789-00">
+                <input type="submit" value="Enviar" id="cpfSend">
+            </form>
+        </div>
+
         <div id="address">
-            <div id="stateArea">
-                <h2>Estado</h2>
-                <input type="button" value="" id="state" onclick="openList()">
-                <ul class="options">
-                    <li>Acre</li>
-                    <li>Alagoas</li>
-                    <li>Amapá</li>
-                    <li>Amazonas</li>
-                    <li>Bahia</li>
-                    <li>Ceará</li>
-                    <li>Distrito Federal</li>
-                    <li>Espírito Santo</li>
-                    <li>Goiás</li>
-                    <li>Maranhão</li>
-                    <li>Mato Grosso</li>
-                    <li>Mato Grosso do Sul</li>
-                    <li>Minas Gerais</li>
-                    <li>Pará</li>
-                    <li>Paraíba</li>
-                    <li>Paraná</li>
-                    <li>Pernambuco</li>
-                    <li>Piauí</li>
-                    <li>Rio de Janeiro</li>
-                    <li>Rio Grande do Norte</li>
-                    <li>Rio Grande do Sul</li>
-                    <li>Rondônia</li>
-                    <li>Roraima</li>
-                    <li>Santa Catarina</li>
-                    <li>São Paulo</li>
-                    <li>Sergipe</li>
-                    <li>Tocantins</li>
-                </ul>
-            </div>
+
+            <form action="" method="POST" id="endereco">
+                <div id="stateArea" class="campusPosition">
+                    <h2 class="campusName">Estado*</h2>
+                    <input type="button" value="" id="state" class="campus" onclick="openList()">
+                    <ul class="options">
+                        <li>Acre</li>
+                        <li>Alagoas</li>
+                        <li>Amapá</li>
+                        <li>Amazonas</li>
+                        <li>Bahia</li>
+                        <li>Ceará</li>
+                        <li>Distrito Federal</li>
+                        <li>Espírito Santo</li>
+                        <li>Goiás</li>
+                        <li>Maranhão</li>
+                        <li>Mato Grosso</li>
+                        <li>Mato Grosso do Sul</li>
+                        <li>Minas Gerais</li>
+                        <li>Pará</li>
+                        <li>Paraíba</li>
+                        <li>Paraná</li>
+                        <li>Pernambuco</li>
+                        <li>Piauí</li>
+                        <li>Rio de Janeiro</li>
+                        <li>Rio Grande do Norte</li>
+                        <li>Rio Grande do Sul</li>
+                        <li>Rondônia</li>
+                        <li>Roraima</li>
+                        <li>Santa Catarina</li>
+                        <li>São Paulo</li>
+                        <li>Sergipe</li>
+                        <li>Tocantins</li>
+                    </ul>
+                </div>
+                <div id="city" class="campusPosition">
+                    <h2 class="campusName">Cidade*</h2>
+                    <input type="text" name="cidade" id="cidade" class="campus" autocomplete="off" required>
+                </div>
+                <div id="road" class="campusPosition">
+                    <h2 class="campusName">Rua*</h2>
+                    <input type="text" name="rua" id="rua" class="campus" autocomplete="off" required>
+                </div>
+                <div id="reference" class="campusPosition">
+                    <h2 class="campusName">Referência</h2>
+                    <input type="text" name="referencia" id="referencia" class="campus" autocomplete="off">
+                </div>
+                <div id="number" class="campusPosition">
+                    <h2 class="campusName">Telefone*</h2>
+                    <input type="tel" name="telefone" id="telefone" class="campus" placeholder="(99) 99999-9999" pattern="\(\d{2}\)\s\d{5}-\d{4}" autocomplete="off" required>
+                </div>
+                <div id="cep" class="campusPosition">
+                    <h2 class="campusName">CEP*</h2>
+                    <input type="text" name="ceptext" id="ceptext" class="campus" maxlength="9" pattern="\d{5}-?\d{3}" placeholder="00000-000" autocomplete="off" required>
+                </div>
+
+                <div id="delete" class="campusPosition">
+                    <input type="button" value="Deletar dados" id="deleteButton" class="campus">
+                </div>
+
+                <div id="save" class="campusPosition">
+                    <p id="error">Preencha todos os campos!</p>
+                    <input type="submit" value="Salvar" id="saveButton" class="campus">
+                </div>
+            </form>
         </div>
     </div>
     <script src="https://kit.fontawesome.com/0c24622cda.js" crossorigin="anonymous"></script>
     <script src="User.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

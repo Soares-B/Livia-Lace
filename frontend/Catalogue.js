@@ -2,15 +2,6 @@ const divProducts = document.querySelector('.products')
 const initialValue = document.querySelector('#preco-inicial')
 const finalValue = document.querySelector('#preco-final')
 
-const token = localStorage.getItem('Token')
-
-if (!token) {
-    window.location.href = "/login";
-}
-
-const payload = JSON.parse(atob(token.split('.')[1]));
-const IDCliente = payload.id
-
 initialValue.addEventListener("input", async () =>{
     showProducts();
 })
@@ -127,6 +118,15 @@ async function showProducts(){
 
         input.addEventListener('click', async () => {
             const id = article.id
+
+            const token = localStorage.getItem('Token')
+
+            if (!token) {
+                window.location.href = "/login";
+            }
+
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const IDCliente = payload.id
 
             const response = await fetch("/api/AddtoCart", {
                 method: "POST",

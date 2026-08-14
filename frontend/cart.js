@@ -9,7 +9,7 @@ if (!token) {
 const payload = JSON.parse(atob(token.split('.')[1]));
 const IDCliente = payload.id
 
-async function getCartItems(){
+async function productsInfo(){
     
     const response = await fetch("/api/getCart", {
         method: "POST",
@@ -27,20 +27,30 @@ async function getCartItems(){
 
     const productInfo = await Promise.all(
 
-    arrayData.map(async (product) => {
-        const response = await fetch("/api/productInfo", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                product_id: product.produto
-            })
-        });
+        arrayData.map(async (product) => {
+            const response = await fetch("/api/productInfo", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    product_id: product.produto
+                })
+            });
 
-        return await response.json();
-    })
-);
+            return await response.json();
+        })
+    );
+
+    return {
+        arrayData, 
+        productInfo
+    }
+}
+
+async function getCartItems(){
+    
+    const { arrayData, productInfo } = await productsInfo();
 
     putProducts(arrayData, productInfo)
 }
@@ -203,9 +213,19 @@ checkout.addEventListener("click", async () =>{
 
     if (!pass){
 
+        const { arrayData, productInfo } = await productsInfo();
+
+        let valorTotal = null;
+
         const carrinhoCompleto = [];
         const products = document.querySelectorAll('.product');
-        const valorTotal = Number((((total.textContent).slice(2)).replace(',', '.'))).toFixed(2)
+        
+        productInfo.forEach((product, index) =>{
+            valorTotal += (Number(product.valor) * arrayData[index].quantidade)
+        })
+
+        valorTotal = valorTotal.toFixed(2)
+
 
         products.forEach(produto =>{
             const quantidade = Number(produto.querySelector('.qtd').textContent)
@@ -229,6 +249,16 @@ checkout.addEventListener("click", async () =>{
         });
 
         const data = await response.json();
+
+        const test = await fetch("/api/checkout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                IDCliente: IDCliente,
+            })
+        });
 
     }else{
         const er = document.querySelector('#errorMessage')

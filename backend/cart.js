@@ -22,17 +22,24 @@ router.post("/getCart", async (req, res) =>{
 router.post("/AddtoCart", async (req, res) =>{
     const { IDCliente, purchase } = req.body;
 
-    const result = await db.query(
-        `UPDATE "Carrinho"
-        SET produtos = COALESCE(produtos, '[]'::jsonb) || $1::jsonb
-        WHERE id_client = $2
-        `,
-        [JSON.stringify([purchase]), IDCliente]
-    )
+        console.log("IDCliente:", IDCliente);
+        console.log("purchase:", purchase);
 
-    const data = result.rows[0]
+        const result = await db.query(
+            `UPDATE "Carrinho"
+             SET produtos = COALESCE(produtos, '[]'::jsonb) || $1::jsonb
+             WHERE id_client = $2
+             RETURNING *`,
+            [JSON.stringify([purchase]), IDCliente]
+        );
 
-    return res.json({data})
+        console.log("rowCount:", result.rowCount);
+        console.log("rows:", result.rows);
+
+        return res.json({
+            data: result.rows[0]
+        });
+
 })
 
 router.post("/inserttoCart", async (req, res) => {

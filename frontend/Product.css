@@ -19,7 +19,7 @@
     --yellow-Pastel: #FDD677ff;
     --orange-Pastel: #FDA982ff;
     --darkPink-Pastel: #FDA9B9ff;
-    --lighPink-Pastel: #FACCCCff;
+    --lightPink-Pastel: #FACCCCff;
 }
 
 
@@ -35,7 +35,7 @@ html{
 body{
     width: 100vw;
     height: 100vh;
-    background-color: var(--lighPink-Pastel);
+    background-color: var(--lightPink-Pastel);
 }
 
 #top{

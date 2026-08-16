@@ -19,7 +19,7 @@
     --yellow-Pastel: #FDD677ff;
     --orange-Pastel: #FDA982ff;
     --darkPink-Pastel: #FDA9B9ff;
-    --lighPink-Pastel: #FACCCCff;
+    --lightPink-Pastel: #FACCCCff;
 }
 
 
@@ -127,7 +127,7 @@ html{
 }
 
 body{
-    background-color: var(--lighPink-Pastel);
+    background-color: var(--lightPink-Pastel);
     display: flex;
     flex-direction: column;
     min-height: 100vh;

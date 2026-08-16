@@ -25,6 +25,8 @@ const formulario = document.querySelector('#endereco')
 
 const token = localStorage.getItem('Token')
 
+const API_URL = "https://livia-lace.onrender.com";
+
 if (!token) {
     window.location.href = "/login";
 }
@@ -101,7 +103,7 @@ cpfSend.addEventListener("submit", async (e) =>{
     const IDCliente = payload.id
     const info = cpf.value.replace(/\D/g, "");
 
-    const response = await fetch('/api/clientInfoModify', {
+    const response = await fetch(`${API_URL}/api/clientInfoModify`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -164,7 +166,7 @@ formulario.addEventListener('submit', async (e) =>{
     let response = null;
 
     if (state){
-        response = await fetch('/api/clientInfoModify', {
+        response = await fetch(`${API_URL}/api/clientInfoModify`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -196,7 +198,7 @@ formulario.addEventListener('submit', async (e) =>{
 async function putInfo(){
     const IDCliente = payload.id
 
-    const response = await fetch('/api/getClientInfo', {
+    const response = await fetch(`${API_URL}/api/getClientInfo`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

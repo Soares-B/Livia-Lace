@@ -18,6 +18,8 @@ get_5Best(pulseira)
 
 const buyButtons = document.querySelectorAll('#productPurchase')
 
+const API_URL = "https://livia-lace.onrender.com";
+
 buyButtons.forEach((button) =>{
   button.addEventListener("click", async () =>{
 
@@ -35,7 +37,7 @@ buyButtons.forEach((button) =>{
 
     console.log(id); 
 
-    const response = await fetch("/api/AddtoCart", {
+    const response = await fetch(`${API_URL}/api/AddtoCart`, {
       method: "POST",
       headers: {
           "Content-Type": "application/json"
@@ -67,7 +69,7 @@ async function get_5Best(tipo){
     prodArray.push(productID)
 })
 
-  const response = await fetch("/api/get_5Best", {
+  const response = await fetch(`${API_URL}/api/get_5Best`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

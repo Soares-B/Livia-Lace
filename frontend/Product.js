@@ -14,6 +14,8 @@ const buyButton = document.querySelector('#productPurchase')
 
 let productAmount = Number(document.querySelector('.qtd').textContent)
 
+const API_URL = "https://livia-lace.onrender.com";
+
 decrease.addEventListener('click', () => {
     let value = Number(amount.textContent);
 
@@ -33,7 +35,7 @@ increase.addEventListener('click', () => {
 
 async function getData(id){
 
-    const response = await fetch("/api/ProductPage", {
+    const response = await fetch(`${API_URL}/api/ProductPage`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -78,7 +80,7 @@ buyButton.addEventListener("click", async () =>{
     const IDCliente = payload.id
     const quantidade = Number(document.querySelector('.qtd').textContent)
 
-    const response = await fetch("/api/AddtoCart", {
+    const response = await fetch(`${API_URL}/api/AddtoCart`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

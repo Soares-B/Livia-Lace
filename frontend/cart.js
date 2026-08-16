@@ -2,6 +2,8 @@ const content = document.querySelector('#content')
 const total = document.querySelector('#totalValue')
 const token = localStorage.getItem('Token')
 
+const API_URL = "https://livia-lace.onrender.com";
+
 if (!token) {
     window.location.href = "/login";
 }
@@ -11,7 +13,7 @@ const IDCliente = payload.id
 
 async function productsInfo(){
     
-    const response = await fetch("/api/getCart", {
+    const response = await fetch(`${API_URL}/api/getCart`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -28,7 +30,7 @@ async function productsInfo(){
     const productInfo = await Promise.all(
 
         arrayData.map(async (product) => {
-            const response = await fetch("/api/productInfo", {
+            const response = await fetch(`${API_URL}/api/productInfo`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -195,7 +197,7 @@ const checkout = document.querySelector('#checkout')
 
 checkout.addEventListener("click", async () =>{
 
-    const response = await fetch('/api/getClientInfo', {
+    const response = await fetch(`${API_URL}/api/getClientInfo`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -212,6 +214,8 @@ checkout.addEventListener("click", async () =>{
     const pass = Object.values(data).some(item => item === null);
 
     if (!pass){
+
+        const pagamento = window.open('', '_blank');
 
         const { arrayData, productInfo } = await productsInfo();
 
@@ -236,7 +240,7 @@ checkout.addEventListener("click", async () =>{
             })
         });
 
-        const response = await fetch("/api/inserttoCart", {
+const response = await fetch(`${API_URL}/api/inserttoCart`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -250,7 +254,9 @@ checkout.addEventListener("click", async () =>{
 
         const data = await response.json();
 
-        const test = await fetch("/api/checkout", {
+        console.log(data)
+
+        const test = await hfetc(`${API_URL}/api/checkout`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -259,6 +265,10 @@ checkout.addEventListener("click", async () =>{
                 IDCliente: IDCliente,
             })
         });
+
+        const dataTest = await test.json();
+
+        pagamento.location.href = dataTest.init_point;
 
     }else{
         const er = document.querySelector('#errorMessage')

@@ -19,7 +19,7 @@
     --yellow-Pastel: #FDD677ff;
     --orange-Pastel: #FDA982ff;
     --darkPink-Pastel: #FDA9B9ff;
-    --lighPink-Pastel: #FACCCCff;
+    --lightPink-Pastel: #FACCCCff;
 }
 
 .footerItem{
@@ -89,7 +89,7 @@ body{
     width: 95vw;
     min-height: 95vh;
     margin: 40px auto;
-    background-color: var(--lighPink-Pastel);
+    background-color: var(--lightPink-Pastel);
     display: flex;
     flex-direction: column;
     border-radius: 25px;

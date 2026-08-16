@@ -1,5 +1,7 @@
 const form = document.querySelector("form");
 
+const API_URL = "https://livia-lace.onrender.com";
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -7,7 +9,7 @@ form.addEventListener("submit", async (event) => {
     const username = document.querySelector('#usernameRegister').value
     const password = document.querySelector('#passwordRegister').value
 
-    const response = await fetch("/api/registerClient", {
+    const response = await fetch(`${API_URL}/api/registerClient`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -1,0 +1,84 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: "YellowTail";
+    src: url(Fonts/Yellowtail/Yellowtail-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: "Unbounded";
+    src: url(Fonts/Unbounded/Unbounded-VariableFont_wght.ttf) format('truetype');
+}
+
+:root{
+    --stylized-Font: "Unbounded";
+    --handWrite-Font: "YellowTail";
+    --lilac-Pastel: #D99EC9ff;
+    --blue-Pastel: #98C2DBff;
+    --green-Pastel: #BBD4BFff;
+    --yellow-Pastel: #FDD677ff;
+    --orange-Pastel: #FDA982ff;
+    --darkPink-Pastel: #FDA9B9ff;
+    --lightPink-Pastel: #FACCCCff;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image: url(Imagens/BackgroundStyle.png);
+}
+
+
+#message{
+    opacity: 0%;
+    text-align: center;
+    margin-top: 4%;
+    font-size: 24px;
+    transition: .25s;
+}
+
+#message.show{
+    opacity: 100%;
+}
+
+#infoCampus{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 600px;
+    height: 300px;
+    border-radius: 25px;
+    box-shadow: 5px 5px 5px #00000022;
+}
+
+#enter{
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.icon{
+    color: var(--darkPink-Pastel);
+    width: 50%;
+    height: 60%;
+    margin-top: 10%;
+}
+
+p{
+    color: var(--darkPink-Pastel);
+    font-family: "Unbounded";
+    font-size: 32px;
+    width: fit-content;
+    font-weight: 500;
+    margin-top: 10%;  
+}

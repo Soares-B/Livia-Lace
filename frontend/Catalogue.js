@@ -2,6 +2,8 @@ const divProducts = document.querySelector('.products')
 const initialValue = document.querySelector('#preco-inicial')
 const finalValue = document.querySelector('#preco-final')
 
+const API_URL = "https://livia-lace.onrender.com";
+
 initialValue.addEventListener("input", async () =>{
     showProducts();
 })
@@ -59,7 +61,7 @@ async function showProducts(){
         !presilha &&
         !pulseira;
 
-    const response = await fetch("/api/getProducts", {
+    const response = await fetch(`${API_URL}/api/getProducts`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -128,7 +130,7 @@ async function showProducts(){
             const payload = JSON.parse(atob(token.split('.')[1]));
             const IDCliente = payload.id
 
-            const response = await fetch("/api/AddtoCart", {
+            const response = await fetch(`${API_URL}/api/AddtoCart`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

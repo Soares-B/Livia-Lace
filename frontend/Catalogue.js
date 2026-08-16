@@ -2,8 +2,6 @@ const divProducts = document.querySelector('.products')
 const initialValue = document.querySelector('#preco-inicial')
 const finalValue = document.querySelector('#preco-final')
 
-const API_URL = "https://livia-lace.onrender.com";
-
 initialValue.addEventListener("input", async () =>{
     showProducts();
 })

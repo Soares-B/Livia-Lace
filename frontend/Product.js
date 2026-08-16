@@ -14,8 +14,6 @@ const buyButton = document.querySelector('#productPurchase')
 
 let productAmount = Number(document.querySelector('.qtd').textContent)
 
-const API_URL = "https://livia-lace.onrender.com";
-
 decrease.addEventListener('click', () => {
     let value = Number(amount.textContent);
 

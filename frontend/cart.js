@@ -2,8 +2,6 @@ const content = document.querySelector('#content')
 const total = document.querySelector('#totalValue')
 const token = localStorage.getItem('Token')
 
-const API_URL = "https://livia-lace.onrender.com";
-
 if (!token) {
     window.location.href = "/login";
 }

@@ -48,6 +48,8 @@ buyButtons.forEach((button) =>{
   });
 
     const data = await response.json();
+
+    console.log(data)
   })
 })
 

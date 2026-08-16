@@ -213,8 +213,6 @@ checkout.addEventListener("click", async () =>{
 
     if (!pass){
 
-        const pagamento = window.open('', '_blank');
-
         const { arrayData, productInfo } = await productsInfo();
 
         let valorTotal = null;
@@ -238,7 +236,7 @@ checkout.addEventListener("click", async () =>{
             })
         });
 
-const response = await fetch(`${API_URL}/api/inserttoCart`, {
+        const response = await fetch(`${API_URL}/api/inserttoCart`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -252,8 +250,6 @@ const response = await fetch(`${API_URL}/api/inserttoCart`, {
 
         const data = await response.json();
 
-        console.log(data)
-
         const test = await hfetc(`${API_URL}/api/checkout`, {
             method: "POST",
             headers: {
@@ -266,7 +262,7 @@ const response = await fetch(`${API_URL}/api/inserttoCart`, {
 
         const dataTest = await test.json();
 
-        pagamento.location.href = dataTest.init_point;
+        window.open(dataTest.init_point, '_blank')
 
     }else{
         const er = document.querySelector('#errorMessage')

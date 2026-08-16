@@ -101,7 +101,7 @@ async function get_5Best(tipo){
       underImage.src = dataOrdenada[index].imagem
       overImage.src = dataOrdenada[index].image_overlay
       productName.textContent = dataOrdenada[index].nome
-      productvalue.textContent = `R$${(dataOrdenada[index].valor).replace('.', ',')}`
+      productvalue.textContent = `R$${String(dataOrdenada[index].valor).replace('.', ',')}`
 
       link.forEach((link) =>{
         link.href = `/Product.html?id=${dataOrdenada[index].product_id}`

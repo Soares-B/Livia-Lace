@@ -82,7 +82,7 @@ router.post("/inserttoCart", async (req, res) => {
 async function makeOrder(IDCliente, IDCarrinho, valor) {
 
     const result = await db.query(
-        `INSERT INTO Pedidos (id_client, id_carrinho, valor_total)
+        `INSERT INTO "Pedidos" (id_client, id_carrinho, valor_total)
          VALUES ($1, $2, $3)
          RETURNING id`,
         [IDCliente, IDCarrinho, valor]

@@ -30,7 +30,9 @@ router.post("/AddtoCart", async (req, res) =>{
         [JSON.stringify([purchase]), IDCliente]
     )
 
-    return res.json({message: 'chegou'})
+    const data = result.rows[0]
+
+    return res.json({data})
 })
 
 router.post("/inserttoCart", async (req, res) => {

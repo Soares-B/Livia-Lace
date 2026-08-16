@@ -33,8 +33,6 @@ buyButtons.forEach((button) =>{
     const article = button.closest('article');
     const id = article.querySelector('img').id;
 
-    console.log(id); 
-
     const response = await fetch(`${API_URL}/api/AddtoCart`, {
       method: "POST",
       headers: {
@@ -50,8 +48,6 @@ buyButtons.forEach((button) =>{
   });
 
     const data = await response.json();
-
-    console.log(data)
   })
 })
 
@@ -99,7 +95,7 @@ async function get_5Best(tipo){
       underImage.src = dataOrdenada[index].imagem
       overImage.src = dataOrdenada[index].image_overlay
       productName.textContent = dataOrdenada[index].nome
-      productvalue.textContent = `R$${String(dataOrdenada[index].valor).replace('.', ',')}`
+      productvalue.textContent = `R$${String((dataOrdenada[index].valor).toFixed(2)).replace('.', ',')}`
 
       link.forEach((link) =>{
         link.href = `/Product.html?id=${dataOrdenada[index].product_id}`

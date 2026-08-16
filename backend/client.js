@@ -65,12 +65,9 @@ router.post("/loginClient", async (req, res) => {
     const result = await db.query(
         `SELECT *
         FROM "Clientes"
-        CROSS JOIN "Enderecos"
-        CROSS JOIN "Carrinho"
         WHERE email = $1`,
         [email]
     );
-
 
     const cliente = result.rows[0];
 
@@ -102,7 +99,7 @@ router.post("/loginClient", async (req, res) => {
         { expiresIn: "7d" }
         )
 
-    console.log(cliente.id)
+    console.log(cliente)
 
     res.json({token});
 });

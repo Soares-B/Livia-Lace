@@ -38,14 +38,10 @@ app.get("/health", (req, res) => {
   });
 });
 
-db.query("SELECT NOW()", (err, result) => {
-    if(err){
-        console.log(err);
-    } else {
-        console.log(result.rows);
-    }
-});
-
 app.listen(PORT, () => {
     console.log(`Server initialized in port: ${PORT}`);
 });
+
+const result = await db.query("SELECT NOW()");
+
+console.log(result.rows);

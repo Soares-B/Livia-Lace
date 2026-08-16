@@ -40,7 +40,7 @@ router.post("/inserttoCart", async (req, res) => {
         const result = await db.query(
             `UPDATE "Carrinho"
              SET produtos = $1::jsonb,
-             valor_total = $2
+                 valor_total = $2
              WHERE id_client = $3
              RETURNING *`,
             [
@@ -56,7 +56,18 @@ router.post("/inserttoCart", async (req, res) => {
             });
         }
 
-        return res.json(result.rows[0]);
+        const info = result.rows[0];
+
+        const pedidoId = await makeOrder(
+            info.id_client,
+            info.id,
+            Number(info.valor_total)
+        );
+
+        return res.json({
+            carrinho: info,
+            pedidoId: pedidoId
+        });
 
     } catch (err) {
         console.error(err);
@@ -66,5 +77,18 @@ router.post("/inserttoCart", async (req, res) => {
         });
     }
 });
+
+
+async function makeOrder(IDCliente, IDCarrinho, valor) {
+
+    const result = await db.query(
+        `INSERT INTO Pedidos (id_client, id_carrinho, valor_total)
+         VALUES ($1, $2, $3)
+         RETURNING id`,
+        [IDCliente, IDCarrinho, valor]
+    );
+
+    return result.rows[0].id;
+}
 
 export default router;

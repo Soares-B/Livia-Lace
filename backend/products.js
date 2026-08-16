@@ -16,7 +16,7 @@ router.post("/getProducts", async (req, res) =>{
 
         const result = await db.query(
             `SELECT *
-            FROM "Produtos"
+            FROM Produtos
             WHERE tipo IN ($1, $2, $3, $4, $5, $6) AND valor BETWEEN $7 AND $8
             ORDER BY tipo, valor, nome
             `,
@@ -34,7 +34,7 @@ router.post("/get_5Best", async (req, res) =>{
 
     const result = await db.query(
         `SELECT *
-        FROM "Produtos"
+        FROM Produtos
         WHERE product_id IN ($1, $2, $3, $4, $5)`,
         [prod1, prod2, prod3, prod4, prod5]
     )
@@ -49,7 +49,7 @@ router.post("/ProductPage", async (req, res) =>{
 
     const result = await db.query(
         `SELECT *
-        FROM "Produtos"
+        FROM Produtos
         WHERE product_id = $1
         `,
         [produto]
@@ -65,7 +65,7 @@ router.post("/productInfo", async (req, res) =>{
 
     const result = await db.query(
         `SELECT nome, imagem, valor
-        FROM "Produtos"
+        FROM Produtos
         WHERE product_id = $1
         `,
         [product_id]

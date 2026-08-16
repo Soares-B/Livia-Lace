@@ -33,18 +33,30 @@ router.post('/checkout', async (req, res) =>{
     const preferenceClient = new Preference(client);
 
     const items = products.map(produto => ({
-    title: produto.nome,
-    quantity: produto.quantidade,
-    unit_price: produto.valor
+        title: produto.nome,
+        quantity: produto.quantidade,
+        unit_price: produto.valor
     }));
 
     const preference = await preferenceClient.create({
     body: {
-        items
+        items,
+
+        back_urls: {
+            success: 'http://localhost:5000/PaymentSuccess.html',
+            failure: 'http://localhost:5000/Paymentfailure.html',
+            pending: 'http://localhost:5000/PaymentPending.html'
+        },
     }
     });
 
-    console.log(preference);
+    res.json({init_point: preference.init_point});
+});
+
+router.post('/webhook/mercadopago', async (req, res) => {
+    console.log(req.body);
+
+    res.sendStatus(200);
 });
 
 export default router;

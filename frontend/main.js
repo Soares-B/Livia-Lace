@@ -1,16 +1,16 @@
 function changePage(button){
     if (button.id === 'headerShopButton'){
-      window.location.href = "/Catalogue.html"
+      window.location.href = "/Catalogue"
     }else if (button.id === 'account'){
       const token = localStorage.getItem('Token')
 
       if (token){
-        window.location.href = '/User.html'
+        window.location.href = '/User'
       }else{
-        window.location.href = "/Login.html"
+        window.location.href = "/Login"
       }
     }else if (button.id === 'cart'){
-      window.location.href = '/Cart.html'
+      window.location.href = '/Cart'
     }
 }
 

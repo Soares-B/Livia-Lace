@@ -63,7 +63,7 @@ async function getData(id){
     
     image.src = data[0].image_overlay;
     name.textContent = data[0].nome;
-    value.textContent = `R$${(data[0].valor).replace('.', ',')}`
+    value.textContent = `R$${String(data[0].valor).replace('.', ',')}`
     quantidade.textContent = `Quantidade: ${data[0].quantidade}`
 }
 

@@ -7,6 +7,8 @@ import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 const client = new MercadoPagoConfig({ accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN });
 
+const FRONT_URL = 'https://livia-lace.vercel.app/'
+
 router.post('/checkout', async (req, res) =>{
     const { IDCliente } = req.body;
 
@@ -43,9 +45,9 @@ router.post('/checkout', async (req, res) =>{
         items,
 
         back_urls: {
-            success: 'http://localhost:5000/PaymentSuccess.html',
-            failure: 'http://localhost:5000/Paymentfailure.html',
-            pending: 'http://localhost:5000/PaymentPending.html'
+            success: `${FRONT_URL}/PaymentSuccess.html`,
+            failure: `${FRONT_URL}/PaymentFailure.html`,
+            pending: `${FRONT_URL}/PaymentPending.html`
         },
     }
     });

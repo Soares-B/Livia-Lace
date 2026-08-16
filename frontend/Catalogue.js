@@ -108,7 +108,7 @@ async function showProducts(){
 
         const p2 = document.createElement('p')
         p2.classList.add('productValue')
-        p2.textContent = `R$${String(prod.valor).replace('.', ',')}`
+        p2.textContent = `R$${String((prod.valor).toFixed(2)).replace('.', ',')}`
 
         const input = document.createElement('input')
         input.type = 'button'

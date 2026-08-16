@@ -1,3 +1,5 @@
+const API_URL = "https://livia-lace.onrender.com";
+
 const front = document.querySelector('#frontUser')
 const address = document.querySelector('#addressUser')
 const dashboard = document.querySelector('#dashboardUser')

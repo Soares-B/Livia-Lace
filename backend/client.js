@@ -102,6 +102,8 @@ router.post("/loginClient", async (req, res) => {
         { expiresIn: "7d" }
         )
 
+    console.log(cliente.id)
+
     res.json({token});
 });
 

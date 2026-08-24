@@ -13,11 +13,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 
 const Montserrat = localFont({
-  src: "../Fonts/Montserrat/static/Montserrat-Medium.ttf",
+  src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
 });
 
 const MontserratBold = localFont({
-  src: "../Fonts/Montserrat/static/Montserrat-Bold.ttf",
+  src: "../../Fonts/Montserrat/static/Montserrat-Bold.ttf",
 });
 
 type Filtros = {

@@ -7,11 +7,11 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button";
 
 const stylizedFont = localFont({
-  src: "./Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
+  src: "../Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
 });
 
 const yellowTail = localFont({
-  src: "./Fonts/Yellowtail/Yellowtail-Regular.ttf",
+  src: "../Fonts/Yellowtail/Yellowtail-Regular.ttf",
 });
 
 export default function Home() {

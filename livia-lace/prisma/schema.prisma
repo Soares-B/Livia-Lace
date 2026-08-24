@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Carrinho {
+  id_client   BigInt?
+  produtos    Json?
+  valor_total Decimal?  @db.Decimal
+  id          BigInt    @id
+  Clientes    Clientes? @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Pedidos     Pedidos[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Clientes {
+  id        BigInt      @id
+  nome      String?     @db.VarChar
+  email     String?     @db.VarChar
+  senha     String?     @db.VarChar
+  is_admin  Boolean?
+  Carrinho  Carrinho[]
+  Enderecos Enderecos[]
+  Pedidos   Pedidos[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Enderecos {
+  id_client  BigInt?
+  estado     String?   @db.VarChar
+  cidade     String?   @db.VarChar
+  rua        String?   @db.VarChar
+  referencia String?   @db.VarChar
+  numero     String?   @db.VarChar
+  cep        BigInt?
+  cpf        BigInt    @id(map: "Endereços_pkey")
+  Clientes   Clientes? @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Endereços_id_client_fkey")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Pedidos {
+  id          BigInt    @id @default(autoincrement())
+  id_client   BigInt?
+  id_carrinho BigInt?
+  valor_total Decimal?  @db.Decimal
+  situa__o    String?   @default("pendente") @map("situação") @db.VarChar
+  Carrinho    Carrinho? @relation(fields: [id_carrinho], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Clientes    Clientes? @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Produtos {
+  product_id    BigInt  @id
+  tipo          String? @db.VarChar
+  nome          String? @db.VarChar
+  valor         Float?
+  quantidade    BigInt?
+  tamanho       String? @db.VarChar
+  imagem        String? @db.VarChar
+  image_overlay String? @db.VarChar
+}

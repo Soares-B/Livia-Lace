@@ -1,10 +1,11 @@
 import localFont from "next/font/local";
-
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import TaglineHover, { ButtonHoverGrow } from "@/components/HomeAnimation";
 import ProductSection from "@/components/topProducts";
-import Link from "next/link"
-
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { div } from "motion/react-client";
 
 const stylizedFont = localFont({
   src: "../Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
@@ -15,7 +16,6 @@ const yellowTail = localFont({
 });
 
 export default function Home() {
-
   return (
     <>
       <header
@@ -31,7 +31,31 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1 mt-[2%] mb-[5%] max-w-dvw">
-        <ProductSection />
+        <Suspense
+          fallback={
+            <>
+              <Skeleton className="rounded-[15px] ml-[10%] mb-[1%] w-[10%] h-[25px]" />
+              <div className="flex flex-row gap-[3%] m-[0%_10%] mb-[5%]">
+                <Skeleton className="h-[400px] w-[250px]" />
+                <Skeleton className="h-[400px] w-[250px]" />
+                <Skeleton className="h-[400px] w-[250px]" />
+                <Skeleton className="h-[400px] w-[250px]" />
+                <Skeleton className="h-[400px] w-[250px] " />
+              </div>
+
+              <Skeleton className="rounded-[15px] ml-[10%] mb-[1%] w-[10%] h-[25px]" />
+              <div className="flex flex-row gap-[3%] m-[0%_10%]">
+                <Skeleton className="h-[400px] w-[250px]" />
+                <Skeleton className="h-[400px] w-[250px]" />
+                <Skeleton className="h-[400px] w-[250px]" />
+                <Skeleton className="h-[400px] w-[250px]" />
+                <Skeleton className="h-[400px] w-[250px]" />
+              </div>
+            </>
+          }
+        >
+          <ProductSection />
+        </Suspense>
       </main>
     </>
   );

@@ -1,7 +1,10 @@
+"use client"
+
 import localFont from "next/font/local";
 import Image from "next/image"
 import { Input } from "@/components/ui/input";
 import login from "./login";
+import Submit from "@/components/LoginAnimation";
 
 const Montserrat = localFont({
   src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
@@ -26,10 +29,11 @@ export default function Login(){
                 <form action={login} className="flex flex-col items-center">
                     <h2 className="font-[MontserratBold] text-2xl m-[0_auto] mt-[3%] mb-[3%]">Entrar</h2>
                     <p className="font-[Montserrat] text-lg mb-[4%]">Email</p>
-                    <Input variant="main" className="font-[Montserrat] w-[150%] h-[40px] mb-[4%] focus:outline-none"/>
+                    <Input className="font-[Montserrat] w-[150%] h-[40px] mb-[4%] focus:outline-none"/>
                     <p className="font-[Montserrat] text-lg mb-[4%]">Senha</p>
-                    <Input variant="main" className="font-[Montserrat] w-[150%] h-[40px] mb-[4%] focus:outline-none"/>
-                    <Input />
+                    <Input className="font-[Montserrat] w-[150%] h-[40px] mb-[4%] focus:outline-none"/>
+                    <Submit />
+                    <p>Ainda não possui uma conta?</p>
                 </form>
             </div>
         </div>

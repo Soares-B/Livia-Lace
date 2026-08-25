@@ -3,6 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import TaglineHeader from "@/components/CatalogueAnimation";
 import ProductSection from "@/components/ProductSection";
@@ -170,7 +171,6 @@ export default function Catalogue() {
 
           <div className="mt-[5%] flex w-full gap-[10%]">
             <Input
-              variant="main"
               type="text"
               placeholder="De R$0,00"
               value={precoInicial}
@@ -180,7 +180,6 @@ export default function Catalogue() {
             />
 
             <Input
-              variant="main"
               type="text"
               placeholder="Até R$99,99"
               value={precoFinal}

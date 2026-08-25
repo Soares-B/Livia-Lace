@@ -54,7 +54,7 @@ type ImageHoverOpacityProps = {
 };
 
 export function ImageHoverOpacity({ produto }: ImageHoverOpacityProps) {
-  const MotionImage = motion(Image);
+  const MotionImage = motion.create(Image);
 
   if (!produto.image_overlay) return null;
 

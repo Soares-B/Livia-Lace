@@ -5,8 +5,6 @@ export async function POST(request: Request) {
   try {
     const filtros = await request.json();
 
-    console.log("Filtros recebidos:", filtros);
-
     const {
       laco,
       xuxinha,
@@ -29,15 +27,12 @@ export async function POST(request: Request) {
 
     const nenhumSelecionado = tiposSelecionados.length === 0;
 
-    const precoInicial =
-      typeof inicial === "number" ? inicial : undefined;
+    const precoInicial = typeof inicial === "number" ? inicial : undefined;
 
-    const precoFinal =
-      typeof final === "number" ? final : undefined;
+    const precoFinal = typeof final === "number" ? final : undefined;
 
     const produtos = await prisma.produtos.findMany({
       where: {
-
         ...(nenhumSelecionado
           ? {}
           : {
@@ -48,13 +43,9 @@ export async function POST(request: Request) {
         ...(precoInicial !== undefined || precoFinal !== undefined
           ? {
               valor: {
-                ...(precoInicial !== undefined
-                  ? { gte: precoInicial }
-                  : {}),
+                ...(precoInicial !== undefined ? { gte: precoInicial } : {}),
 
-                ...(precoFinal !== undefined
-                  ? { lte: precoFinal }
-                  : {}),
+                ...(precoFinal !== undefined ? { lte: precoFinal } : {}),
               },
             }
           : {}),
@@ -79,15 +70,11 @@ export async function POST(request: Request) {
       nome: produto.nome,
       valor: produto.valor,
       quantidade:
-        produto.quantidade !== null
-          ? Number(produto.quantidade)
-          : null,
+        produto.quantidade !== null ? Number(produto.quantidade) : null,
       tamanho: produto.tamanho,
       imagem: produto.imagem,
       image_overlay: produto.image_overlay,
     }));
-
-    console.log("Quantidade encontrada:", produtosJson.length);
 
     return NextResponse.json(produtosJson);
   } catch (error) {
@@ -95,14 +82,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        error:
-          error instanceof Error
-            ? error.message
-            : String(error),
+        error: error instanceof Error ? error.message : String(error),
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

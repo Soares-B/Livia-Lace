@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="scroll-smooth">
-      <body className="bg-(--lightPink-Pastel) flex flex-col min-height-screen selection:bg-rose-400 selection:text-white">
+    <html lang="pt-BR" className="scroll-smooth scrollbar-thumb-[var(--scrollColor)] ">
+      <body className="bg-[var(--lightPink-Pastel)] flex flex-col min-h-screen selection:bg-[var(--selectionColor)] selection:text-[var(--selectionText)] outline-[var(--outlineColor)]">
         {children}
       </body>
     </html>

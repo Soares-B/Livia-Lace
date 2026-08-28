@@ -12,6 +12,12 @@
   --orange-Pastel: #FDA982ff;
   --darkPink-Pastel: #FDA9B9ff;
   --lightPink-Pastel: #FACCCCff;
+  --linkColor: oklch(71.2% 0.194 13.428);
+  --linkHover: oklch(64.5% 0.246 16.439);
+  --selectionColor: oklch(71.2% 0.194 13.428);
+  --selectionText: #FFF;
+  --scrollColor: oklch(70.547% 0.18993 13.361 / 0.685);
+  --outlineColor: oklch(71.2% 0.194 13.428);
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

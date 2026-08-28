@@ -4,7 +4,8 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import localFont from "next/font/local";
-
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ImageHoverOpacity } from "@/components/HomeAnimation";
 import { Button } from "@/components/ui/button";
 
@@ -148,13 +149,17 @@ export default function ProductSection({
 
           <Link href={`/Product?id=${produto.product_id}`}>
             {produto.imagem && (
-              <Image
-                src={produto.imagem}
-                width={500}
-                height={500}
-                className="w-full aspect-square object-cover rounded-t-[10px]"
-                alt={produto.nome ?? "Produto"}
-              />
+              <Suspense fallback={
+                <Skeleton className="w-[500px] h-[500px]"/>
+              }>
+                <Image
+                  src={produto.imagem}
+                  width={500}
+                  height={500}
+                  className="w-full aspect-square object-cover rounded-t-[10px]"
+                  alt={produto.nome ?? "Produto"}
+                />
+              </Suspense>
             )}
           </Link>
 

@@ -12,7 +12,7 @@ const stylizedFont = localFont({
 
 export default function TaglineHover() {
   return (
-    <p className="w-[300px] font-[stylizedFont] text-[38px] font-bold hover:cursor-default text-white selection:bg-rose-400">
+    <p className="w-[300px] font-[stylizedFont] text-[38px] font-bold hover:cursor-default text-white selection:bg-rose-400 mb-[10%]">
       Laços feitos com muito{" "}
       <motion.span
         className="inline-block text-rose-200"
@@ -33,13 +33,12 @@ export function ButtonHoverGrow() {
   
   return (
     <motion.div
-      className="mt-[10%]"
       whileHover={{
         scale: 1.1,
         transition: { duration: 0.3, ease: easeInOut },
       }}
     >
-      <Button variant="main" className="bg-white">
+      <Button variant="main" className="bg-white focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none">
         Catálogo
       </Button>
     </motion.div>

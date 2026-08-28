@@ -12,21 +12,22 @@ model Carrinho {
   id_client   BigInt?
   produtos    Json?
   valor_total Decimal?  @db.Decimal
-  id          BigInt    @id
+  id          BigInt    @id @default(autoincrement())
   Clientes    Clientes? @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Pedidos     Pedidos[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Clientes {
-  id        BigInt      @id
+  id        BigInt      @id @default(autoincrement())
   nome      String?     @db.VarChar
-  email     String?     @db.VarChar
+  email     String      @unique @db.VarChar
   senha     String?     @db.VarChar
   is_admin  Boolean?
   Carrinho  Carrinho[]
   Enderecos Enderecos[]
   Pedidos   Pedidos[]
+  sessoes   Sessoes[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -55,7 +56,7 @@ model Pedidos {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Produtos {
-  product_id    BigInt  @id
+  product_id    BigInt  @id @default(autoincrement())
   tipo          String? @db.VarChar
   nome          String? @db.VarChar
   valor         Float?
@@ -63,4 +64,13 @@ model Produtos {
   tamanho       String? @db.VarChar
   imagem        String? @db.VarChar
   image_overlay String? @db.VarChar
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Sessoes {
+  id_sessao String   @id @default(uuid())
+  id_client BigInt
+  validade  DateTime
+
+  Clientes Clientes? @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

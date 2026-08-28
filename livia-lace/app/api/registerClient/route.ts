@@ -50,6 +50,12 @@ export async function POST(request: Request) {
         },
       });
 
+      await tx.enderecos.create({
+        data: {
+          id_client: client.id
+        }
+      });
+
       return cliente;
     });
 

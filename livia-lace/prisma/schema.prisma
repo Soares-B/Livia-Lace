@@ -20,10 +20,10 @@ model Carrinho {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Clientes {
   id        BigInt      @id @default(autoincrement())
-  nome      String?     @db.VarChar
+  nome      String      @db.VarChar
   email     String      @unique @db.VarChar
-  senha     String?     @db.VarChar
-  is_admin  Boolean?
+  senha     String      @db.VarChar
+  is_admin  Boolean
   Carrinho  Carrinho[]
   Enderecos Enderecos[]
   Pedidos   Pedidos[]
@@ -32,14 +32,14 @@ model Clientes {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Enderecos {
-  id_client  BigInt?
+  id_client  BigInt   @id
   estado     String?   @db.VarChar
   cidade     String?   @db.VarChar
   rua        String?   @db.VarChar
   referencia String?   @db.VarChar
   numero     String?   @db.VarChar
   cep        BigInt?
-  cpf        BigInt    @id(map: "Endereços_pkey")
+  cpf        BigInt?
   Clientes   Clientes? @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Endereços_id_client_fkey")
 }
 

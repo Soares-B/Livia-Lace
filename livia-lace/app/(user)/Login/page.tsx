@@ -9,7 +9,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import Submit from "@/components/LoginAnimation";
+import Submit from "@/components/Animation/LoginAnimation";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

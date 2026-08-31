@@ -1,13 +1,13 @@
 import Link from "next/link";
 import localFont from "next/font/local";
-import { FooterItemsHover } from "@/components/HomeAnimation"
+import { FooterItemsHover } from "@/components/Animation/HomeAnimation"
 
 const Montserrat = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
+  src: "../../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
 });
 
 const MontserratBold = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Bold.ttf",
+  src: "../../app/Fonts/Montserrat/static/Montserrat-Bold.ttf",
 });
 
 export default function Footer() {

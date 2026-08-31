@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const stylizedFont = localFont({
-  src: "../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
+  src: "../../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
 });
 
 export default function TaglineHover() {
@@ -63,7 +63,7 @@ export function ImageHoverOpacity({ produto }: ImageHoverOpacityProps) {
       src={produto.image_overlay}
       width={500}
       height={500}
-      className="w-full h-auto aspect-square object-cover rounded-t-[10px] absolute top-0 block z-1 opacity-0"
+      className="w-full h-auto aspect-square object-cover rounded-t-[10px] absolute top-0 block z-1 opacity-0 select-none"
       alt={produto.nome ?? "Produto"}
     />
   );

@@ -6,7 +6,7 @@ import Image from "next/image";
 import localFont from "next/font/local";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ImageHoverOpacity } from "@/components/HomeAnimation";
+import { ImageHoverOpacity } from "@/components/Animation/HomeAnimation";
 import { Button } from "@/components/ui/button";
 
 const Montserrat = localFont({
@@ -147,7 +147,7 @@ export default function ProductSection({
           "
         >
 
-          <Link href={`/Product?id=${produto.product_id}`}>
+          <Link href={`/Product/${produto.product_id}`}>
             {produto.imagem && (
               <Suspense fallback={
                 <Skeleton className="w-[500px] h-[500px]"/>
@@ -156,7 +156,7 @@ export default function ProductSection({
                   src={produto.imagem}
                   width={500}
                   height={500}
-                  className="w-full aspect-square object-cover rounded-t-[10px]"
+                  className="w-full aspect-square object-cover rounded-t-[10px] select-none"
                   alt={produto.nome ?? "Produto"}
                 />
               </Suspense>
@@ -165,7 +165,7 @@ export default function ProductSection({
 
 
           {produto.image_overlay && (
-            <Link href={`/Product?id=${produto.product_id}`}>
+            <Link href={`/Product/${produto.product_id}`}>
               <ImageHoverOpacity produto={produto} />
             </Link>
           )}

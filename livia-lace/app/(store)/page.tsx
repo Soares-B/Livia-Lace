@@ -1,8 +1,8 @@
 import localFont from "next/font/local";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import TaglineHover, { ButtonHoverGrow } from "@/components/HomeAnimation";
-import ProductSection from "@/components/topProducts";
+import TaglineHover, { ButtonHoverGrow } from "@/components/Animation/HomeAnimation";
+import ProductSection from "@/components/TopProducts";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { div } from "motion/react-client";

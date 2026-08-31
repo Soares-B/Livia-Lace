@@ -1,22 +1,22 @@
-import { cookies } from "next/headers";
-import prisma from "@/lib/prisma"
+import { getSession } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 
-export default async function getClient(){
-    const cookieStore = await cookies();
+export default async function getClient() {
+  const session = await getSession();
 
-    const sessionId = cookieStore.get("session")?.value;
+  if (!session) {
+    return null;
+  }
 
-    const clientID = await prisma.sessoes.findFirst({
-        where: {
-            id_sessao: sessionId
-        }
-    })
+  const client = await prisma.clientes.findUnique({
+    where: {
+      id: session.id_client,
+    },
+  });
 
-    const client = await prisma.clientes.findUnique({
-        where: {
-            id: clientID!.id_client
-        }
-    })
+  if (!client){
+    return null;
+  }
 
-    return client
+  return client;
 }

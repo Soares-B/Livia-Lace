@@ -16,6 +16,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+
     const cliente_exist = await prisma.clientes.findUnique({
       where: {
         email: email,
@@ -29,7 +30,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const senhaValida = await bcrypt.compare(senha, cliente_exist.senha!);
+    const senhaValida = await bcrypt.compare(
+      senha,
+      cliente_exist.senha!,
+    );
 
     if (!senhaValida) {
       return NextResponse.json(
@@ -41,11 +45,11 @@ export async function POST(request: Request) {
     const cookieStore = await cookies();
 
     await prisma.sessoes.deleteMany({
-        where: {
-            validade: {
-                lt: new Date(),
-            },
+      where: {
+        validade: {
+          lt: new Date(),
         },
+      },
     });
 
     const session = await prisma.sessoes.create({
@@ -60,6 +64,7 @@ export async function POST(request: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
+      maxAge: 60 * 60 * 24 * 7,
     });
 
     return NextResponse.json(

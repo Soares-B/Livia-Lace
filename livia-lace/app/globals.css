@@ -12,12 +12,18 @@
   --orange-Pastel: #FDA982ff;
   --darkPink-Pastel: #FDA9B9ff;
   --lightPink-Pastel: #FACCCCff;
+  --darkerPink: oklch(71.2% 0.194 13.428);
+  --darkestPink: oklch(64.5% 0.246 16.439);
   --linkColor: oklch(71.2% 0.194 13.428);
   --linkHover: oklch(64.5% 0.246 16.439);
   --selectionColor: oklch(71.2% 0.194 13.428);
   --selectionText: #FFF;
   --scrollColor: oklch(70.547% 0.18993 13.361 / 0.685);
   --outlineColor: oklch(71.2% 0.194 13.428);
+  --delete: rgb(255, 97, 97);
+  --deleteHover: rgb(255, 58, 58);
+  --save: rgb(108, 255, 132);
+  --saveHover: rgb(48, 255, 82);
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -36,7 +42,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: #FDA9B9ff;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -114,7 +120,7 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: #FDA9B9ff;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);

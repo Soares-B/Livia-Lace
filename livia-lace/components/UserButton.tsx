@@ -8,7 +8,7 @@ export default function IconButtons({logado}: {logado: boolean;}) {
 
         function handleClick() {
             if (logado) {
-                router.push("/User");
+                router.push("/User/Info");
             } else {
                 router.push("/Login");
             }

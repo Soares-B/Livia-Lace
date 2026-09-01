@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
 import localFont from "next/font/local";
-import { ImageHoverOpacity } from "@/components/HomeAnimation";
+import { ImageHoverOpacity } from "@/components/Animation/HomeAnimation";
 import { Button } from "@/components/ui/button";
 
 const Montserrat = localFont({
@@ -62,16 +62,16 @@ export default async function ProductSection() {
                 key={produto.product_id.toString()}
                 className="relative bg-white flex-[1_1_250px] max-w-[250px] min-w-[120px] h-[400px] rounded-[10px] overflow-hidden"
               >
-                <Link href="/">
+                <Link href={`/Product/${produto.product_id}`}>
                   <Image
                     src={produto.imagem!}
                     width={500}
                     height={500}
-                    className="w-full aspect-square object-cover rounded-t-[10px]"
+                    className="w-full aspect-square object-cover rounded-t-[10px] select-none"
                     alt={produto.nome!}
                   />
                 </Link>
-                <Link href="/">
+                <Link href={`/Product/${produto.product_id}`}>
                   <ImageHoverOpacity produto={produto} />
                 </Link>
                 <div className="absolute bottom-[15%] left-[3%] ">

@@ -3,7 +3,7 @@ import { easeIn, easeInOut, motion } from "motion/react";
 import localFont from "next/font/local";
 
 const stylizedFont = localFont({
-  src: "../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
+  src: "../../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
 });
 
 export default function TaglineHeader(){

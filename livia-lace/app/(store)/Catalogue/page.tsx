@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import TaglineHeader from "@/components/CatalogueAnimation";
+import TaglineHeader from "@/components/Animation/CatalogueAnimation";
 import ProductSection from "@/components/ProductSection";
 
 import localFont from "next/font/local";

@@ -3,7 +3,7 @@ import Image from "next/image";
 import prisma from "@/lib/prisma";
 import localFont from "next/font/local";
 import { ImageHoverOpacity } from "@/components/Animation/HomeAnimation";
-import { Button } from "@/components/ui/button";
+import BuyButton from "./BuyButton";
 
 const Montserrat = localFont({
   src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
@@ -22,6 +22,19 @@ export default async function ProductSection() {
     ["Presilha de cabelo"]: [110, 109, 0, 0, 0],
     ["Pulseiras"]: [0, 0, 0, 0, 0],
   };
+
+  async function buyProduct(id: bigint){
+        const response = await fetch("/api/addProductCart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id?.toString(),
+                amount: 1
+            })
+        })
+  }
 
   const productsInfoList = [];
 
@@ -47,6 +60,7 @@ export default async function ProductSection() {
       produtos: productsOrdenados,
     });
   }
+
 
   return (
     <>
@@ -82,9 +96,7 @@ export default async function ProductSection() {
                     R${String(produto.valor?.toFixed(2)).replace(".", ",")}
                   </p>
                 </div>
-                <Button variant="main" className="absolute bottom-0 left-0 w-full h-[15%] font-[MontserratBold] rounded-b-[10px]">
-                  Adicionar ao carrinho
-                </Button>
+                <BuyButton produto={produto.product_id}/>
               </article>
             ))}
           </div>

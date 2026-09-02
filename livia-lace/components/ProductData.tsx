@@ -10,9 +10,22 @@ const Montserrat = localFont({
     src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf"
 })
 
-export default function ProductData({imagem, nome, valor, quantidade}: {imagem: string | null, nome: string | null, valor: number | null, quantidade: bigint | null}){
+export default function ProductData({id, imagem, nome, valor, quantidade}: {id: bigint | null, imagem: string | null, nome: string | null, valor: number | null, quantidade: bigint | null}){
 
     const [amount, setAmount] = useState(1);
+
+    async function buyProduct(){
+        const response = await fetch("/api/addProductCart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id?.toString(),
+                amount: amount
+            })
+        })
+    }
     
     return(
         <div className="m-[40_auto] rounded-[15px] bg-white w-[80vw] h-[85vh] grid grid-cols-[.1fr_1fr_1fr] grid-rows-[.5fr_1.5fr_2fr_2fr_.5fr]">
@@ -41,7 +54,7 @@ export default function ProductData({imagem, nome, valor, quantidade}: {imagem: 
                     <span>{amount}</span>
                     <Button className="font-[Montserrat] font-lg bg-white border-[0px] border-solid border-[FFFFFF00] hover:cursor-pointer focus:outline-none w-[30%] h-full rounded-r-[7px] hover:bg-[var(--green-Pastel)] text-3xl text-black hover:text-white" onClick={() => setAmount(amount + 1)}>+</Button>
                 </div>
-                <Button className="w-[65%] h-[25%] font-[Montserrat] rounded-[10px] border-[FFFFFF00] bg-[var(--darkerPink)] hover:bg-[var(--darkestPink)] hover:cursor-pointer text-xl"> Adicionar ao carrinho</Button>
+                <Button className="w-[65%] h-[25%] font-[Montserrat] rounded-[10px] border-[FFFFFF00] bg-[var(--darkerPink)] hover:bg-[var(--darkestPink)] hover:cursor-pointer text-xl" onClick={() => buyProduct()}> Adicionar ao carrinho</Button>
             </div>
             <div className="col-3 row-4 w-full h-full flex items-center justify-center">
                 <Image src="/Imagens/BowSVG.png" width={287} height={307} alt="Bow SVG" className="max-w-[20%] h-fit select-none"/>

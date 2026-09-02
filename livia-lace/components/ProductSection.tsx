@@ -129,6 +129,19 @@ export default function ProductSection({
     );
   }
 
+  async function buyProduct(id: number){
+        const response = await fetch("/api/addProductCart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id?.toString(),
+                amount: 1
+            })
+        })
+  }
+
   return (
     <div className="flex flex-wrap gap-[3%] m-[0%_10%]">
       {produtos.map((produto) => (
@@ -173,7 +186,7 @@ export default function ProductSection({
           <div className="absolute bottom-[15%] left-[3%]">
             <p
               className={`
-                ${Montserrat.className}
+                ${MontserratBold.className}
                 font-bold
                 text-sm
                 h-[40px]
@@ -210,12 +223,7 @@ export default function ProductSection({
               rounded-b-[10px]
               ${MontserratBold.className}
             `}
-            onClick={() => {
-              console.log(
-                "Adicionar produto:",
-                produto.product_id
-              );
-            }}
+            onClick={() => buyProduct(produto.product_id)}
           >
             Adicionar ao carrinho
           </Button>

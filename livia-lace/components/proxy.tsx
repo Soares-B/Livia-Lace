@@ -1,6 +1,6 @@
 import getAddress from "@/lib/address";
 import CPFform from "@/components/UserCPF"
-import AddressField from "@/components/userAdress"
+import AddressField from "@/components/UserAdress"
 import getProduct from "@/lib/product";
 import ProductData from "./ProductData";
 
@@ -32,7 +32,7 @@ export default async function ProductProxy({product}: {product: string}){
     const produto = await getProduct(Number(product));
 
     return(
-        <ProductData imagem={produto!.image_overlay} nome={produto!.nome} valor={produto!.valor} quantidade={produto!.quantidade}/>
+        <ProductData id={produto!.product_id} imagem={produto!.image_overlay} nome={produto!.nome} valor={produto!.valor} quantidade={produto!.quantidade}/>
     );
 
 }

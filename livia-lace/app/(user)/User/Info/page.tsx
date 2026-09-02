@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import Email from "@/components/UserEmail";
-import { CPF } from "@/components/proxy";
+import { CPF } from "@/components/Proxy";
 
 const Montserrat = localFont({
   src: "../../../Fonts/Montserrat/static/Montserrat-Medium.ttf",

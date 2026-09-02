@@ -1,4 +1,4 @@
-import { AddressProxy } from "@/components/proxy"
+import { AddressProxy } from "@/components/Proxy"
 
 export default function Address() {
 

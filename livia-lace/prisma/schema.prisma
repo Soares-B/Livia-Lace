@@ -9,7 +9,7 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Carrinho {
-  id_client   BigInt?
+  id_client   BigInt    @unique
   produtos    Json?
   valor_total Decimal?  @db.Decimal
   id          BigInt    @id @default(autoincrement())

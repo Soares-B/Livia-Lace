@@ -1,4 +1,4 @@
-import ProductProxy from "@/components/proxy";
+import ProductProxy from "@/components/Proxy";
 
 type Props = {
   params: Promise<{

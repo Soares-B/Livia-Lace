@@ -1,5 +1,6 @@
 import getCart from "@/lib/cart";
 import getProduct from "@/lib/product";
+import getAddress from "@/lib/address";
 import CartProducts from "@/components/CartProducts";
 
 type cart = {
@@ -49,11 +50,12 @@ export default async function Cart() {
     productInfo.push(resto)
   }
 
+  const address = await getAddress();
+
   return (
     <div className="bg-[url('/Imagens/BackgroundStyle.png')]">
         <div className="w-[95vw] min-h-[95vh] m-[40_auto] bg-[var(--lightPink-Pastel)] flex flex-col rounded-[25px] shadow-[5px_5px_5px] shadow-[#00000022]">
-            <CartProducts cart={produtos} productInfo={productInfo}/>
-          <div></div>
+            <CartProducts cart={produtos} productInfo={productInfo} userInfo={address}/>
         </div>
     </div>
   );

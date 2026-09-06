@@ -17,7 +17,7 @@ export default async function Header() {
           width={100}
           height={60}
           alt="Logo"
-          className="absolute left-[5%]"
+          className="absolute left-[5%] select-none"
         />
       </Link>
       <div className="absolute top-[25%] right-[2%] w-fit h-fit text-[var(--darkPink-Pastel)] flex gap-[10%]">

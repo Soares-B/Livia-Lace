@@ -3,59 +3,59 @@ import getProduct from "@/lib/product";
 import getAddress from "@/lib/address";
 import CartProducts from "@/components/CartProducts";
 
-type cart = {
-  id_client: bigint;
-  produtos: {
-    produto: number;
-    quantidade: number;
-  }[];
-  valor_total: number | null;
-  id: bigint;
-} | null;
-
-type produtos = {
-    produto: number,
-    quantidade: number
+type produtoArray = {
+  produto: number,
+  quantidade: number
+  nome?: string,
+  valor?: number,
+  imagem?: string,
 }[]
-
-type productInfo = {
-    nome: string,
-    imagem: string,
-    product_id: bigint,
-    valor: number
-}[]
-
-type product_info = {
-    product_id: bigint,
-    tipo: string,
-    quantidade: number,
-    tamanho: string,
-    image_overlay: string,
-    nome: string,
-    valor: number,
-    imagem: string
-}
 
 export default async function Cart() {
-  const cart: cart = await getCart();
+  const cart = await getCart();
 
-  const produtos: produtos = cart!.produtos;
-  const productInfo: productInfo = []
+  const produtos = cart!.produtos as produtoArray;
+  const products: produtoArray = [];
 
-  for (const produto of produtos ?? []) {
-    const produto_info: product_info = await getProduct(produto.produto);
+  if (!produtos){
+    return
+  } else {
+      for (const produto of produtos){
+        const produtoInfo = await getProduct(produto.produto)
 
-    const { tipo, quantidade, tamanho, image_overlay, ...resto } = produto_info
-    
-    productInfo.push(resto)
+        if (!produtoInfo){
+          continue
+        }
+
+        const { tipo, quantidade, tamanho, image_overlay, ...resto} = produtoInfo
+        produto.nome = resto.nome!
+        produto.valor = resto.valor!
+        produto.imagem = resto.imagem!
+        products.push(produto)
+      }
   }
 
   const address = await getAddress();
 
+  if (!address){
+    return;
+  }
+
+  const { referencia, ...resto } = address;
+
+  const addressMissing = Object.values(resto).some(
+  (valor) => valor === "" || valor === null,
+);
+
+  const fullCartInfo: [produtoArray, boolean] = [
+  products,
+  addressMissing,
+];
+
   return (
     <div className="bg-[url('/Imagens/BackgroundStyle.png')]">
         <div className="w-[95vw] min-h-[95vh] m-[40_auto] bg-[var(--lightPink-Pastel)] flex flex-col rounded-[25px] shadow-[5px_5px_5px] shadow-[#00000022]">
-            <CartProducts cart={produtos} productInfo={productInfo} userInfo={address}/>
+            <CartProducts cart={fullCartInfo}/>
         </div>
     </div>
   );

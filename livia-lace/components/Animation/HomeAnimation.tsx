@@ -94,7 +94,7 @@ export function FooterItemsHover({
       {content === "Instagram" && (
         <motion.div
         whileHover={{scale: 1.2}}
-        className="col-[4] row-[2] font-[MontserratBold] text-xl w-fit h-fit mb-[1%] ml-[10%]">
+        className="col-[4] row-[2] font-[MontserratBold] text-xl w-fit h-fit mb-[3%] ml-[10%]">
           <Link
             href={page}
             target="_blank"
@@ -107,7 +107,29 @@ export function FooterItemsHover({
       {content === "Catálogo" && (
         <motion.div
         whileHover={{scale: 1.2}}
-        className="col-[2] row-[3] font-[MontserratBold] text-xl w-fit h-fit mb-[1%]">
+        className="col-[2] row-[3] font-[MontserratBold] text-xl w-fit h-fit mb-[3%]">
+          <Link
+            href={page}
+          >
+            {content}
+          </Link>
+        </motion.div>
+      )}
+      {content === "Usuário" && (
+        <motion.div
+        whileHover={{scale: 1.2}}
+        className="col-[2] row-[4] font-[MontserratBold] text-xl w-fit h-fit mb-[3%]">
+          <Link
+            href={page}
+          >
+            {content}
+          </Link>
+        </motion.div>
+      )}
+      {content === "Carrinho" && (
+        <motion.div
+        whileHover={{scale: 1.2}}
+        className="col-[2] row-[5] font-[MontserratBold] text-xl w-fit h-fit mb-[3%]">
           <Link
             href={page}
           >
@@ -118,7 +140,7 @@ export function FooterItemsHover({
       {content === "Início" && (
         <motion.div
         whileHover={{scale: 1.2}}
-        className="col-[2] row-[2] font-[MontserratBold] text-xl w-fit h-fit mb-[1%]">
+        className="col-[2] row-[2] font-[MontserratBold] text-xl w-fit h-fit mb-[3%]">
           <Link
             href={page}
             onClick={(e) => {

@@ -31,7 +31,7 @@ export async function POST() {
           id: produto.product_id.toString(),
           title: produto.nome!,
           quantity: item.quantidade,
-          unit_price: produto.valor!,
+          unit_price: Number(produto.valor),
         };
       })
     );
@@ -43,10 +43,11 @@ export async function POST() {
         items,
 
         back_urls: {
-          success: "/Checkout/PaymentSuccess",
-          failure: "/Checkout/PaymentFailure",
-          pending: "/Checkout/PaymentPending",
+          success: "https://yearly-pamperer-payback.ngrok-free.dev/Checkout/PaymentSuccess",
+          failure: "https://yearly-pamperer-payback.ngrok-free.dev/Checkout/PaymentFailure",
+          pending: "https://yearly-pamperer-payback.ngrok-free.dev/Checkout/PaymentPending",
         },
+        auto_return: "approved",
       },
     });
 

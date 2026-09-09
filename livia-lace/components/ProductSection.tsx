@@ -6,15 +6,10 @@ import Image from "next/image";
 import localFont from "next/font/local";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ImageHoverOpacity } from "@/components/Animation/HomeAnimation";
 import { Button } from "@/components/ui/button";
 
 const Montserrat = localFont({
   src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Bold.ttf",
 });
 
 export type Filtros = {
@@ -43,6 +38,97 @@ type ProductSectionProps = {
   precoFinal: string;
 };
 
+// Agrupa um array em blocos de N itens
+function chunkArray<T>(arr: T[], size: number): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+}
+
+
+function ProductShelf({ products }: { products: Product[] }) {
+  const [produtoEsquerda, produtoMeio, produtoDireita] = products;
+
+  return (
+    <div className="relative w-full mb-[4%] select-none">
+
+      <div className="flex w-full">
+        <div className="relative flex-1 aspect-[514/323]">
+          <Image src="/Imagens/Prateleira-left.png" alt="" fill className="object-fill" />
+        </div>
+        <div className="relative flex-1 aspect-[514/323]">
+          <Image src="/Imagens/Prateleira-middle.png" alt="" fill className="object-fill" />
+        </div>
+        <div className="relative flex-1 aspect-[514/323]">
+          <Image src="/Imagens/Prateleira-right.png" alt="" fill className="object-fill" />
+        </div>
+      </div>
+
+      <div className="absolute inset-0 flex">
+
+        <div className="relative flex-1 flex items-end justify-center pb-[2%]">
+          {produtoEsquerda?.imagem && (
+            <Link
+              href={`/Product/${produtoEsquerda.product_id}`}
+              className="block w-[50%] translate-x-[25%] translate-y-[-20%] transition-[.5s] hover:translate-y-[-30%] hover:scale-[105%]"
+            >
+              <Suspense fallback={<Skeleton className="w-full aspect-square" />}>
+                <Image
+                  src={produtoEsquerda.imagem}
+                  width={300}
+                  height={300}
+                  className="w-full aspect-square object-cover rounded-[10px] select-none"
+                  alt={produtoEsquerda.nome ?? "Produto"}
+                />
+              </Suspense>
+            </Link>
+          )}
+
+        </div>
+        <div className="relative flex-1 flex items-end justify-center pb-[2%]">
+          {produtoMeio?.imagem && (
+            <Link
+              href={`/Product/${produtoMeio.product_id}`}
+              className="block w-[50%] translate-x-[0%] translate-y-[-20%] transition-[.5s] hover:translate-y-[-30%] hover:scale-[105%]"
+            >
+              <Suspense fallback={<Skeleton className="w-full aspect-square" />}>
+                <Image
+                  src={produtoMeio.imagem}
+                  width={300}
+                  height={300}
+                  className="w-full aspect-square object-cover rounded-[10px] select-none"
+                  alt={produtoMeio.nome ?? "Produto"}
+                />
+              </Suspense>
+            </Link>
+          )}
+
+        </div>
+        <div className="relative flex-1 flex items-end justify-center pb-[2%]">
+          {produtoDireita?.imagem && (
+            <Link
+              href={`/Product/${produtoDireita.product_id}`}
+              className="block w-[50%] translate-x-[-25%] translate-y-[-20%] transition-[.5s] hover:translate-y-[-30%] hover:scale-[105%]"
+            >
+              <Suspense fallback={<Skeleton className="w-full aspect-square" />}>
+                <Image
+                  src={produtoDireita.imagem}
+                  width={300}
+                  height={300}
+                  className="w-full aspect-square object-cover rounded-[10px] select-none"
+                  alt={produtoDireita.nome ?? "Produto"}
+                />
+              </Suspense>
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProductSection({
   filtros,
   precoInicial,
@@ -58,18 +144,13 @@ export default function ProductSection({
 
         const converterPreco = (valor: string) => {
           if (!valor) return undefined;
-
           const numero = valor
             .replace("R$", "")
             .replace(/\./g, "")
             .replace(",", ".")
             .trim();
-
           const resultado = Number(numero);
-
-          return Number.isNaN(resultado)
-            ? undefined
-            : resultado;
+          return Number.isNaN(resultado) ? undefined : resultado;
         };
 
         const inicial = converterPreco(precoInicial);
@@ -77,26 +158,17 @@ export default function ProductSection({
 
         const response = await fetch("/api/getProducts", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...filtros,
-            inicial,
-            final,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...filtros, inicial, final }),
         });
 
         if (!response.ok) {
           const erro = await response.text();
-
           console.error("Resposta da API:", erro);
-
           throw new Error(`Erro HTTP: ${response.status}`);
         }
 
         const data = await response.json();
-
         setProdutos(data);
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
@@ -112,9 +184,7 @@ export default function ProductSection({
   if (loading) {
     return (
       <div className="flex w-full justify-center py-[5%]">
-        <p className={Montserrat.className}>
-          Carregando produtos...
-        </p>
+        <p className={Montserrat.className}>Carregando produtos...</p>
       </div>
     );
   }
@@ -122,112 +192,17 @@ export default function ProductSection({
   if (produtos.length === 0) {
     return (
       <div className="flex w-full justify-center py-[5%]">
-        <p className={Montserrat.className}>
-          Nenhum produto encontrado.
-        </p>
+        <p className={Montserrat.className}>Nenhum produto encontrado.</p>
       </div>
     );
   }
 
-  async function buyProduct(id: number){
-        const response = await fetch("/api/addProductCart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: id?.toString(),
-                amount: 1
-            })
-        })
-  }
+  const shelves = chunkArray(produtos, 3);
 
   return (
-    <div className="flex flex-wrap gap-[3%] m-[0%_10%]">
-      {produtos.map((produto) => (
-        <article
-          key={produto.product_id}
-          className="
-            relative
-            bg-white
-            flex-[1_1_250px]
-            max-w-[250px]
-            min-w-[120px]
-            h-[400px]
-            rounded-[10px]
-            overflow-hidden
-            mb-[3%]
-          "
-        >
-
-          <Link href={`/Product/${produto.product_id}`}>
-            {produto.imagem && (
-              <Suspense fallback={
-                <Skeleton className="w-[500px] h-[500px]"/>
-              }>
-                <Image
-                  src={produto.imagem}
-                  width={500}
-                  height={500}
-                  className="w-full aspect-square object-cover rounded-t-[10px] select-none"
-                  alt={produto.nome ?? "Produto"}
-                />
-              </Suspense>
-            )}
-          </Link>
-
-
-          {produto.image_overlay && (
-            <Link href={`/Product/${produto.product_id}`}>
-              <ImageHoverOpacity produto={produto} />
-            </Link>
-          )}
-
-          <div className="absolute bottom-[15%] left-[3%]">
-            <p
-              className={`
-                ${MontserratBold.className}
-                font-bold
-                text-sm
-                h-[40px]
-                mb-[3%]
-              `}
-            >
-              {produto.nome}
-            </p>
-
-            <p
-              className={`
-                ${MontserratBold.className}
-                text-2xl
-                mb-[2%]
-              `}
-            >
-              R$
-              {produto.valor !== null
-                ? produto.valor
-                    .toFixed(2)
-                    .replace(".", ",")
-                : "0,00"}
-            </p>
-          </div>
-
-          <Button
-            variant="main"
-            className={`
-              absolute
-              bottom-0
-              left-0
-              w-full
-              h-[15%]
-              rounded-b-[10px]
-              ${MontserratBold.className}
-            `}
-            onClick={() => buyProduct(produto.product_id)}
-          >
-            Adicionar ao carrinho
-          </Button>
-        </article>
+    <div className="flex flex-col m-[0%_10%]">
+      {shelves.map((shelfProducts, i) => (
+        <ProductShelf key={i} products={shelfProducts} />
       ))}
     </div>
   );

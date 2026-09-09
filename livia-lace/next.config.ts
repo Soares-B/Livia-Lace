@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    images: {
+  allowedDevOrigins: [
+    "yearly-pamperer-payback.ngrok-free.dev",
+  ],
+
+  images: {
     remotePatterns: [
       {
         protocol: "https",
@@ -10,6 +14,5 @@ const nextConfig: NextConfig = {
     ],
   },
 };
-
 
 export default nextConfig;

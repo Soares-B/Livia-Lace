@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+import localFont from "next/font/local";
+
+const Montserrat = localFont({
+  src: "./Fonts/Montserrat/static/Montserrat-Medium.ttf",
+  variable: "--font-montserrat",
+});
+
+const MontserratBold = localFont({
+  src: "./Fonts/Montserrat/static/Montserrat-SemiBold.ttf",
+  variable: "--font-montserrat-bold",
+});
 
 export const metadata: Metadata = {
   title: "Livia Lace",
@@ -14,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="scroll-smooth scrollbar-thumb-[var(--scrollColor)] ">
-      <body className="bg-[var(--lightPink-Pastel)] flex flex-col min-h-screen selection:bg-[var(--selectionColor)] selection:text-[var(--selectionText)] outline-[var(--outlineColor)]">
+      <body className={`${Montserrat.variable} ${MontserratBold.variable} bg-[var(--lightPink-Pastel)] flex flex-col min-h-screen selection:bg-[var(--selectionColor)] selection:text-[var(--selectionText)] outline-[var(--outlineColor)]`}>
         {children}
       </body>
     </html>

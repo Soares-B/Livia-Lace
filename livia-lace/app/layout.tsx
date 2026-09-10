@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 const Montserrat = localFont({
   src: "./Fonts/Montserrat/static/Montserrat-Medium.ttf",
   variable: "--font-montserrat",
+  display: "swap",
 });
 
 const MontserratBold = localFont({

@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { CheckIcon } from "lucide-react"
 import localFont from "next/font/local";
 
-const Montserrat = localFont({
+const Unbounded = localFont({
   src: "../../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
 });
 
@@ -26,17 +26,17 @@ const checkboxVariants = cva(
         danger:
           "border-red-300 data-checked:border-red-600 data-checked:bg-red-600",
         main:
-          "appearence-none w-[30px] h-[30px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Montserrat] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--darkPink-Pastel)]",
+          "appearence-none w-[30px] h-[30px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Unbounded] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--darkPink-Pastel)]",
         orange:
-          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Montserrat] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--orange-Pastel)]",
+          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Unbounded] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--orange-Pastel)]",
         yellow:
-          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Montserrat] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--yellow-Pastel)]",
+          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Unbounded] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--yellow-Pastel)]",
         green:
-          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Montserrat] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--green-Pastel)]",
+          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Unbounded] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--green-Pastel)]",
         blue:
-          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Montserrat] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--blue-Pastel)]",
+          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Unbounded] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--blue-Pastel)]",
         lilac:
-          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Montserrat] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--lilac-Pastel)]",
+          "appearence-none w-[20px] h-[20px] bg-white border-[2px] border-solid border-[var(--darkPink-Pastel)] rounded-[5px] relative cursor-pointer data-checked:font-[Unbounded] data-checked:text-black data-checked:text-[6px] data-checked:bg-[var(--lilac-Pastel)]",
         },
 
       size: {

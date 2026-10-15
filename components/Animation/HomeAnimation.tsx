@@ -94,7 +94,7 @@ export function FooterItemsHover({
       {content === "Instagram" && (
         <motion.div
         whileHover={{scale: 1.2}}
-        className="col-[4] row-[2] font-[MontserratBold] text-xl w-fit h-fit mb-[3%] ml-[10%]">
+        className="col-[4] row-[2] font-[MontserratBold] text-xl w-fit h-fit ml-[10%]">
           <Link
             href={page}
             target="_blank"

@@ -12,7 +12,7 @@ const MontserratBold = localFont({
 
 export default function Footer() {
   return (
-    <div className="grid grid-rows-[1fr] grid-cols-[.15fr_.5fr_1fr_1fr] bg-[var(--darkPink-Pastel)] h-[50%]">
+    <div className="grid grid-rows-[repeat(5,auto)] grid-cols-[.15fr_.5fr_1fr_1fr] bg-[var(--darkPink-Pastel)] h-[50%]">
       <p className="ml-[2%] font-[MontserratBold] text-2xl p-[10px_0px] col-[2]">
         Navegue:
       </p>

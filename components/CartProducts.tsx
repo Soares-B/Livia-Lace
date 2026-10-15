@@ -212,7 +212,7 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
         );
       })}
 
-      <div className="sticky z-1 bottom-0 w-full h-[150px] bg-[var(--lightPink-Pastel)] flex justify-end items-center gap-[15px] rounded-[25px]">
+      {products.length > 0 ? <div className="sticky z-1 bottom-0 w-full h-[150px] bg-[var(--lightPink-Pastel)] flex justify-end items-center gap-[15px] rounded-[25px]">
         <p className={`mr-[5%] transition-[1s] font-[Montserrat] text-2xl text-[var(--darkestPink)] ${addressMissing ? "opacity-100" : "opacity-0"} ${addressMissing ? "pointer-events-auto" : "pointer-events-none"} bg-[var(--lightPink-Pastel)]`}>Adicione todas as informações na página do <Link href="/User/Address" className="underline">Usuário</Link></p>
         <p className="font-[Montserrat] text-3xl mr-[2%]">
           {`R$${valorTotal.toFixed(2).replace(".", ",")}`}
@@ -225,7 +225,7 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
         >
           Prosseguir para pagamento
         </Button>
-      </div>
+      </div> : <p className="font-[Montserrat] text-2xl m-[0_auto] mt-[2%] text-[var(--darkestPink)]">Nenhum produto no carrinho</p> }
     </>
   );
 }

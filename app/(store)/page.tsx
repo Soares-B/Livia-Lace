@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <header
         id="topo"
-        className="relative w-full h-[700px] scroll-m-[80px] bg-cover bg-no-repeat bg-[url('/Imagens/LogoBackground.jpeg')] bg-[center_42%]"
+        className="relative w-full h-[700px] scroll-m-[80px] bg-cover bg-no-repeat bg-[url('/Imagens/LogoBackground.jpeg')] bg-[center_42%] shadow-lg"
       >
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute top-[20%] left-[7%] w-[300px] h-fit flex flex-col items-center">

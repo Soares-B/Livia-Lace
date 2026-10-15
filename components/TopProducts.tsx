@@ -23,22 +23,10 @@ export default async function ProductSection() {
     ["Pulseiras"]: [0, 0, 0, 0, 0],
   };
 
-  async function buyProduct(id: bigint){
-        const response = await fetch("/api/addProductCart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: id?.toString(),
-                amount: 1
-            })
-        })
-  }
-
   const productsInfoList = [];
 
   for (const [categoria, produtos] of Object.entries(productsList)) {
+    if (!produtos.every((id) => id > 0)) continue;
     const products = await prisma.produtos.findMany({
       where: {
         product_id: {

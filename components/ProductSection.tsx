@@ -178,7 +178,7 @@ export default function ProductSection({
   if (loading) {
     return (
       <div className="flex w-full justify-center py-[5%]">
-        <p className={Montserrat.className}>Carregando produtos...</p>
+        <p className="font-[Montserrat]">Carregando produtos...</p>
       </div>
     );
   }
@@ -186,7 +186,7 @@ export default function ProductSection({
   if (produtos.length === 0) {
     return (
       <div className="flex w-full justify-center py-[5%]">
-        <p className={Montserrat.className}>Nenhum produto encontrado.</p>
+        <p className="font-[Montserrat]">Nenhum produto encontrado.</p>
       </div>
     );
   }

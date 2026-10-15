@@ -1,18 +1,10 @@
 "use client";
-import { easeIn, easeInOut, motion } from "motion/react";
-import localFont from "next/font/local";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const Montserrat = localFont({
-    src: "../../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-    src: "../../app/Fonts/Montserrat/static/Montserrat-SemiBold.ttf",
-});
 
 type product = {
   product_id: bigint | null;

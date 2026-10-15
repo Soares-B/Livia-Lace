@@ -2,13 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import localFont from "next/font/local";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
-const Montserrat = localFont({
-    src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf"
-})
 
 export default function ProductData({id, imagem, nome, valor, quantidade}: {id: bigint | null, imagem: string | null, nome: string | null, valor: number | null, quantidade: bigint | null}){
 

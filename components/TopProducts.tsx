@@ -1,17 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
-import localFont from "next/font/local";
 import { ImageHoverOpacity } from "@/components/Animation/HomeAnimation";
 import BuyButton from "./BuyButton";
 
-const Montserrat = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Bold.ttf",
-});
 
 export default async function ProductSection() {
   const productsList = {

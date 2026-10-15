@@ -24,16 +24,6 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-import localFont from "next/font/local";
-
-const Montserrat = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Bold.ttf",
-});
-
 type AddressProps = {
   estado: string | null;
   cidade: string | null;

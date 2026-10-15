@@ -3,14 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import localFont from "next/font/local";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-
-const Montserrat = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
 
 export type Filtros = {
   laco: boolean;

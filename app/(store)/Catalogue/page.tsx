@@ -1,25 +1,13 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 
 import TaglineHeader from "@/components/Animation/CatalogueAnimation";
 import ProductSection from "@/components/ProductSection";
 
-import localFont from "next/font/local";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 
-const Montserrat = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Bold.ttf",
-});
 
 type Filtros = {
   laco: boolean;

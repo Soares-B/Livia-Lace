@@ -1,10 +1,8 @@
 "use client";
 
-import localFont from "next/font/local";
 import Image from "next/image";
 import {
   Field,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
@@ -14,13 +12,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const Montserrat = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Bold.ttf",
-});
 
 export default function Login() {
   const router = useRouter();

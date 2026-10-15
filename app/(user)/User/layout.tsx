@@ -1,13 +1,8 @@
 import Image from "next/image";
 import Header from "@/components/main/Header";
-import localFont from "next/font/local";
 import getClient from "@/lib/client";
 import Options from "@/components/AsideSection";
 import { redirect } from "next/navigation";
-
-const Montserrat = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
 
 export default async function Layout({
   children,

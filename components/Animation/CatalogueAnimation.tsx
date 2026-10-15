@@ -1,10 +1,5 @@
 "use client"
-import { easeIn, easeInOut, motion } from "motion/react";
-import localFont from "next/font/local";
-
-const stylizedFont = localFont({
-  src: "../../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
-});
+import { motion } from "motion/react";
 
 export default function TaglineHeader(){
     return(

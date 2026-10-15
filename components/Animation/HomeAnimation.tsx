@@ -1,14 +1,9 @@
 "use client";
 
-import localFont from "next/font/local";
-import { easeIn, easeInOut, motion } from "motion/react";
+import { easeInOut, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-
-const stylizedFont = localFont({
-  src: "../../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
-});
 
 export default function TaglineHover() {
   return (

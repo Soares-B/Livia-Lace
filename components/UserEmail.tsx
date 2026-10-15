@@ -1,9 +1,4 @@
-import localFont from "next/font/local";
 import getClient from "@/lib/client";
-
-const Montserrat = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
 
 export default async function Email() {
   const client = await getClient();

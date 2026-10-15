@@ -1,9 +1,4 @@
-import localFont from "next/font/local";
 import Link from "next/link";
-
-const Montserrat = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
 
 export default function Success(){
 

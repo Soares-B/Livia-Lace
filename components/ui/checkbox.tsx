@@ -1,11 +1,6 @@
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
 import { cva, type VariantProps } from "class-variance-authority"
 import { CheckIcon } from "lucide-react"
-import localFont from "next/font/local";
-
-const Montserrat = localFont({
-  src: "../../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
-});
 
 import { cn } from "@/lib/utils"
 

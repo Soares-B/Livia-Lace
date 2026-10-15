@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import localFont from "next/font/local";
 import Image from "next/image";
 import {
   Field,
@@ -13,13 +12,6 @@ import Submit from "@/components/Animation/LoginAnimation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const Montserrat = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Bold.ttf",
-});
 
 export default function Register() {
   const router = useRouter();

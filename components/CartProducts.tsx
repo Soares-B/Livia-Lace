@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import localFont from "next/font/local";
 import { useState } from "react";
 import {
   AlertDialog,
@@ -14,14 +13,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-const Montserrat = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Bold.ttf",
-});
 
 type products = {
   produto: number;

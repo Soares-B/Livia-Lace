@@ -1,4 +1,3 @@
-import localFont from "next/font/local";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import TaglineHover, { ButtonHoverGrow } from "@/components/Animation/HomeAnimation";

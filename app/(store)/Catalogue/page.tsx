@@ -69,7 +69,7 @@ export default function Catalogue() {
     <>
       <header
         id="topo"
-        className="relative h-[300px] w-full scroll-m-[80px] bg-[url('/Imagens/LogoBackground.jpeg')] bg-cover bg-[center_35%] bg-no-repeat"
+        className="relative h-[300px] w-full scroll-m-[80px] bg-[url('/Imagens/LogoBackground.jpeg')] bg-cover bg-[center_35%] bg-no-repeat shadow-lg"
       >
         <div className="absolute inset-0 bg-black/50" />
 

@@ -69,7 +69,7 @@ export default async function ProductSection() {
                   <ImageHoverOpacity produto={produto} />
                 </Link>
                 <div className="absolute bottom-[15%] left-[3%] ">
-                  <p className="font-[Montserrat] font-bold text-sm h-[40px] mb-[3%]">
+                  <p className="font-montserrat font-bold text-sm h-[40px] mb-[3%]">
                     {produto.nome}
                   </p>
                   <p className="font-[MontserratBold] text-2xl mb-[2%]">

@@ -96,11 +96,6 @@ export async function POST() {
 
     pedidoId = pedido.id;
 
-    console.log(
-      "URL de notificação enviada ao Mercado Pago:",
-      process.env.MERCADO_PAGO_WEBHOOK_URL
-    );
-
     const preferenceClient = new Preference(client);
 
     const preference = await preferenceClient.create({

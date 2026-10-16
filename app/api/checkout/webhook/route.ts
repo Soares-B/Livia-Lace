@@ -109,7 +109,6 @@ export async function POST(request: Request) {
     const novaSituacao = statusMap[payment.status];
 
     if (!novaSituacao) {
-      console.log("Status do Mercado Pago não mapeado:", payment.status);
       return NextResponse.json({ received: true });
     }
 
@@ -134,12 +133,6 @@ export async function POST(request: Request) {
         data: { produtos: [] },
       });
     }
-
-    console.log("Pedido atualizado:", {
-      pedidoId: pedidoId.toString(),
-      paymentId,
-      status: novaSituacao,
-    });
 
     return NextResponse.json({ received: true });
   } catch (error) {

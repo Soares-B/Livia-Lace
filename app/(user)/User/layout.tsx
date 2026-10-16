@@ -15,8 +15,6 @@ export default async function Layout({
     redirect('/Login')
   }
 
-  console.log(client)
-
   return (
     <>
       <Header />
@@ -31,7 +29,7 @@ export default async function Layout({
             alt="Profile Picture"
             className="select-none rounded-[50%]"
           />
-          <p className="mt-[5%] text-center w-full font-[Montserrat] text-2xl">
+          <p className="mt-[5%] text-center w-full font-montserrat text-2xl">
             {client!.nome}
           </p>
         </div>

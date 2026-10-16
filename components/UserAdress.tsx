@@ -148,7 +148,6 @@ export default function AddressField({
     });
     const data = await response.json();
 
-    console.log(data, response.status);
   }
 
   return (
@@ -198,7 +197,7 @@ export default function AddressField({
                 <SelectItem
                   key={estado.value}
                   value={estado.value}
-                  className="font-[Montserrat] text-[var(--darkerPink)]"
+                  className="font-montserrat text-[var(--darkerPink)]"
                 >
                   {estado.label}
                 </SelectItem>
@@ -217,7 +216,7 @@ export default function AddressField({
             required
             value={cidade}
             onChange={(e) => setCidade(e.target.value)}
-            className="w-full h-[95%] font-[Montserrat] pl-[10px] text-lg box-border"
+            className="w-full h-[95%] font-montserrat pl-[10px] text-lg box-border"
           />
         </div>
 
@@ -231,7 +230,7 @@ export default function AddressField({
             required
             value={rua}
             onChange={(e) => setRua(e.target.value)}
-            className="w-full h-[95%] font-[Montserrat] pl-[10px] text-lg box-border"
+            className="w-full h-[95%] font-montserrat pl-[10px] text-lg box-border"
           />
         </div>
 
@@ -244,7 +243,7 @@ export default function AddressField({
             autoComplete="off"
             value={referencia}
             onChange={(e) => setReferencia(e.target.value)}
-            className="w-full h-[95%] font-[Montserrat] pl-[10px] text-lg box-border"
+            className="w-full h-[95%] font-montserrat pl-[10px] text-lg box-border"
           />
         </div>
 
@@ -257,7 +256,7 @@ export default function AddressField({
             type="tel"
             name="telefone"
             id="telefone"
-            className="w-full h-[95%] font-[Montserrat] pl-[10px] text-lg box-border"
+            className="w-full h-[95%] font-montserrat pl-[10px] text-lg box-border"
             placeholder="(99) 99999-9999"
             maxLength={15}
             autoComplete="off"
@@ -295,7 +294,7 @@ export default function AddressField({
             type="text"
             name="cep"
             id="cep"
-            className="w-full h-[95%] font-[Montserrat] pl-[10px] text-lg box-border"
+            className="w-full h-[95%] font-montserrat pl-[10px] text-lg box-border"
             placeholder="00000-000"
             maxLength={9}
             autoComplete="off"

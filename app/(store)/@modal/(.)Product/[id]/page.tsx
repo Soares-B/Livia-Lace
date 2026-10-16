@@ -10,8 +10,6 @@ export default async function ProductModal({
 
   const product = await getProduct(Number(id))
 
-  console.log(product)
-
     if (!product){
         return null;
     }

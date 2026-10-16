@@ -25,7 +25,7 @@ export default function CPFform({ cpf }: { cpf: BigInt | null }) {
     <div className="relative w-[40%] h-[50%] row-3">
       <form onSubmit={handleSubmit}>
         <Field>
-          <FieldLabel className="absolute top-[-37%] left-[1%] font-[Montserrat] text-xl">
+          <FieldLabel className="absolute top-[-37%] left-[1%] font-montserrat text-xl">
             CPF
           </FieldLabel>
           <Input

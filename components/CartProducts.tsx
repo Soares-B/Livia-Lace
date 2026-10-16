@@ -71,8 +71,6 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
     valor: produto.valor,
   }));
 
-    console.log(products)
-
     const cartModified = await fetch("/api/insertIntoCart", {
       method: "POST",
       headers: {
@@ -161,13 +159,13 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
                 </Link>
 
                 <Link href={`/Product/${produto.produto}`} className="z-2">
-                  <p className="mt-[1%] ml-[5%] font-[Montserrat] text-2xl w-full">
+                  <p className="mt-[1%] ml-[5%] font-montserrat text-2xl w-full">
                     {produto.nome}
                   </p>
                 </Link>
               </div>
 
-              <p className="absolute bottom-[4%] right-[20%] font-[Montserrat] text-4xl">
+              <p className="absolute bottom-[4%] right-[20%] font-montserrat text-4xl">
                 {`R$${precoTotal.toFixed(2).replace(".", ",")}`}
               </p>
 
@@ -179,9 +177,9 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
                 Remover
               </Button>
 
-              <div className="absolute bottom-[30%] right-[3%] w-[15%] h-[20%] flex justify-between items-center bg-white rounded-[10px] font-[Montserrat] text-xl border-2 border-solid border-[var(--darkPink-Pastel)]">
+              <div className="absolute bottom-[30%] right-[3%] w-[15%] h-[20%] flex justify-between items-center bg-white rounded-[10px] font-montserrat text-xl border-2 border-solid border-[var(--darkPink-Pastel)]">
                 <Button
-                  className="font-[Montserrat] text-2xl bg-white text-black border-0 border-solid border-[#FFFFFF00] w-[30%] h-full hover:cursor-pointer rounded-[7px] hover:bg-[var(--orange-Pastel)]"
+                  className="font-montserrat text-2xl bg-white text-black border-0 border-solid border-[#FFFFFF00] w-[30%] h-full hover:cursor-pointer rounded-[7px] hover:bg-[var(--orange-Pastel)]"
                   onClick={() => diminuirQuantidade(produto.produto)}
                 >
                   -
@@ -190,7 +188,7 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
                 <span className="select-none">{produto.quantidade}</span>
 
                 <Button
-                  className="font-[Montserrat] text-2xl bg-white text-black border-0 border-solid border-[#FFFFFF00] w-[30%] h-full hover:cursor-pointer rounded-[7px] hover:bg-[var(--green-Pastel)]"
+                  className="font-montserrat text-2xl bg-white text-black border-0 border-solid border-[#FFFFFF00] w-[30%] h-full hover:cursor-pointer rounded-[7px] hover:bg-[var(--green-Pastel)]"
                   onClick={() => aumentarQuantidade(produto.produto)}
                 >
                   +
@@ -204,19 +202,19 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
       })}
 
       {products.length > 0 ? <div className="sticky z-1 bottom-0 w-full h-[150px] bg-[var(--lightPink-Pastel)] flex justify-end items-center gap-[15px] rounded-[25px]">
-        <p className={`mr-[5%] transition-[1s] font-[Montserrat] text-2xl text-[var(--darkestPink)] ${addressMissing ? "opacity-100" : "opacity-0"} ${addressMissing ? "pointer-events-auto" : "pointer-events-none"} bg-[var(--lightPink-Pastel)]`}>Adicione todas as informações na página do <Link href="/User/Address" className="underline">Usuário</Link></p>
-        <p className="font-[Montserrat] text-3xl mr-[2%]">
+        <p className={`mr-[5%] transition-[1s] font-montserrat text-2xl text-[var(--darkestPink)] ${addressMissing ? "opacity-100" : "opacity-0"} ${addressMissing ? "pointer-events-auto" : "pointer-events-none"} bg-[var(--lightPink-Pastel)]`}>Adicione todas as informações na página do <Link href="/User/Address" className="underline">Usuário</Link></p>
+        <p className="font-montserrat text-3xl mr-[2%]">
           {`R$${valorTotal.toFixed(2).replace(".", ",")}`}
         </p>
 
         <Button
           variant="main"
-          className="mr-[5%] w-fit font-[Montserrat] text-lg bg-white rounded-[10px] border-2 border-solid border-[var(--darkPink-Pastel)] p-[1.2%] text-black"
+          className="mr-[5%] w-fit font-montserrat text-lg bg-white rounded-[10px] border-2 border-solid border-[var(--darkPink-Pastel)] p-[1.2%] text-black"
           onClick={() => buyButton()}
         >
           Prosseguir para pagamento
         </Button>
-      </div> : <p className="font-[Montserrat] text-2xl m-[0_auto] mt-[2%] text-[var(--darkestPink)]">Nenhum produto no carrinho</p> }
+      </div> : <p className="font-montserrat text-2xl m-[0_auto] mt-[2%] text-[var(--darkestPink)]">Nenhum produto no carrinho</p> }
     </>
   );
 }

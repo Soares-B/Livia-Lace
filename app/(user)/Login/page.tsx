@@ -110,7 +110,7 @@ export default function Login() {
           </h2>
           <FieldGroup className="gap-[3%] mb-[5%]">
             <Field>
-              <FieldLabel className="flex w-full justify-center font-[Montserrat] text-lg">
+              <FieldLabel className="flex w-full justify-center font-montserrat text-lg">
                 Email
               </FieldLabel>
               <Input
@@ -118,12 +118,12 @@ export default function Login() {
                 value={email}
                 autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
-                className="font-[Montserrat] h-[40px] focus:outline-none"
+                className="font-montserrat h-[40px] focus:outline-none"
                 placeholder=""
               />
             </Field>
             <Field>
-              <FieldLabel className="flex w-full justify-center font-[Montserrat] text-lg">
+              <FieldLabel className="flex w-full justify-center font-montserrat text-lg">
                 Senha
               </FieldLabel>
               <Input
@@ -131,7 +131,7 @@ export default function Login() {
                 value={senha}
                 autoComplete="off"
                 onChange={(e) => setSenha(e.target.value)}
-                className="font-[Montserrat] h-[40px] mb-[1%] focus:outline-none"
+                className="font-montserrat h-[40px] mb-[1%] focus:outline-none"
                 placeholder=""
               />
             </Field>
@@ -139,7 +139,7 @@ export default function Login() {
           <Submit />
         </form>
 
-        <p className="font-[Montserrat] text-lg mb-[4%] mt-[3%]">
+        <p className="font-montserrat text-lg mb-[4%] mt-[3%]">
           Ainda não possui uma conta?
           <Link
             href="/Register"

@@ -7,10 +7,10 @@ import Link from "next/link";
 
 export default function TaglineHover() {
   return (
-    <p className="w-[300px] font-[stylizedFont] text-[38px] font-bold hover:cursor-default text-white selection:bg-rose-400 mb-[10%]">
+    <p className="w-[300px] font-unbounded text-[38px] font-bold hover:cursor-default text-white selection:bg-rose-400 mb-[10%]">
       Laços feitos com muito{" "}
       <motion.span
-        className="inline-block text-rose-200"
+        className="inline-block text-rose-200 selection:text-red-200"
         style={{
           cursor: 'url("/Imagens/Cursor.png"), auto',
         }}

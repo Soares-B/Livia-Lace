@@ -67,10 +67,10 @@ export default function Catalogue() {
       <div className="bg-[url('/Imagens/BackgroundCatalogue.png')] w-full">
         <main className="mt-[3%] flex">
           <aside className="sticky top-[150px] ml-[3%] flex h-[500px] w-[20%] flex-col">
-            <h2 className="block font-[MontserratBold] m-[0_auto]">Filtros</h2>
+            <h2 className="block font-montserrat-bold m-[0_auto]">Filtros</h2>
             <hr className="mb-[5%] w-full border-[var(--darkPink-Pastel)]" />
             <label
-              className={`font-[MontserratBold] mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
+              className={`font-montserrat-bold mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
             >
               <Checkbox
                 variant="main"
@@ -83,7 +83,7 @@ export default function Catalogue() {
               Laço bico de pato
             </label>
             <label
-              className={`font-[MontserratBold] mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
+              className={`font-montserrat-bold mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
             >
               <Checkbox
                 variant="orange"
@@ -96,7 +96,7 @@ export default function Catalogue() {
               Xuxinha
             </label>
             <label
-              className={`font-[MontserratBold] mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
+              className={`font-montserrat-bold mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
             >
               <Checkbox
                 variant="yellow"
@@ -109,7 +109,7 @@ export default function Catalogue() {
               Tiara
             </label>
             <label
-              className={`font-[MontserratBold] mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
+              className={`font-montserrat-bold mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
             >
               <Checkbox
                 variant="green"
@@ -122,7 +122,7 @@ export default function Catalogue() {
               Faixa de bebê
             </label>
             <label
-              className={`font-[MontserratBold] mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
+              className={`font-montserrat-bold mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
             >
               <Checkbox
                 variant="blue"
@@ -135,7 +135,7 @@ export default function Catalogue() {
               Presilha de cabelo
             </label>
             <label
-              className={`font-[MontserratBold] mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
+              className={`font-montserrat-bold mb-[3%] ml-[10%] flex cursor-pointer select-none items-center gap-[8px] text-lg`}
             >
               <Checkbox
                 variant="lilac"
@@ -148,7 +148,7 @@ export default function Catalogue() {
               Pulseira
             </label>
             <hr className="mb-[5%] w-full border-[var(--darkPink-Pastel)]" />
-            <h2 className="block font-[MontserratBold] m-[0_auto]">Valor</h2>
+            <h2 className="block font-montserrat-bold m-[0_auto]">Valor</h2>
             <div className="mt-[5%] flex w-full gap-[10%]">
               <Input
                 type="text"

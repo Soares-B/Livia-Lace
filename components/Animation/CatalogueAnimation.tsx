@@ -3,8 +3,8 @@ import { motion } from "motion/react";
 
 export default function TaglineHeader(){
     return(
-        <p className="w-[300px] absolute top-[15%] left-[5%] font-[stylizedFont] font-bold text-4xl text-white">Laços feitos com <motion.span
-        className="inline-block text-rose-200"
+        <p className="w-[300px] absolute top-[15%] left-[5%] font-unbounded font-bold text-4xl text-white">Laços feitos com <motion.span
+        className="inline-block text-rose-200 selection:text-red-200"
         style={{
           cursor: 'url("/Imagens/Cursor.png"), auto',
         }}

@@ -15,14 +15,15 @@ export async function POST(request: Request) {
     const { id, amount } = dados;
 
     const client = await getClient();
-    const cart = await getCart();
 
-    if (!client){
+    if (!client) {
       return NextResponse.json(
         { message: "Não autenticado" },
         { status: 401 }
       );
     }
+
+    const cart = await getCart();
 
     const produtoId = Number(id);
     const quantidade = Number(amount);

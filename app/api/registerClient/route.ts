@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
-import { error } from "console";
 
 export async function POST(request: Request) {
   try {
@@ -52,7 +51,7 @@ export async function POST(request: Request) {
 
       await tx.enderecos.create({
         data: {
-          id_client: client.id
+          id_client: cliente.id
         }
       });
 

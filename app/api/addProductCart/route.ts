@@ -17,6 +17,13 @@ export async function POST(request: Request) {
     const client = await getClient();
     const cart = await getCart();
 
+    if (!client){
+      return NextResponse.json(
+        { message: "Não autenticado" },
+        { status: 401 }
+      );
+    }
+
     const produtoId = Number(id);
     const quantidade = Number(amount);
 

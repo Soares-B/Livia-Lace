@@ -63,10 +63,7 @@ export default function Register() {
       !newErrors.password
     ) {
       setSuccess(true);
-    }
-
-    if (success){
-        register(email, username, password)
+      register(email, username, password)
     }
 
     async function register(email: string, username: string, password: string){

@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 type product = {
   produto: number;
   quantidade: number;
-  valor: number;
 };
 
 export async function POST(request: Request) {
@@ -23,22 +22,62 @@ export async function POST(request: Request) {
 
     const { cart } = data;
 
-    const valorTotal = cart
-      .reduce((soma: number, produto: product) => {
-        return (soma += produto.valor * produto.quantidade);
-      }, 0)
-      .toFixed(2);
+    if (!Array.isArray(cart) || cart.length === 0) {
+      return NextResponse.json(
+        { message: "Carrinho inválido ou vazio" },
+        { status: 400 }
+      );
+    }
 
-    const carrinho = cart.map((product: product) => ({
-      produto: (product.produto),
-      quantidade: product.quantidade,
-    }));
+    const carrinho = await Promise.all(
+      cart.map(async (item: product) => {
+        const produto = await prisma.produtos.findUnique({
+          where: {
+            product_id: BigInt(item.produto),
+          },
+        });
 
-    await prisma.carrinho.update({
+        if (!produto || produto.valor === null) {
+          throw new Error(`Produto ${item.produto} não encontrado`);
+        }
+
+        if (
+          !Number.isInteger(item.produto) ||
+          item.produto <= 0
+        ) {
+          throw new Error("ID de produto inválido");
+        }
+
+        if (!Number.isInteger(item.quantidade) || item.quantidade <= 0) {
+          throw new Error("Quantidade inválida");
+        }
+
+        return {
+          produto: item.produto,
+          quantidade: item.quantidade,
+          valor: produto.valor.toFixed(2),
+        };
+      })
+    );
+
+    const valorTotalCentavos = carrinho.reduce(
+      (total, item) =>
+        total + Math.round(Number(item.valor) * 100) * item.quantidade,
+      0
+    );
+
+    const valorTotal = (valorTotalCentavos / 100).toFixed(2);
+
+    await prisma.carrinho.upsert({
       where: {
-        id_client: client!.id,
+        id_client: client.id,
       },
-      data: {
+      update: {
+        produtos: carrinho,
+        valor_total: valorTotal,
+      },
+      create: {
+        id_client: client.id,
         produtos: carrinho,
         valor_total: valorTotal,
       },

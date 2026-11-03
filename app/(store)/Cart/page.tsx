@@ -21,7 +21,7 @@ export default async function Cart() {
     return
   } else {
       for (const produto of produtos){
-        const produtoInfo = await getProduct(produto.produto)
+        const produtoInfo = await getProduct(String(produto.produto))
 
         if (!produtoInfo){
           continue

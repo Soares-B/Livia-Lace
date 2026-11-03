@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       product_id: Number(produto.product_id),
       tipo: produto.tipo,
       nome: produto.nome,
-      valor: produto.valor,
+      valor: produto.valor !== null ? Number(produto.valor) : null,
       quantidade:
         produto.quantidade !== null ? Number(produto.quantidade) : null,
       tamanho: produto.tamanho,

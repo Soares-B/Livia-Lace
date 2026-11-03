@@ -61,7 +61,7 @@ export async function POST() {
           produto: item.produto,
           product_id: produto.product_id.toString(),
           nome: produto.nome ?? `Produto ${item.produto}`,
-          valor: produto.valor,
+          valor: produto.valor.toFixed(2),
           quantidade: item.quantidade,
         };
       })
@@ -70,8 +70,8 @@ export async function POST() {
     const valorFinal = Number(
       newCart
         .reduce(
-          (total, item) => total + item.valor * item.quantidade,
-          0
+          (total, item) => total + Math.round(Number(item.valor) * 100) * item.quantidade,
+         0
         )
         .toFixed(2)
     );
@@ -80,7 +80,7 @@ export async function POST() {
       id: item.product_id,
       title: item.nome,
       quantity: item.quantidade,
-      unit_price: item.valor,
+      unit_price: Number(item.valor),
       currency_id: "BRL",
     }));
 

@@ -10,8 +10,6 @@ export async function POST(request: Request) {
 
     const client = await getClient();
 
-    const cepNumber = Number(cep.replace('-', ''))
-
     const address = await prisma.enderecos.update({
       where: {
         id_client: client!.id,
@@ -22,7 +20,7 @@ export async function POST(request: Request) {
         rua: road,
         referencia: ref,
         numero: telefone,
-        cep: cepNumber,
+        cep: cep.replace("-", ""),
       },
     });
 

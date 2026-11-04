@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import prisma from "@/lib/prisma";
 import getClient from "@/lib/client";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request){
 
@@ -17,5 +18,8 @@ export async function POST(request: Request){
         }
     })
 
-    return 
+    return NextResponse.json(
+        { message: "CPF atualizado com sucesso!" },
+        { status: 200 }
+    );
 }

@@ -29,34 +29,52 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
   const [errMessage, setErrMessage] = useState("");
   const [errDesc, setErrDesc] = useState("");
 
+  async function updateCart(newProducts: products) {
+    setProducts(newProducts);
+
+    try {
+      await insertIntoCart(newProducts);
+    } catch (err) {
+      console.error(err);
+
+      setErrMessage("Erro ao atualizar carrinho");
+      setErrDesc("Não foi possível salvar as alterações. Tente novamente.");
+      setError(true);
+    }
+  }
+
   function diminuirQuantidade(id: number) {
-    setProducts((prev) =>
-      prev.map((produto) =>
-        produto.produto === id
-          ? {
-              ...produto,
-              quantidade: Math.max(1, produto.quantidade - 1),
-            }
-          : produto,
-      ),
+    const newProducts = products.map((produto) =>
+      produto.produto === id
+        ? {
+            ...produto,
+            quantidade: Math.max(1, produto.quantidade - 1),
+          }
+        : produto,
     );
+
+    updateCart(newProducts);
   }
 
   function aumentarQuantidade(id: number) {
-    setProducts((prev) =>
-      prev.map((produto) =>
-        produto.produto === id
-          ? {
-              ...produto,
-              quantidade: produto.quantidade + 1,
-            }
-          : produto,
-      ),
+    const newProducts = products.map((produto) =>
+      produto.produto === id
+        ? {
+            ...produto,
+            quantidade: produto.quantidade + 1,
+          }
+        : produto,
     );
+
+    updateCart(newProducts);
   }
 
   function removerProduto(id: number) {
-    setProducts((prev) => prev.filter((produto) => produto.produto !== id));
+    const newProducts = products.filter(
+      (produto) => produto.produto !== id,
+    );
+
+    updateCart(newProducts);
   }
 
   const valorTotal = products.reduce(
@@ -64,24 +82,27 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
     0,
   );
 
-  async function insertIntoCart(){
-    const dataModified = products.map((produto) => ({
-    produto: produto.produto,
-    quantidade: produto.quantidade,
-    valor: produto.valor,
-  }));
+  async function insertIntoCart(cartProducts = products) {
+    const dataModified = cartProducts.map((produto) => ({
+      produto: produto.produto,
+      quantidade: produto.quantidade,
+    }));
 
-    const cartModified = await fetch("/api/insertIntoCart", {
+    const response = await fetch("/api/insertIntoCart", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        cart: dataModified
-      })
-    })
+        cart: dataModified,
+      }),
+    });
 
-    return cartModified.status
+    if (!response.ok) {
+      throw new Error("Não foi possível atualizar o carrinho");
+    }
+
+    return response.status;
   }
 
   async function buyButton(){

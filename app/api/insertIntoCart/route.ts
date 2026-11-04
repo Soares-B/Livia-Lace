@@ -22,33 +22,32 @@ export async function POST(request: Request) {
 
     const { cart } = data;
 
-    if (!Array.isArray(cart) || cart.length === 0) {
+    if (!Array.isArray(cart)) {
       return NextResponse.json(
-        { message: "Carrinho inválido ou vazio" },
+        { message: "Carrinho inválido" },
         { status: 400 }
       );
     }
 
     const carrinho = await Promise.all(
       cart.map(async (item: product) => {
+        if (!item || typeof item !== "object" || Array.isArray(item)) {
+          throw new Error("Item inválido no carrinho");
+        }
+
+        if (!Number.isSafeInteger(item.produto) || item.produto <= 0) {
+          throw new Error("ID de produto inválido");
+        }
+
         const produto = await prisma.produtos.findUnique({
-          where: {
-            product_id: BigInt(item.produto),
-          },
+          where: { product_id: BigInt(item.produto) },
         });
 
         if (!produto || produto.valor === null) {
           throw new Error(`Produto ${item.produto} não encontrado`);
         }
 
-        if (
-          !Number.isInteger(item.produto) ||
-          item.produto <= 0
-        ) {
-          throw new Error("ID de produto inválido");
-        }
-
-        if (!Number.isInteger(item.quantidade) || item.quantidade <= 0) {
+        if (!Number.isSafeInteger(item.quantidade) || item.quantidade <= 0) {
           throw new Error("Quantidade inválida");
         }
 

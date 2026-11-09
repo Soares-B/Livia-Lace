@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 type CartItem = { produto: number; quantidade: number };
+class CartInputError extends Error {}
 
 export async function POST(request: Request) {
   try {
@@ -33,14 +34,14 @@ export async function POST(request: Request) {
     const cart = Array.from(aggregated, ([produto, quantidade]) => ({ produto, quantidade }));
     const prices = await Promise.all(cart.map(async (item) => {
       const product = await prisma.produtos.findUnique({ where: { product_id: BigInt(item.produto) } });
-      if (!product || product.valor === null) throw new Error("Produto indisponível");
+      if (!product || product.valor === null) throw new CartInputError("Produto indisponível");
       if (item.quantidade > 100 || (product.quantidade !== null && BigInt(item.quantidade) > product.quantidade)) {
-        throw new Error("Quantidade indisponível em estoque");
+        throw new CartInputError("Quantidade indisponível em estoque");
       }
       return Math.round(Number(product.valor) * 100) * item.quantidade;
     }));
     const totalCents = prices.reduce((sum, value) => sum + value, 0);
-    if (!Number.isSafeInteger(totalCents)) throw new Error("Total inválido");
+    if (!Number.isSafeInteger(totalCents)) throw new CartInputError("Total inválido");
 
     await prisma.carrinho.upsert({
       where: { id_client: client.id },
@@ -50,7 +51,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Carrinho atualizado com sucesso" }, { status: 200 });
   } catch (error) {
     console.error("Erro ao atualizar carrinho:", error);
-    return NextResponse.json({ message: "Não foi possível atualizar o carrinho" }, { status: 400 });
+    return NextResponse.json({ message: "Não foi possível atualizar o carrinho" }, {
+      status: error instanceof CartInputError ? 400 : 500,
+    });
   }
 }
 

@@ -26,7 +26,8 @@ export async function POST(request: Request) {
     if (!product || product.valor === null) return NextResponse.json({ message: "Produto indisponível" }, { status: 404 });
     const cart = await prisma.carrinho.findUnique({ where: { id_client: client.id } });
     const items = Array.isArray(cart?.produtos) ? (cart.produtos as CartItem[]) : [];
-    if (items.some((item) => !item || !Number.isSafeInteger(item.produto) || !Number.isSafeInteger(item.quantidade))) {
+    if (items.some((item) => !item || !Number.isSafeInteger(item.produto) || item.produto <= 0 ||
+      !Number.isSafeInteger(item.quantidade) || item.quantidade <= 0 || item.quantidade > 100)) {
       return NextResponse.json({ message: "Carrinho inválido" }, { status: 400 });
     }
     const existing = items.find((item) => item.produto === id);
@@ -45,6 +46,7 @@ export async function POST(request: Request) {
       return { ...item, cents: Math.round(Number(current.valor) * 100) };
     }));
     const totalCents = products.reduce((sum, item) => sum + item.cents * item.quantidade, 0);
+    if (!Number.isSafeInteger(totalCents)) return NextResponse.json({ message: "Total inválido" }, { status: 400 });
     await prisma.carrinho.upsert({
       where: { id_client: client.id },
       update: { produtos: items, valor_total: (totalCents / 100).toFixed(2) },

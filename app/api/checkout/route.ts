@@ -7,6 +7,7 @@ import { toBRLCents } from "@/lib/payment-security.mjs";
 const accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
 
 type CartItem = { produto: number; quantidade: number };
+class CheckoutInputError extends Error {}
 
 function absoluteUrl(value: string, label: string) {
   let url: URL;
@@ -42,29 +43,29 @@ export async function POST() {
     }
 
     const rawItems = cart.produtos as CartItem[];
-    if (rawItems.length > 100) throw new Error("Carrinho contém itens demais");
+    if (rawItems.length > 100) throw new CheckoutInputError("Carrinho contém itens demais");
     const unique = new Set<number>();
     const products = await Promise.all(rawItems.map(async (item) => {
       if (!item || !Number.isSafeInteger(item.produto) || item.produto <= 0 ||
           !Number.isSafeInteger(item.quantidade) || item.quantidade <= 0 || item.quantidade > 100) {
-        throw new Error("Produto ou quantidade inválidos");
+        throw new CheckoutInputError("Produto ou quantidade inválidos");
       }
-      if (unique.has(item.produto)) throw new Error("Carrinho contém produtos duplicados");
+      if (unique.has(item.produto)) throw new CheckoutInputError("Carrinho contém produtos duplicados");
       unique.add(item.produto);
 
       const product = await prisma.produtos.findUnique({ where: { product_id: BigInt(item.produto) } });
-      if (!product || product.valor === null || !product.nome) throw new Error("Produto indisponível");
+      if (!product || product.valor === null || !product.nome) throw new CheckoutInputError("Produto indisponível");
       if (product.quantidade !== null && BigInt(item.quantidade) > product.quantidade) {
-        throw new Error(`Estoque insuficiente para ${product.nome}`);
+        throw new CheckoutInputError(`Estoque insuficiente para ${product.nome}`);
       }
       const unitPriceCents = toCents(product.valor);
-      if (unitPriceCents <= 0) throw new Error("Preço inválido");
+      if (unitPriceCents <= 0) throw new CheckoutInputError("Preço inválido");
       return { id: product.product_id.toString(), title: product.nome, quantity: item.quantidade,
         unit_price: unitPriceCents / 100, currency_id: "BRL", unitPriceCents };
     }));
 
     const totalCents = products.reduce((total, item) => total + item.unitPriceCents * item.quantity, 0);
-    if (!Number.isSafeInteger(totalCents) || totalCents <= 0) throw new Error("Total do pedido inválido");
+    if (!Number.isSafeInteger(totalCents) || totalCents <= 0) throw new CheckoutInputError("Total do pedido inválido");
     const pedido = await prisma.pedidos.create({
       data: {
         id_client: cliente.id,
@@ -109,7 +110,9 @@ export async function POST() {
         console.error("Erro ao atualizar pedido:", updateError);
       });
     }
-    return NextResponse.json({ error: "Não foi possível criar o checkout" }, { status: 400 });
+    return NextResponse.json({ error: "Não foi possível criar o checkout" }, {
+      status: error instanceof CheckoutInputError ? 400 : 500,
+    });
   }
 }
 

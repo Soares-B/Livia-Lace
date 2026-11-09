@@ -23,21 +23,22 @@ export async function POST(request: Request) {
       const item = entry as Record<string, unknown>;
       const id = item.produto;
       const quantity = item.quantidade;
-      if (!Number.isSafeInteger(id) || (id as number) <= 0 || !Number.isSafeInteger(quantity) || (quantity as number) <= 0 || (quantity as number) > 100) {
+      if (!Number.isSafeInteger(id) || (id as number) <= 0 || !Number.isSafeInteger(quantity) || (quantity as number) <= 0) {
         return NextResponse.json({ message: "Produto ou quantidade inválidos" }, { status: 400 });
       }
       items.push({ produto: id as number, quantidade: quantity as number });
     }
 
     const aggregated = new Map<number, number>();
-    for (const item of items) aggregated.set(item.produto, (aggregated.get(item.produto) ?? 0) + item.quantidade);
+    for (const item of items) {
+      const quantity = (aggregated.get(item.produto) ?? 0) + item.quantidade;
+      if (!Number.isSafeInteger(quantity)) throw new CartInputError("Quantidade inválida");
+      aggregated.set(item.produto, quantity);
+    }
     const cart = Array.from(aggregated, ([produto, quantidade]) => ({ produto, quantidade }));
     const prices = await Promise.all(cart.map(async (item) => {
       const product = await prisma.produtos.findUnique({ where: { product_id: BigInt(item.produto) } });
       if (!product || product.valor === null) throw new CartInputError("Produto indisponível");
-      if (item.quantidade > 100 || (product.quantidade !== null && BigInt(item.quantidade) > product.quantidade)) {
-        throw new CartInputError("Quantidade indisponível em estoque");
-      }
       return Math.round(Number(product.valor) * 100) * item.quantidade;
     }));
     const totalCents = prices.reduce((sum, value) => sum + value, 0);

@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     }
     const id = Number(body.id);
     const amount = Number(body.amount);
-    if (!Number.isSafeInteger(id) || id <= 0 || !Number.isSafeInteger(amount) || amount <= 0 || amount > 100) {
+    if (!Number.isSafeInteger(id) || id <= 0 || !Number.isSafeInteger(amount) || amount <= 0) {
       return NextResponse.json({ message: "Produto ou quantidade inválidos" }, { status: 400 });
     }
 
@@ -27,21 +27,21 @@ export async function POST(request: Request) {
     const cart = await prisma.carrinho.findUnique({ where: { id_client: client.id } });
     const items = Array.isArray(cart?.produtos) ? (cart.produtos as CartItem[]) : [];
     if (items.some((item) => !item || !Number.isSafeInteger(item.produto) || item.produto <= 0 ||
-      !Number.isSafeInteger(item.quantidade) || item.quantidade <= 0 || item.quantidade > 100)) {
+      !Number.isSafeInteger(item.quantidade) || item.quantidade <= 0)) {
       return NextResponse.json({ message: "Carrinho inválido" }, { status: 400 });
     }
     const existing = items.find((item) => item.produto === id);
     const nextQuantity = (existing?.quantidade ?? 0) + amount;
-    if (nextQuantity > 100 || (product.quantidade !== null && BigInt(nextQuantity) > product.quantidade)) {
-      return NextResponse.json({ message: "Quantidade indisponível em estoque" }, { status: 400 });
+    if (!Number.isSafeInteger(nextQuantity)) {
+      return NextResponse.json({ message: "Quantidade inválida" }, { status: 400 });
     }
     if (existing) existing.quantidade = nextQuantity;
     else items.push({ produto: id, quantidade: amount });
 
     const products = await Promise.all(items.map(async (item) => {
       const current = await prisma.produtos.findUnique({ where: { product_id: BigInt(item.produto) } });
-      if (!current || current.valor === null || (current.quantidade !== null && BigInt(item.quantidade) > current.quantidade)) {
-        throw new Error("Produto ou estoque indisponível");
+      if (!current || current.valor === null) {
+        throw new Error("Produto indisponível");
       }
       return { ...item, cents: Math.round(Number(current.valor) * 100) };
     }));

@@ -41,3 +41,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 Configure `SITE_URL` com a URL HTTPS pública da loja e `MERCADO_PAGO_WEBHOOK_SECRET` com a chave de assinatura exibida na configuração de Webhooks do Mercado Pago. `MERCADO_PAGO_ACCESS_TOKEN` continua obrigatório. `MERCADO_PAGO_WEBHOOK_URL` é opcional; quando ausente, o checkout usa `${SITE_URL}/api/checkout/webhook`. Gere e aplique a migração Prisma incluída antes de publicar esta versão.
 
 O webhook registra cada pagamento pelo identificador do Mercado Pago para aceitar tentativas distintas. Se dois pagamentos do mesmo pedido forem aprovados, a situação do pedido passa para `pagamento_duplicado` para revisão manual.
+
+Os produtos são feitos sob demanda; o checkout não usa o campo de quantidade como estoque.

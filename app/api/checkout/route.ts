@@ -47,7 +47,7 @@ export async function POST() {
     const unique = new Set<number>();
     const products = await Promise.all(rawItems.map(async (item) => {
       if (!item || !Number.isSafeInteger(item.produto) || item.produto <= 0 ||
-          !Number.isSafeInteger(item.quantidade) || item.quantidade <= 0 || item.quantidade > 100) {
+          !Number.isSafeInteger(item.quantidade) || item.quantidade <= 0) {
         throw new CheckoutInputError("Produto ou quantidade inválidos");
       }
       if (unique.has(item.produto)) throw new CheckoutInputError("Carrinho contém produtos duplicados");
@@ -55,9 +55,6 @@ export async function POST() {
 
       const product = await prisma.produtos.findUnique({ where: { product_id: BigInt(item.produto) } });
       if (!product || product.valor === null || !product.nome) throw new CheckoutInputError("Produto indisponível");
-      if (product.quantidade !== null && BigInt(item.quantidade) > product.quantidade) {
-        throw new CheckoutInputError(`Estoque insuficiente para ${product.nome}`);
-      }
       const unitPriceCents = toCents(product.valor);
       if (unitPriceCents <= 0) throw new CheckoutInputError("Preço inválido");
       return { id: product.product_id.toString(), title: product.nome, quantity: item.quantidade,

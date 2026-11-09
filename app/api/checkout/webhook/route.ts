@@ -61,20 +61,29 @@ export async function POST(request: Request) {
     if (!newStatus) return NextResponse.json({ received: true });
     const paymentId = String(payment.id);
     const finalStatuses = ["reembolsado", "contestado"];
-    if (pedido.situa__o === "aprovado" && newStatus !== "aprovado" && !finalStatuses.includes(newStatus)) {
-      return NextResponse.json({ received: true });
+    const existingPayment = await prisma.pagamentos.findUnique({ where: { id: paymentId } });
+    if (existingPayment && existingPayment.id_pedido !== pedidoId) {
+      return NextResponse.json({ error: "Pagamento já associado a outro pedido" }, { status: 409 });
     }
 
     await prisma.$transaction(async (tx) => {
-      const result = await tx.pedidos.updateMany({
-        where: { id: pedidoId, OR: [{ id_pagamento: null }, { id_pagamento: paymentId }] },
-        data: { situa__o: newStatus, id_pagamento: paymentId },
+      const priorApprovedPayment = payment.status === "approved"
+        ? await tx.pagamentos.findFirst({ where: { id_pedido: pedidoId, status: "approved", id: { not: paymentId } } })
+        : null;
+      await tx.pagamentos.upsert({
+        where: { id: paymentId },
+        create: { id: paymentId, id_pedido: pedidoId, status: payment.status!, valor_total: payment.transaction_amount! },
+        update: { status: payment.status!, valor_total: payment.transaction_amount! },
       });
-      if (result.count !== 1) throw new Error("Pedido já associado a outro pagamento");
+      if (priorApprovedPayment) {
+        await tx.pedidos.update({ where: { id: pedidoId }, data: { situa__o: "pagamento_duplicado" } });
+      } else if (pedido.situa__o !== "aprovado" || newStatus === "aprovado" || finalStatuses.includes(newStatus)) {
+        await tx.pedidos.update({ where: { id: pedidoId }, data: { situa__o: newStatus } });
+      }
       if (payment.status === "approved" && pedido.id_carrinho !== null) {
         await tx.carrinho.update({ where: { id: pedido.id_carrinho }, data: { produtos: [] } });
       }
-    });
+    }, { isolationLevel: "Serializable" });
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error("Erro no webhook:", error);

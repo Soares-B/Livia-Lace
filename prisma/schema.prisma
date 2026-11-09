@@ -52,6 +52,7 @@ model Pedidos {
   situa__o       String?   @default("pendente") @map("situação") @db.VarChar
   items          Json?
   id_preferencia String?   @unique
+  id_pagamento   String?   @unique
 
   Carrinho       Carrinho? @relation(fields: [id_carrinho], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Clientes       Clientes? @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction)

@@ -2,99 +2,55 @@ import getClient from "@/lib/client";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-type product = {
-  produto: number;
-  quantidade: number;
-};
+type CartItem = { produto: number; quantidade: number };
 
 export async function POST(request: Request) {
   try {
     const client = await getClient();
+    if (!client) return NextResponse.json({ message: "Usuário não autenticado" }, { status: 401 });
 
-    if (!client){
-      return NextResponse.json(
-        { message: "Não autenticado" },
-        { status: 401 }
-      );
+    const data = await request.json() as { cart?: unknown };
+    if (!Array.isArray(data.cart) || data.cart.length === 0 || data.cart.length > 100) {
+      return NextResponse.json({ message: "Carrinho inválido" }, { status: 400 });
     }
 
-    const data = await request.json();
-
-    const { cart } = data;
-
-    if (!Array.isArray(cart)) {
-      return NextResponse.json(
-        { message: "Carrinho inválido" },
-        { status: 400 }
-      );
+    const items: CartItem[] = [];
+    for (const entry of data.cart) {
+      if (!entry || typeof entry !== "object") {
+        return NextResponse.json({ message: "Item inválido" }, { status: 400 });
+      }
+      const item = entry as Record<string, unknown>;
+      const id = item.produto;
+      const quantity = item.quantidade;
+      if (!Number.isSafeInteger(id) || (id as number) <= 0 || !Number.isSafeInteger(quantity) || (quantity as number) <= 0 || (quantity as number) > 100) {
+        return NextResponse.json({ message: "Produto ou quantidade inválidos" }, { status: 400 });
+      }
+      items.push({ produto: id as number, quantidade: quantity as number });
     }
 
-    const carrinho = await Promise.all(
-      cart.map(async (item: product) => {
-        if (!item || typeof item !== "object" || Array.isArray(item)) {
-          throw new Error("Item inválido no carrinho");
-        }
-
-        if (!Number.isSafeInteger(item.produto) || item.produto <= 0) {
-          throw new Error("ID de produto inválido");
-        }
-
-        const produto = await prisma.produtos.findUnique({
-          where: { product_id: BigInt(item.produto) },
-        });
-
-        if (!produto || produto.valor === null) {
-          throw new Error(`Produto ${item.produto} não encontrado`);
-        }
-
-        if (!Number.isSafeInteger(item.quantidade) || item.quantidade <= 0) {
-          throw new Error("Quantidade inválida");
-        }
-
-        return {
-          produto: item.produto,
-          quantidade: item.quantidade,
-          valor: produto.valor.toFixed(2),
-        };
-      })
-    );
-
-    const valorTotalCentavos = carrinho.reduce(
-      (total, item) =>
-        total + Math.round(Number(item.valor) * 100) * item.quantidade,
-      0
-    );
-
-    const valorTotal = (valorTotalCentavos / 100).toFixed(2);
+    const aggregated = new Map<number, number>();
+    for (const item of items) aggregated.set(item.produto, (aggregated.get(item.produto) ?? 0) + item.quantidade);
+    const cart = Array.from(aggregated, ([produto, quantidade]) => ({ produto, quantidade }));
+    const prices = await Promise.all(cart.map(async (item) => {
+      const product = await prisma.produtos.findUnique({ where: { product_id: BigInt(item.produto) } });
+      if (!product || product.valor === null) throw new Error("Produto indisponível");
+      if (item.quantidade > 100 || (product.quantidade !== null && BigInt(item.quantidade) > product.quantidade)) {
+        throw new Error("Quantidade indisponível em estoque");
+      }
+      return Math.round(Number(product.valor) * 100) * item.quantidade;
+    }));
+    const totalCents = prices.reduce((sum, value) => sum + value, 0);
+    if (!Number.isSafeInteger(totalCents)) throw new Error("Total inválido");
 
     await prisma.carrinho.upsert({
-      where: {
-        id_client: client.id,
-      },
-      update: {
-        produtos: carrinho,
-        valor_total: valorTotal,
-      },
-      create: {
-        id_client: client.id,
-        produtos: carrinho,
-        valor_total: valorTotal,
-      },
+      where: { id_client: client.id },
+      update: { produtos: cart, valor_total: (totalCents / 100).toFixed(2) },
+      create: { id_client: client.id, produtos: cart, valor_total: (totalCents / 100).toFixed(2) },
     });
-
-    return NextResponse.json(
-      {
-        message: "carrinho atualizado com sucesso!",
-      },
-      { status: 200 },
-    );
-  } catch (err) {
-    console.log(err);
-    return NextResponse.json(
-      {
-        message: "não foi possivel atualizar o carrinho",
-      },
-      { status: 500 },
-    );
+    return NextResponse.json({ message: "Carrinho atualizado com sucesso" }, { status: 200 });
+  } catch (error) {
+    console.error("Erro ao atualizar carrinho:", error);
+    return NextResponse.json({ message: "Não foi possível atualizar o carrinho" }, { status: 400 });
   }
 }
+

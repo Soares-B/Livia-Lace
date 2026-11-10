@@ -1,13 +1,8 @@
 import Image from "next/image";
 import Header from "@/components/main/Header";
-import localFont from "next/font/local";
 import getClient from "@/lib/client";
 import Options from "@/components/AsideSection";
 import { redirect } from "next/navigation";
-
-const Montserrat = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
 
 export default async function Layout({
   children,
@@ -19,8 +14,6 @@ export default async function Layout({
   if (!client){
     redirect('/Login')
   }
-
-  console.log(client)
 
   return (
     <>
@@ -36,7 +29,7 @@ export default async function Layout({
             alt="Profile Picture"
             className="select-none rounded-[50%]"
           />
-          <p className="mt-[5%] text-center w-full font-[Montserrat] text-2xl">
+          <p className="mt-[5%] text-center w-full font-montserrat text-2xl">
             {client!.nome}
           </p>
         </div>

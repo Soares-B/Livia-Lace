@@ -1,14 +1,16 @@
 import getClient from "./client";
 import prisma from "./prisma";
 
-export default async function getCart(){
-    const client = await getClient();
+export default async function getCart() {
+  const client = await getClient();
 
-    const cart = await prisma.carrinho.findUnique({
-        where: {
-            id_client: client!.id
-        }
-    })
+  if (!client) {
+    return null;
+  }
 
-    return cart
+  return await prisma.carrinho.findUnique({
+    where: {
+      id_client: client.id,
+    },
+  });
 }

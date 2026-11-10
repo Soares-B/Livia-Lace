@@ -1,17 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
-import localFont from "next/font/local";
 import { ImageHoverOpacity } from "@/components/Animation/HomeAnimation";
 import BuyButton from "./BuyButton";
 
-const Montserrat = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Bold.ttf",
-});
 
 export default async function ProductSection() {
   const productsList = {
@@ -23,22 +15,10 @@ export default async function ProductSection() {
     ["Pulseiras"]: [0, 0, 0, 0, 0],
   };
 
-  async function buyProduct(id: bigint){
-        const response = await fetch("/api/addProductCart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: id?.toString(),
-                amount: 1
-            })
-        })
-  }
-
   const productsInfoList = [];
 
   for (const [categoria, produtos] of Object.entries(productsList)) {
+    if (!produtos.every((id) => id > 0)) continue;
     const products = await prisma.produtos.findMany({
       where: {
         product_id: {
@@ -89,7 +69,7 @@ export default async function ProductSection() {
                   <ImageHoverOpacity produto={produto} />
                 </Link>
                 <div className="absolute bottom-[15%] left-[3%] ">
-                  <p className="font-[Montserrat] font-bold text-sm h-[40px] mb-[3%]">
+                  <p className="font-montserrat font-bold text-sm h-[40px] mb-[3%]">
                     {produto.nome}
                   </p>
                   <p className="font-[MontserratBold] text-2xl mb-[2%]">

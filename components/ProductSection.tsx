@@ -3,14 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import localFont from "next/font/local";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-
-const Montserrat = localFont({
-  src: "../app/Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
 
 export type Filtros = {
   laco: boolean;
@@ -184,7 +178,7 @@ export default function ProductSection({
   if (loading) {
     return (
       <div className="flex w-full justify-center py-[5%]">
-        <p className={Montserrat.className}>Carregando produtos...</p>
+        <p className="font-montserrat">Carregando produtos...</p>
       </div>
     );
   }
@@ -192,7 +186,7 @@ export default function ProductSection({
   if (produtos.length === 0) {
     return (
       <div className="flex w-full justify-center py-[5%]">
-        <p className={Montserrat.className}>Nenhum produto encontrado.</p>
+        <p className="font-montserrat">Nenhum produto encontrado.</p>
       </div>
     );
   }

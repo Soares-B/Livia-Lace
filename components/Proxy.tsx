@@ -29,10 +29,10 @@ export async function AddressProxy(){
 }
 
 export default async function ProductProxy({product}: {product: string}){
-    const produto = await getProduct(Number(product));
+    const produto = await getProduct(String(product));
 
     return(
-        <ProductData id={produto!.product_id} imagem={produto!.image_overlay} nome={produto!.nome} valor={produto!.valor} quantidade={produto!.quantidade}/>
+        <ProductData id={produto!.product_id} imagem={produto!.image_overlay} nome={produto!.nome} valor={produto!.valor !== null ? Number(produto!.valor) : null} quantidade={produto!.quantidade}/>
     );
 
 }

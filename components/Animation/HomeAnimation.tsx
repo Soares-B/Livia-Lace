@@ -1,21 +1,16 @@
 "use client";
 
-import localFont from "next/font/local";
-import { easeIn, easeInOut, motion } from "motion/react";
+import { easeInOut, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
-const stylizedFont = localFont({
-  src: "../../app/Fonts/Unbounded/Unbounded-VariableFont_wght.ttf",
-});
-
 export default function TaglineHover() {
   return (
-    <p className="w-[300px] font-[stylizedFont] text-[38px] font-bold hover:cursor-default text-white selection:bg-rose-400 mb-[10%]">
+    <p className="w-[300px] font-unbounded text-[38px] font-bold hover:cursor-default text-white selection:bg-rose-400 mb-[10%]">
       Laços feitos com muito{" "}
       <motion.span
-        className="inline-block text-rose-200"
+        className="inline-block text-rose-200 selection:text-red-200"
         style={{
           cursor: 'url("/Imagens/Cursor.png"), auto',
         }}
@@ -94,7 +89,7 @@ export function FooterItemsHover({
       {content === "Instagram" && (
         <motion.div
         whileHover={{scale: 1.2}}
-        className="col-[4] row-[2] font-[MontserratBold] text-xl w-fit h-fit mb-[3%] ml-[10%]">
+        className="col-[4] row-[2] font-[MontserratBold] text-xl w-fit h-fit ml-[10%]">
           <Link
             href={page}
             target="_blank"

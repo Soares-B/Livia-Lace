@@ -8,15 +8,13 @@ export default async function ProductModal({
 }) {
   const { id } = await params;
 
-  const product = await getProduct(Number(id))
-
-  console.log(product)
+  const product = await getProduct(String(id))
 
     if (!product){
         return null;
     }
 
   return (
-    <Modal product={product}/>
+    <Modal product={{ ...product, valor: Number(product.valor) }} />
   );
 }

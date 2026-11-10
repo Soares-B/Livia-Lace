@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import localFont from "next/font/local";
 import Image from "next/image";
 import {
   Field,
@@ -13,13 +12,6 @@ import Submit from "@/components/Animation/LoginAnimation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const Montserrat = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Medium.ttf",
-});
-
-const MontserratBold = localFont({
-  src: "../../Fonts/Montserrat/static/Montserrat-Bold.ttf",
-});
 
 export default function Register() {
   const router = useRouter();
@@ -71,10 +63,7 @@ export default function Register() {
       !newErrors.password
     ) {
       setSuccess(true);
-    }
-
-    if (success){
-        register(email, username, password)
+      register(email, username, password)
     }
 
     async function register(email: string, username: string, password: string){
@@ -91,7 +80,7 @@ export default function Register() {
     });
       const data = await response.json();
 
-      if(response.status == 200){
+      if (response.ok) {
         setMessage("Cadastro realizado com sucesso!")
         setCreated(true)
 
@@ -138,7 +127,7 @@ export default function Register() {
 
           <FieldGroup className="gap-[3%] mb-[5%] w-full">
             <Field>
-              <FieldLabel className="flex w-full justify-center font-[Montserrat] text-lg">
+              <FieldLabel className="flex w-full justify-center font-montserrat text-lg">
                 Email
               </FieldLabel>
 
@@ -147,18 +136,18 @@ export default function Register() {
                 value={email}
                 autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
-                className="font-[Montserrat] h-[40px]"
+                className="font-montserrat h-[40px]"
               />
 
               {errors.email && (
-                <p className="text-red-500 text-sm font-[Montserrat]">
+                <p className="text-red-500 text-sm font-montserrat">
                   {errors.email}
                 </p>
               )}
             </Field>
 
             <Field>
-              <FieldLabel className="flex w-full justify-center font-[Montserrat] text-lg">
+              <FieldLabel className="flex w-full justify-center font-montserrat text-lg">
                 Nome de usuário
               </FieldLabel>
 
@@ -167,18 +156,18 @@ export default function Register() {
                 value={username}
                 autoComplete="off"
                 onChange={(e) => setUsername(e.target.value)}
-                className="font-[Montserrat] h-[40px]"
+                className="font-montserrat h-[40px]"
               />
 
               {errors.username && (
-                <p className="text-red-500 text-sm font-[Montserrat]">
+                <p className="text-red-500 text-sm font-montserrat">
                   {errors.username}
                 </p>
               )}
             </Field>
 
             <Field>
-              <FieldLabel className="flex w-full justify-center font-[Montserrat] text-lg">
+              <FieldLabel className="flex w-full justify-center font-montserrat text-lg">
                 Senha
               </FieldLabel>
 
@@ -187,11 +176,11 @@ export default function Register() {
                 value={password}
                 autoComplete="off"
                 onChange={(e) => setPassword(e.target.value)}
-                className="font-[Montserrat] h-[40px]"
+                className="font-montserrat h-[40px]"
               />
 
               {errors.password && (
-                <p className="text-red-500 text-sm font-[Montserrat]">
+                <p className="text-red-500 text-sm font-montserrat">
                   {errors.password}
                 </p>
               )}
@@ -201,7 +190,7 @@ export default function Register() {
           <Submit />
         </form>
 
-        <p className="font-[Montserrat] text-lg mb-[4%] mt-[3%]">
+        <p className="font-montserrat text-lg mb-[4%] mt-[3%]">
           Já possui uma conta?{" "}
           <Link
             href="/Login"

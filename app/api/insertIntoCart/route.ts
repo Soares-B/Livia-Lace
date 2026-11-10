@@ -1,35 +1,72 @@
 import getClient from "@/lib/client";
+import getProduct from "@/lib/product";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 type product = {
   produto: number;
   quantidade: number;
-  valor: number;
 };
+
+type value = {
+  produto: number;
+  valor: number;
+  quantidade: number;
+}[]
 
 export async function POST(request: Request) {
   try {
     const client = await getClient();
 
+    if (!client){
+      return NextResponse.json(
+      {
+        message: "Usuário não encontrado",
+      },
+      { status: 401 },
+    );
+    }
+
     const data = await request.json();
 
     const { cart } = data;
 
-    const valorTotal = cart
-      .reduce((soma: number, produto: product) => {
-        return (soma += produto.valor * produto.quantidade);
-      }, 0)
-      .toFixed(2);
+    const newCart: value = await Promise.all(
+      cart.map(async (p: any) => {
+      const produto = p.produto;
+      const productData: any = await getProduct(p.produto)
 
-    const carrinho = cart.map((product: product) => ({
+      if (!productData){
+        throw new Error("Produto não encontrado");
+      }
+
+      if (productData.valor === null) {
+        throw new Error("Produto sem preço cadastrado");
+      }
+
+      const valor = productData.valor
+      const quantidade = p.quantidade
+
+      if (!Number.isInteger(quantidade) || quantidade <= 0) {
+        throw new Error("Quantidade inválida");
+      }
+
+      return {produto: produto, valor: valor, quantidade: quantidade}
+    }))
+    
+    const valorTotal = newCart.reduce((total, current) => {
+      total += current.valor * current.quantidade
+      return total
+    }, 0);
+
+    const carrinho = newCart.map((product: product) => ({
       produto: (product.produto),
       quantidade: product.quantidade,
     }));
 
     await prisma.carrinho.update({
       where: {
-        id_client: client!.id,
+        id_client: client.id,
       },
       data: {
         produtos: carrinho,

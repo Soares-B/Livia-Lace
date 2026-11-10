@@ -9,7 +9,7 @@ export default function Success(){
                     <p className="font-montserrat text-[var(--darkPink-Pastel)] text-3xl w-fit">Pagamento pendente!</p>
                     <div className="flex gap-10">
                         <Link href="/" className="font-montserrat text-[var(--darkPink-Pastel)] text-xl w-[50%] text-center">Voltar para a página inicial</Link>
-                        <Link href="http:localhost:3000/Cart" className="font-montserrat text-[var(--darkPink-Pastel)] text-xl w-[50%]">Voltar para o carrinho</Link>
+                        <Link href="/Cart" className="font-montserrat text-[var(--darkPink-Pastel)] text-xl w-[50%]">Voltar para o carrinho</Link>
                     </div>
                 </div>
             </div>

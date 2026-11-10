@@ -65,15 +65,10 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (err) {
-  console.error("ERRO AO CADASTRAR:", err);
-
-  return NextResponse.json(
-    {
-      message: "Erro ao cadastrar cliente",
-      error: err instanceof Error ? err.message : String(err),
-    },
-    { status: 500 }
-  );
-}
-
+    console.error("ERRO AO CADASTRAR:", err);
+    return NextResponse.json(
+      { message: "Erro ao cadastrar cliente." },
+      { status: 500 }
+    );
+  }
 }

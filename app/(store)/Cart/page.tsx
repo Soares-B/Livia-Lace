@@ -29,7 +29,7 @@ export default async function Cart() {
 
         const { tipo, quantidade, tamanho, image_overlay, ...resto} = produtoInfo
         produto.nome = resto.nome!
-        produto.valor = resto.valor!
+        produto.valor = Number(resto.valor)
         produto.imagem = resto.imagem!
         products.push(produto)
       }

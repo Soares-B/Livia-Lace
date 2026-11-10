@@ -5,7 +5,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import Submit from "@/components/Animation/LoginAnimation";
 import { useState } from "react";
 
-export default function CPFform({ cpf }: { cpf: BigInt | null }) {
+export default function CPFform({ cpf }: { cpf: string | null }) {
   const [CPF, setCPF] = useState(cpf?.toString() ?? "");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

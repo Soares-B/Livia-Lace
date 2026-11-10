@@ -30,7 +30,7 @@ type AddressProps = {
   rua: string | null;
   referencia: string | null;
   numero: string | null;
-  cep: BigInt | string | null;
+  cep: string | null;
 };
 
 export default function AddressField({

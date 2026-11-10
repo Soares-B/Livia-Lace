@@ -28,7 +28,6 @@ export async function POST(request: Request) {
     const nenhumSelecionado = tiposSelecionados.length === 0;
 
     const precoInicial = typeof inicial === "number" ? inicial : undefined;
-
     const precoFinal = typeof final === "number" ? final : undefined;
 
     const produtos = await prisma.produtos.findMany({
@@ -44,23 +43,15 @@ export async function POST(request: Request) {
           ? {
               valor: {
                 ...(precoInicial !== undefined ? { gte: precoInicial } : {}),
-
                 ...(precoFinal !== undefined ? { lte: precoFinal } : {}),
               },
             }
           : {}),
       },
-
       orderBy: [
-        {
-          tipo: "asc",
-        },
-        {
-          valor: "asc",
-        },
-        {
-          nome: "asc",
-        },
+        { tipo: "asc" },
+        { valor: "asc" },
+        { nome: "asc" },
       ],
     });
 
@@ -69,8 +60,7 @@ export async function POST(request: Request) {
       tipo: produto.tipo,
       nome: produto.nome,
       valor: produto.valor !== null ? Number(produto.valor) : null,
-      quantidade:
-        produto.quantidade !== null ? Number(produto.quantidade) : null,
+      quantidade: produto.quantidade !== null ? Number(produto.quantidade) : null,
       tamanho: produto.tamanho,
       imagem: produto.imagem,
       image_overlay: produto.image_overlay,
@@ -79,14 +69,9 @@ export async function POST(request: Request) {
     return NextResponse.json(produtosJson);
   } catch (error) {
     console.error("ERRO NA API:", error);
-
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : String(error),
-      },
-      {
-        status: 500,
-      },
+      { error: "Não foi possível carregar os produtos." },
+      { status: 500 },
     );
   }
 }

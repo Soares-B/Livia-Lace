@@ -37,6 +37,24 @@ export async function POST() {
       return NextResponse.json({ error: "Usuário não autenticado" }, { status: 401 });
     }
 
+    const address = await prisma.enderecos.findUnique({
+      where: { id_client: cliente.id },
+    });
+    const requiredAddressFields = [
+      address?.estado,
+      address?.cidade,
+      address?.rua,
+      address?.numero,
+      address?.cep,
+      address?.cpf,
+    ];
+    if (requiredAddressFields.some((value) => typeof value !== "string" || !value.trim())) {
+      return NextResponse.json(
+        { error: "Complete seus dados de endereço e CPF antes de pagar" },
+        { status: 400 },
+      );
+    }
+
     const cart = await prisma.carrinho.findUnique({ where: { id_client: cliente.id } });
     if (!cart || !Array.isArray(cart.produtos) || cart.produtos.length === 0) {
       return NextResponse.json({ error: "Carrinho vazio ou não encontrado" }, { status: 400 });
@@ -112,4 +130,3 @@ export async function POST() {
     });
   }
 }
-

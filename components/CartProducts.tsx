@@ -30,10 +30,9 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
   const [errDesc, setErrDesc] = useState("");
 
   async function updateCart(newProducts: products) {
-    setProducts(newProducts);
-
     try {
       await insertIntoCart(newProducts);
+      setProducts(newProducts);
     } catch (err) {
       console.error(err);
 

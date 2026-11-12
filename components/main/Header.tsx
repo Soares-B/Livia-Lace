@@ -4,7 +4,7 @@ import { getSession } from "@/lib/auth";
 import IconButtons from "@/components/UserButton";
 
 export default async function Header() {
-  let session = await getSession();
+  const session = await getSession();
 
   return (
     <div

@@ -48,7 +48,7 @@ export async function POST() {
       address?.cep,
       address?.cpf,
     ];
-    if (requiredAddressFields.some((value) => typeof value !== "string" || !value.trim())) {
+    if (!address || requiredAddressFields.some((value) => typeof value !== "string" || !value.trim())) {
       return NextResponse.json(
         { error: "Complete seus dados de endereço e CPF antes de pagar" },
         { status: 400 },
@@ -85,6 +85,12 @@ export async function POST() {
       data: {
         id_client: cliente.id,
         id_carrinho: cart.id,
+        endereco_estado: address.estado,
+        endereco_cidade: address.cidade,
+        endereco_rua: address.rua,
+        endereco_numero: address.numero,
+        endereco_referencia: address.referencia,
+        endereco_cep: address.cep,
         valor_total: (totalCents / 100).toFixed(2),
         items: products.map(({ unitPriceCents, ...item }) => ({ ...item, unit_price_cents: unitPriceCents })),
         situa__o: "pendente",

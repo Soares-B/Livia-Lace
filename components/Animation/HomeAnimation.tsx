@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
+const MotionImage = motion.create(Image);
+
 export default function TaglineHover() {
   return (
     <p className="w-[300px] font-unbounded text-[38px] font-bold hover:cursor-default text-white selection:bg-rose-400 mb-[10%]">
@@ -48,7 +50,6 @@ type ImageHoverOpacityProps = {
 };
 
 export function ImageHoverOpacity({ produto }: ImageHoverOpacityProps) {
-  const MotionImage = motion.create(Image);
 
   if (!produto.image_overlay) return null;
 

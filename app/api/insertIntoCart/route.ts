@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     if (!client) return NextResponse.json({ message: "Usuário não autenticado" }, { status: 401 });
 
     const data = await request.json() as { cart?: unknown };
-    if (!Array.isArray(data.cart) || data.cart.length === 0 || data.cart.length > 100) {
+    if (!Array.isArray(data.cart) || data.cart.length > 100) {
       return NextResponse.json({ message: "Carrinho inválido" }, { status: 400 });
     }
 
@@ -57,4 +57,3 @@ export async function POST(request: Request) {
     });
   }
 }
-

@@ -32,8 +32,8 @@ export default function Options( {admin}: {admin: boolean} ){
         <UserPen className="text-[var(--darkPink-Pastel)] w-[25%] h-[25%] hover:cursor-pointer hover:text-[var(--darkerPink)]" onClick={() => handleClick("info")}/>
         <MapPinHouse className="text-[var(--darkPink-Pastel)] w-[25%] h-[25%] hover:cursor-pointer hover:text-[var(--darkerPink)]" onClick={() => handleClick("address")}/>
         <ChartPie className={`text-[var(--darkPink-Pastel)] w-[25%] h-[25%] hover:cursor-pointer hover:text-[var(--darkerPink)] ${admin ? "inline" : "hidden"} `} />
-        <button type="button" onClick={handleLogout} aria-label="Sair da conta" title="Sair da conta">
-          <LogOut aria-hidden="true" className="text-[var(--darkPink-Pastel)] w-[25%] h-[25%] hover:cursor-pointer hover:text-[var(--darkerPink)]" />
+        <button type="button" onClick={handleLogout} aria-label="Sair da conta" title="Sair da conta" className="w-[25%] h-[25%] border-0 bg-transparent p-0">
+          <LogOut aria-hidden="true" className="text-[var(--darkPink-Pastel)] w-full h-full hover:cursor-pointer hover:text-[var(--darkerPink)]" />
         </button>
       </aside>
     );

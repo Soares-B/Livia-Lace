@@ -52,6 +52,12 @@ model Pedidos {
   situa__o       String?   @default("pendente") @map("situação") @db.VarChar
   items          Json?
   id_preferencia String?   @unique
+  endereco_estado String?  @db.VarChar
+  endereco_cidade String? @db.VarChar
+  endereco_rua String?    @db.VarChar
+  endereco_numero String? @db.VarChar
+  endereco_referencia String? @db.VarChar
+  endereco_cep String?    @db.VarChar(9)
 
   Carrinho       Carrinho? @relation(fields: [id_carrinho], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Clientes       Clientes? @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction)

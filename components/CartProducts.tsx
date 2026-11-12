@@ -30,10 +30,9 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
   const [errDesc, setErrDesc] = useState("");
 
   async function updateCart(newProducts: products) {
-    setProducts(newProducts);
-
     try {
       await insertIntoCart(newProducts);
+      setProducts(newProducts);
     } catch (err) {
       console.error(err);
 
@@ -123,7 +122,7 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
             throw new Error("Não foi possível criar o checkout");
           }
 
-          window.location.href = data.init_point;
+          window.location.assign(data.init_point);
       }else{
         setErrMessage("Erro ao atualizar o carrinho")
         setErrDesc("Ocorreu um erro ao atualizar o carrinho! Tente novamente mais tarde")

@@ -31,9 +31,13 @@ export default async function ProductSection() {
       products.map((product) => [Number(product.product_id), product]),
     );
 
+    // Produtos sem imagem ou nome fazem o next/image falhar e derrubariam a home inteira.
     const productsOrdenados = produtos
       .map((id) => productsMap.get(id))
-      .filter((product) => product !== undefined);
+      .filter(
+        (product): product is NonNullable<typeof product> =>
+          product !== undefined && !!product.imagem && !!product.nome,
+      );
 
     productsInfoList.push({
       categoria,
@@ -46,7 +50,7 @@ export default async function ProductSection() {
     <>
       {productsInfoList.map(({ categoria, produtos }) => (
         <section key={categoria} className="mb-[5%]">
-          <h2 className="font-[MontserratBold] text-black text-2xl text-bold ml-[10%] mb-[1%] w-[1000px]">
+          <h2 className="font-montserrat-bold text-black text-2xl text-bold ml-[10%] mb-[1%] w-[1000px]">
             {categoria}
           </h2>
 
@@ -72,7 +76,7 @@ export default async function ProductSection() {
                   <p className="font-montserrat font-bold text-sm h-[40px] mb-[3%]">
                     {produto.nome}
                   </p>
-                  <p className="font-[MontserratBold] text-2xl mb-[2%]">
+                  <p className="font-montserrat-bold text-2xl mb-[2%]">
                     R${String(produto.valor?.toFixed(2)).replace(".", ",")}
                   </p>
                 </div>

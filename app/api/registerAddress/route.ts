@@ -9,7 +9,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Usuário não autenticado." }, { status: 401 });
     }
 
-    const body: unknown = await request.json();
+    const body: unknown = await request.json().catch(() => null);
     if (!body || typeof body !== "object") {
       return NextResponse.json({ message: "Dados de endereço inválidos." }, { status: 400 });
     }
@@ -27,16 +27,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Confira os dados do endereço." }, { status: 400 });
     }
 
-    await prisma.enderecos.update({
+    const dados = {
+      estado: estado.trim(),
+      cidade: city.trim(),
+      rua: road.trim(),
+      referencia: ref.trim(),
+      numero: telefone,
+      cep: cep.replace(/\D/g, ""),
+    };
+
+    await prisma.enderecos.upsert({
       where: { id_client: client.id },
-      data: {
-        estado: estado.trim(),
-        cidade: city.trim(),
-        rua: road.trim(),
-        referencia: ref.trim(),
-        numero: telefone,
-        cep: cep.replace(/\D/g, ""),
-      },
+      update: dados,
+      create: { id_client: client.id, ...dados },
     });
 
     return NextResponse.json(
@@ -45,6 +48,37 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error("Erro ao atualizar endereço:", error);
+    return NextResponse.json({ message: "Erro interno do servidor." }, { status: 500 });
+  }
+}
+
+// Apaga o endereço salvo do cliente (o CPF é um cadastro separado e não é afetado).
+// Pedidos já feitos guardam a própria cópia do endereço, então não mudam.
+export async function DELETE() {
+  try {
+    const client = await getClient();
+    if (!client) {
+      return NextResponse.json({ message: "Usuário não autenticado." }, { status: 401 });
+    }
+
+    const vazio = {
+      estado: null,
+      cidade: null,
+      rua: null,
+      referencia: null,
+      numero: null,
+      cep: null,
+    };
+
+    await prisma.enderecos.upsert({
+      where: { id_client: client.id },
+      update: vazio,
+      create: { id_client: client.id, ...vazio },
+    });
+
+    return NextResponse.json({ message: "Endereço apagado." }, { status: 200 });
+  } catch (error) {
+    console.error("Erro ao apagar endereço:", error);
     return NextResponse.json({ message: "Erro interno do servidor." }, { status: 500 });
   }
 }

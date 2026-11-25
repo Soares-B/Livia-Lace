@@ -1,3 +1,4 @@
+import getClient from "@/lib/client";
 import getCart from "@/lib/cart";
 import getProduct from "@/lib/product";
 import getAddress from "@/lib/address";
@@ -13,25 +14,29 @@ type produtoArray = {
 }[]
 
 export default async function Cart() {
-  const cart = await getCart();
-  if (!cart) {
+  const client = await getClient();
+  if (!client) {
     redirect("/Login");
   }
 
-  const produtos = (cart.produtos as produtoArray | null) ?? [];
+  // Um cliente logado sem linha de carrinho é tratado como carrinho vazio, não como deslogado.
+  const cart = await getCart();
+  const produtos = Array.isArray(cart?.produtos) ? (cart.produtos as produtoArray) : [];
   const products: produtoArray = [];
 
-  for (const produto of produtos) {
-    const produtoInfo = await getProduct(String(produto.produto));
+  for (const item of produtos) {
+    const produtoInfo = await getProduct(String(item?.produto));
     if (!produtoInfo) {
       continue;
     }
 
-    const { tipo, quantidade, tamanho, image_overlay, ...resto } = produtoInfo;
-    produto.nome = resto.nome ?? undefined;
-    produto.valor = Number(resto.valor);
-    produto.imagem = resto.imagem ?? undefined;
-    products.push(produto);
+    products.push({
+      produto: item.produto,
+      quantidade: item.quantidade,
+      nome: produtoInfo.nome ?? undefined,
+      valor: Number(produtoInfo.valor),
+      imagem: produtoInfo.imagem ?? undefined,
+    });
   }
 
   const address = await getAddress();

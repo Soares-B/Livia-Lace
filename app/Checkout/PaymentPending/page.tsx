@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function Success(){
+export default function PaymentPending(){
 
     return (
         <div className="bg-[url('/Imagens/BackgroundStyle.png')] w-screen h-screen">

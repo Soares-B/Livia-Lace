@@ -8,9 +8,12 @@ export async function GET(request: NextRequest) {
   const token = searchParams.get("hub.verify_token");
   const challenge = searchParams.get("hub.challenge");
 
+  const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN;
+
   if (
+    verifyToken &&
     mode === "subscribe" &&
-    token === process.env.WHATSAPP_VERIFY_TOKEN &&
+    token === verifyToken &&
     challenge
   ) {
     return new NextResponse(challenge, { status: 200 });

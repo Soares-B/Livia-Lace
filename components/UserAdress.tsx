@@ -33,6 +33,11 @@ type AddressProps = {
   cep: string | null;
 };
 
+function formatCep(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  return digits.length > 5 ? `${digits.slice(0, 5)}-${digits.slice(5)}` : digits;
+}
+
 export default function AddressField({
   estado: estadoInicial,
   cidade: cidadeInicial,
@@ -46,7 +51,9 @@ export default function AddressField({
   const [rua, setRua] = useState(ruaInicial ?? "");
   const [referencia, setReferencia] = useState(referenciaInicial ?? "");
   const [telefone, setTelefone] = useState(numeroInicial ?? "");
-  const [cep, setCep] = useState(cepInicial != null ? String(cepInicial) : "");
+  // O CEP é salvo só com dígitos; sem formatar aqui, o "Salvar" recusava o CEP já cadastrado (8 < 9 caracteres).
+  const [cep, setCep] = useState(formatCep(cepInicial ?? ""));
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const [errDesc, setErrDesc] = useState("");
@@ -81,13 +88,41 @@ export default function AddressField({
     { label: "Tocantins", value: "Tocantins" },
   ];
 
-  function deleteData() {
-    setCep("");
-    setEstado("");
-    setRua("");
-    setCidade("");
-    setTelefone("");
-    setReferencia("");
+  async function deleteData() {
+    if (saving || !window.confirm("Apagar o endereço salvo? Essa ação não pode ser desfeita.")) {
+      return;
+    }
+
+    setSaving(true);
+
+    try {
+      const response = await fetch("/api/registerAddress", { method: "DELETE" });
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        setError(true);
+        setErrMessage("Não foi possível apagar");
+        setErrDesc(data?.message ?? "Tente novamente em instantes.");
+        return;
+      }
+
+      // Só limpa a tela depois que o banco confirmou a exclusão.
+      setCep("");
+      setEstado("");
+      setRua("");
+      setCidade("");
+      setTelefone("");
+      setReferencia("");
+      setError(true);
+      setErrMessage("Dados apagados");
+      setErrDesc("Seu endereço foi removido.");
+    } catch {
+      setError(true);
+      setErrMessage("Erro de conexão");
+      setErrDesc("Não foi possível apagar seus dados. Verifique sua internet e tente novamente.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -132,28 +167,48 @@ export default function AddressField({
 
     const ref = referencia.trim();
 
-    const response = await fetch("/api/registerAddress", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        estado,
-        city,
-        road,
-        ref,
-        telefone,
-        cep,
-      }),
-    });
-    const data = await response.json();
+    setSaving(true);
 
+    try {
+      const response = await fetch("/api/registerAddress", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          estado,
+          city,
+          road,
+          ref,
+          telefone,
+          cep,
+        }),
+      });
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        setError(true);
+        setErrMessage("Não foi possível salvar");
+        setErrDesc(data?.message ?? "Tente novamente em instantes.");
+        return;
+      }
+
+      setError(true);
+      setErrMessage("Dados salvos");
+      setErrDesc("Seu endereço foi atualizado com sucesso.");
+    } catch {
+      setError(true);
+      setErrMessage("Erro de conexão");
+      setErrDesc("Não foi possível salvar seus dados. Verifique sua internet e tente novamente.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
     <div className="relative col-2 row-[2/-1] w-full h-full">
       <AlertDialog open={error} onOpenChange={setError}>
-        <AlertDialogContent size="sm" className="font-[MontserratBold]">
+        <AlertDialogContent size="sm" className="font-montserrat-bold">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-[var(--darkerPink)] text-lg">
               {errMessage}
@@ -183,13 +238,13 @@ export default function AddressField({
           value={estado}
           onValueChange={(value) => setEstado(value!)}
         >
-          <SelectTrigger className="w-[90%] font-[MontserratBold] text-[var(--darkerPink)] h-20 text-lg">
+          <SelectTrigger className="w-[90%] font-montserrat-bold text-[var(--darkerPink)] h-20 text-lg">
             <SelectValue placeholder="Selecione um estado" />
           </SelectTrigger>
 
           <SelectContent>
             <SelectGroup>
-              <SelectLabel className="font-[MontserratBold] text-[var(--darkestPink)]">
+              <SelectLabel className="font-montserrat-bold text-[var(--darkestPink)]">
                 Estados
               </SelectLabel>
 
@@ -207,7 +262,7 @@ export default function AddressField({
         </Select>
 
         <div className="relative w-[90%] h-[60%]">
-          <h2 className="absolute top-[-45%] left-[2%] font-[MontserratBold]">
+          <h2 className="absolute top-[-45%] left-[2%] font-montserrat-bold">
             Cidade*
           </h2>
           <Input
@@ -221,7 +276,7 @@ export default function AddressField({
         </div>
 
         <div className="relative w-[90%] h-[60%]">
-          <h2 className="absolute top-[-45%] left-[2%] font-[MontserratBold]">
+          <h2 className="absolute top-[-45%] left-[2%] font-montserrat-bold">
             Rua*
           </h2>
           <Input
@@ -235,7 +290,7 @@ export default function AddressField({
         </div>
 
         <div className="relative w-[90%] h-[60%]">
-          <h2 className="absolute top-[-45%] left-[2%] font-[MontserratBold]">
+          <h2 className="absolute top-[-45%] left-[2%] font-montserrat-bold">
             Referência
           </h2>
           <Input
@@ -248,7 +303,7 @@ export default function AddressField({
         </div>
 
         <div className="relative w-[90%] h-[60%]">
-          <h2 className="absolute top-[-45%] left-[2%] font-[MontserratBold]">
+          <h2 className="absolute top-[-45%] left-[2%] font-montserrat-bold">
             Telefone*
           </h2>
 
@@ -286,7 +341,7 @@ export default function AddressField({
         </div>
 
         <div className="relative w-[90%] h-[60%]">
-          <h2 className="absolute top-[-45%] left-[2%] font-[MontserratBold]">
+          <h2 className="absolute top-[-45%] left-[2%] font-montserrat-bold">
             CEP*
           </h2>
 
@@ -319,7 +374,8 @@ export default function AddressField({
         <div className="relative w-[90%] h-[60%]">
           <Button
             type="button"
-            className="w-full h-[95%] font-[MontserratBold] pl-[10px] text-lg box-border bg-[var(--delete)] hover:bg-[var(--deleteHover)] hover:cursor-pointer text-black"
+            disabled={saving}
+            className="w-full h-[95%] font-montserrat-bold pl-[10px] text-lg box-border bg-[var(--delete)] hover:bg-[var(--deleteHover)] hover:cursor-pointer text-black"
             onClick={() => deleteData()}
           >
             Deletar dados
@@ -329,7 +385,8 @@ export default function AddressField({
         <div className="relative w-[90%] h-[60%]">
           <Button
             type="submit"
-            className="w-full h-[95%] font-[MontserratBold] pl-[10px] text-lg box-border bg-[var(--save)] hover:bg-[var(--saveHover)] hover:cursor-pointer text-black"
+            disabled={saving}
+            className="w-full h-[95%] font-montserrat-bold pl-[10px] text-lg box-border bg-[var(--save)] hover:bg-[var(--saveHover)] hover:cursor-pointer text-black"
           >
             Salvar
           </Button>

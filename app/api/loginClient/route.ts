@@ -3,12 +3,19 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 
+// Hash descartável usado para gastar o mesmo tempo de CPU quando o email não existe,
+// evitando revelar quais emails estão cadastrados pelo tempo de resposta.
+const DUMMY_HASH = "$2b$10$pP4qIg5.QjkAMmRDCNXGTuuI28JVvbb8T.Y7TKBrPItYPiMLrxbsu";
+
 export async function POST(request: Request) {
   try {
-    const dados = await request.json();
-    const { email, senha } = dados;
+    const dados: unknown = await request.json().catch(() => null);
+    const { email, senha } = (dados && typeof dados === "object" ? dados : {}) as {
+      email?: unknown;
+      senha?: unknown;
+    };
 
-    if (!email || !senha) {
+    if (typeof email !== "string" || typeof senha !== "string" || !email.trim() || !senha) {
       return NextResponse.json(
         {
           message: "Todos os campos são obrigatórios.",
@@ -17,25 +24,18 @@ export async function POST(request: Request) {
       );
     }
 
-    const cliente_exist = await prisma.clientes.findUnique({
+    const cliente_exist = await prisma.clientes.findFirst({
       where: {
-        email: email,
+        email: { equals: email.trim(), mode: "insensitive" },
       },
     });
 
-    if (!cliente_exist) {
-      return NextResponse.json(
-        { message: "Usuário ou senha inválidos." },
-        { status: 401 },
-      );
-    }
-
     const senhaValida = await bcrypt.compare(
       senha,
-      cliente_exist.senha!,
+      cliente_exist?.senha ?? DUMMY_HASH,
     );
 
-    if (!senhaValida) {
+    if (!cliente_exist || !senhaValida) {
       return NextResponse.json(
         { message: "Usuário ou senha inválidos." },
         { status: 401 },

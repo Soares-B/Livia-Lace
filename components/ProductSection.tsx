@@ -129,56 +129,76 @@ export default function ProductSection({
   precoFinal,
 }: ProductSectionProps) {
   const [produtos, setProdutos] = React.useState<Product[]>([]);
-  const [loading, setLoading] = React.useState(false);
+  // Começa carregando: sem isso aparecia "Nenhum produto encontrado." antes da primeira busca.
+  const [loading, setLoading] = React.useState(true);
+  const [erro, setErro] = React.useState(false);
 
   React.useEffect(() => {
-    async function buscarProdutos() {
+    // Cada mudança de filtro cancela a busca anterior: respostas atrasadas não sobrescrevem as novas,
+    // e o atraso curto evita uma requisição por tecla digitada nos campos de preço.
+    const controller = new AbortController();
+
+    const converterPreco = (valor: string) => {
+      if (!valor) return undefined;
+      const numero = valor
+        .replace("R$", "")
+        .replace(/\./g, "")
+        .replace(",", ".")
+        .trim();
+      const resultado = Number(numero);
+      return Number.isNaN(resultado) ? undefined : resultado;
+    };
+
+    const timer = setTimeout(async () => {
       try {
         setLoading(true);
-
-        const converterPreco = (valor: string) => {
-          if (!valor) return undefined;
-          const numero = valor
-            .replace("R$", "")
-            .replace(/\./g, "")
-            .replace(",", ".")
-            .trim();
-          const resultado = Number(numero);
-          return Number.isNaN(resultado) ? undefined : resultado;
-        };
-
-        const inicial = converterPreco(precoInicial);
-        const final = converterPreco(precoFinal);
+        setErro(false);
 
         const response = await fetch("/api/getProducts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...filtros, inicial, final }),
+          body: JSON.stringify({
+            ...filtros,
+            inicial: converterPreco(precoInicial),
+            final: converterPreco(precoFinal),
+          }),
+          signal: controller.signal,
         });
 
         if (!response.ok) {
-          const erro = await response.text();
-          console.error("Resposta da API:", erro);
           throw new Error(`Erro HTTP: ${response.status}`);
         }
 
         const data = await response.json();
         setProdutos(data);
       } catch (error) {
+        if (controller.signal.aborted) return;
         console.error("Erro ao buscar produtos:", error);
         setProdutos([]);
+        setErro(true);
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
-    }
+    }, 250);
 
-    buscarProdutos();
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
   }, [filtros, precoInicial, precoFinal]);
 
   if (loading) {
     return (
       <div className="flex w-full justify-center py-[5%]">
         <p className="font-montserrat">Carregando produtos...</p>
+      </div>
+    );
+  }
+
+  if (erro) {
+    return (
+      <div className="flex w-full justify-center py-[5%]">
+        <p className="font-montserrat">Não foi possível carregar os produtos. Tente novamente.</p>
       </div>
     );
   }

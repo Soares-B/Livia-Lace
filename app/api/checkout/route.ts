@@ -37,6 +37,14 @@ export async function POST() {
       return NextResponse.json({ error: "Usuário não autenticado" }, { status: 401 });
     }
 
+    // Configuração inválida deve falhar antes de criar um pedido que ficaria órfão.
+    const siteUrlValue = process.env.SITE_URL;
+    if (!siteUrlValue) throw new Error("SITE_URL não configurada");
+    const siteUrl = absoluteUrl(siteUrlValue, "SITE_URL");
+    const webhookUrl = process.env.MERCADO_PAGO_WEBHOOK_URL
+      ? absoluteUrl(process.env.MERCADO_PAGO_WEBHOOK_URL, "MERCADO_PAGO_WEBHOOK_URL")
+      : `${siteUrl}/api/checkout/webhook`;
+
     const address = await prisma.enderecos.findUnique({
       where: { id_client: cliente.id },
     });
@@ -97,13 +105,6 @@ export async function POST() {
       },
     });
     pedidoId = pedido.id;
-
-    const siteUrlValue = process.env.SITE_URL;
-    if (!siteUrlValue) throw new Error("SITE_URL não configurada");
-    const siteUrl = absoluteUrl(siteUrlValue, "SITE_URL");
-    const webhookUrl = process.env.MERCADO_PAGO_WEBHOOK_URL
-      ? absoluteUrl(process.env.MERCADO_PAGO_WEBHOOK_URL, "MERCADO_PAGO_WEBHOOK_URL")
-      : `${siteUrl}/api/checkout/webhook`;
 
     const preference = await new Preference(new MercadoPagoConfig({ accessToken })).create({
       body: {

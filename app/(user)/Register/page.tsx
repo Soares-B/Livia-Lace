@@ -18,8 +18,8 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [success, setSuccess] = useState(false);
   const [created, setCreated] = useState(false)
+  const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
 
   const [errors, setErrors] = useState({
@@ -28,8 +28,10 @@ export default function Register() {
     password: "",
   });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (submitting) return;
 
     const newErrors = {
       email: "",
@@ -37,15 +39,13 @@ export default function Register() {
       password: "",
     };
 
-    setSuccess(false);
-
-    if (!email) {
+    if (!email.trim()) {
       newErrors.email = "Digite seu email.";
     } else if (!email.includes("@")) {
       newErrors.email = "Digite um email válido.";
     }
 
-    if (!username) {
+    if (!username.trim()) {
       newErrors.username = "Digite seu nome de usuário.";
     }
 
@@ -53,6 +53,8 @@ export default function Register() {
       newErrors.password = "Digite sua senha.";
     } else if (password.length < 8) {
       newErrors.password = "A senha deve ter pelo menos 8 caracteres.";
+    } else if (new TextEncoder().encode(password).length > 72) {
+      newErrors.password = "A senha deve ter no máximo 72 caracteres.";
     }
 
     setErrors(newErrors);
@@ -62,11 +64,14 @@ export default function Register() {
       !newErrors.username &&
       !newErrors.password
     ) {
-      setSuccess(true);
-      register(email, username, password)
+      await register(email.trim(), username.trim(), password);
     }
+  }
 
-    async function register(email: string, username: string, password: string){
+  async function register(email: string, username: string, password: string){
+    setSubmitting(true);
+
+    try {
       const response = await fetch("/api/registerClient", {
         method: "POST",
         headers: {
@@ -77,8 +82,8 @@ export default function Register() {
             username,
             password
         })
-    });
-      const data = await response.json();
+      });
+      const data = await response.json().catch(() => null);
 
       if (response.ok) {
         setMessage("Cadastro realizado com sucesso!")
@@ -87,21 +92,26 @@ export default function Register() {
         setTimeout(() =>{
           router.push('/Login')
         }, 2000)
-      }else{
-        setMessage(data.message)
-        setCreated(true)
-
-        setTimeout(() =>{
-          setCreated(false)
-        }, 2000)
+        return;
       }
+
+      setMessage(data?.message ?? "Não foi possível cadastrar. Tente novamente.")
+    } catch {
+      setMessage("Não foi possível conectar. Verifique sua internet e tente novamente.")
     }
+
+    setCreated(true)
+    setSubmitting(false)
+
+    setTimeout(() =>{
+      setCreated(false)
+    }, 2000)
   }
 
   return (
     <div className="w-screen h-screen bg-[url('/Imagens/BackgroundStyle.png')]">
       <p
-        className={`font-[MontserratBold] relative z-1 text-center mt-[10%] text-2xl transition-[.25s] ${created ? "opacity-100" : "opacity-0"}`}
+        className={`font-montserrat-bold relative z-1 text-center mt-[10%] text-2xl transition-[.25s] ${created ? "opacity-100" : "opacity-0"}`}
       >
         {message}
       </p>
@@ -121,7 +131,7 @@ export default function Register() {
           className="flex w-[60%] flex-col items-center"
           onSubmit={handleSubmit}
         >
-          <h2 className="font-[MontserratBold] text-2xl m-[0_auto] mt-[3%] mb-[2%]">
+          <h2 className="font-montserrat-bold text-2xl m-[0_auto] mt-[3%] mb-[2%]">
             Cadastrar
           </h2>
 
@@ -187,7 +197,7 @@ export default function Register() {
             </Field>
           </FieldGroup>
 
-          <Submit />
+          <Submit disabled={submitting} />
         </form>
 
         <p className="font-montserrat text-lg mb-[4%] mt-[3%]">

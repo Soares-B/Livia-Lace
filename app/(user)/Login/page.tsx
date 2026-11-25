@@ -17,8 +17,8 @@ export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [success, setSuccess] = useState(false);
   const [logged, setLogged] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({
     email: "",
@@ -28,14 +28,14 @@ export default function Login() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    if (submitting) return;
+
     const newErrors = {
       email: "",
       password: "",
     };
 
-    setSuccess(false);
-
-    if (!email) {
+    if (!email.trim()) {
       newErrors.email = "Digite seu email.";
     } else if (!email.includes("@")) {
       newErrors.email = "Digite um email válido.";
@@ -47,15 +47,17 @@ export default function Login() {
 
     setErrors(newErrors);
 
-    if (!newErrors.email && !newErrors.password) {
-      setSuccess(true);
+    if (newErrors.email || newErrors.password) {
+      return;
     }
 
-    if (success) {
-      login(email, senha);
-    }
+    await login(email.trim(), senha);
+  }
 
-    async function login(email: string, senha: string) {
+  async function login(email: string, senha: string) {
+    setSubmitting(true);
+
+    try {
       const response = await fetch("/api/loginClient", {
         method: "POST",
         headers: {
@@ -66,28 +68,35 @@ export default function Login() {
           senha,
         }),
       });
-      const data = await response.json();
-      if (response.status == 200) {
+      const data = await response.json().catch(() => null);
+
+      if (response.ok) {
         setMessage("Login realizado com sucesso!");
         setLogged(true);
 
         setTimeout(() => {
-          router.push('/')
+          router.push("/");
+          router.refresh();
         }, 2000);
-      } else {
-        setMessage(data.message);
-        setLogged(true);
-        setTimeout(() => {
-          setLogged(false);
-        }, 2000);
+        return;
       }
+
+      setMessage(data?.message ?? "Não foi possível entrar. Tente novamente.");
+    } catch {
+      setMessage("Não foi possível conectar. Verifique sua internet e tente novamente.");
     }
+
+    setLogged(true);
+    setSubmitting(false);
+    setTimeout(() => {
+      setLogged(false);
+    }, 2000);
   }
 
   return (
     <div className="w-screen h-screen bg-[url('/Imagens/BackgroundStyle.png')]">
       <p
-        className={`font-[MontserratBold] text-center mt-[4%] text-2xl transition-[.25s] ${logged ? "opacity-100" : "opacity-0"}`}
+        className={`font-montserrat-bold text-center mt-[4%] text-2xl transition-[.25s] ${logged ? "opacity-100" : "opacity-0"}`}
       >
         {message}
       </p>
@@ -105,7 +114,7 @@ export default function Login() {
           onSubmit={handleSubmit}
           className="flex w-[60%] flex-col items-center"
         >
-          <h2 className="font-[MontserratBold] text-2xl m-[0_auto] mt-[3%] mb-[3%]">
+          <h2 className="font-montserrat-bold text-2xl m-[0_auto] mt-[3%] mb-[3%]">
             Entrar
           </h2>
           <FieldGroup className="gap-[3%] mb-[5%]">
@@ -121,6 +130,11 @@ export default function Login() {
                 className="font-montserrat h-[40px] focus:outline-none"
                 placeholder=""
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm font-montserrat">
+                  {errors.email}
+                </p>
+              )}
             </Field>
             <Field>
               <FieldLabel className="flex w-full justify-center font-montserrat text-lg">
@@ -134,9 +148,14 @@ export default function Login() {
                 className="font-montserrat h-[40px] mb-[1%] focus:outline-none"
                 placeholder=""
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm font-montserrat">
+                  {errors.password}
+                </p>
+              )}
             </Field>
           </FieldGroup>
-          <Submit />
+          <Submit disabled={submitting} />
         </form>
 
         <p className="font-montserrat text-lg mb-[4%] mt-[3%]">

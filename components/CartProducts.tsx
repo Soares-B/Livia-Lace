@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,19 +28,65 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
   const [error, setError] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const [errDesc, setErrDesc] = useState("");
+  const [paying, setPaying] = useState(false);
 
-  async function updateCart(newProducts: products) {
+  // Estado desejado (latest), último estado confirmado pelo servidor (saved) e a gravação em andamento.
+  // As gravações são feitas uma por vez e juntam cliques rápidos, para que uma resposta atrasada
+  // nunca sobrescreva uma alteração mais nova.
+  const latest = useRef(cart[0]);
+  const saved = useRef(cart[0]);
+  const flushing = useRef<Promise<void> | null>(null);
+
+  useEffect(() => {
+    // Ao voltar do Mercado Pago pelo botão "voltar", a página pode vir do cache com o botão travado.
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setPaying(false);
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
+  function showError(message: string, description: string) {
+    setErrMessage(message);
+    setErrDesc(description);
+    setError(true);
+  }
+
+  function flush(): Promise<void> {
+    if (flushing.current) return flushing.current;
+
+    const run = async () => {
+      try {
+        while (latest.current !== saved.current) {
+          const target = latest.current;
+          try {
+            await insertIntoCart(target);
+            saved.current = target;
+          } catch (err) {
+            console.error(err);
+            // Desfaz a alteração na tela para refletir o que realmente está salvo.
+            latest.current = saved.current;
+            setProducts(saved.current);
+            showError(
+              "Erro ao atualizar carrinho",
+              "Não foi possível salvar as alterações. Tente novamente.",
+            );
+            return;
+          }
+        }
+      } finally {
+        flushing.current = null;
+      }
+    };
+
+    flushing.current = run();
+    return flushing.current;
+  }
+
+  function updateCart(newProducts: products) {
+    latest.current = newProducts;
     setProducts(newProducts);
-
-    try {
-      await insertIntoCart(newProducts);
-    } catch (err) {
-      console.error(err);
-
-      setErrMessage("Erro ao atualizar carrinho");
-      setErrDesc("Não foi possível salvar as alterações. Tente novamente.");
-      setError(true);
-    }
+    void flush();
   }
 
   function diminuirQuantidade(id: number) {
@@ -82,7 +128,7 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
     0,
   );
 
-  async function insertIntoCart(cartProducts = products) {
+  async function insertIntoCart(cartProducts: products) {
     const dataModified = cartProducts.map((produto) => ({
       produto: produto.produto,
       quantidade: produto.quantidade,
@@ -101,47 +147,45 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
     if (!response.ok) {
       throw new Error("Não foi possível atualizar o carrinho");
     }
-
-    return response.status;
   }
 
   async function buyButton(){
-    if (addressMissing){
+    if (addressMissing || paying || products.length === 0){
       return;
     }
-    
+
+    setPaying(true);
+
     try{
-      const status = await insertIntoCart();
+      // Espera as alterações pendentes terminarem e grava o carrinho exibido antes de cobrar.
+      await flush();
+      await insertIntoCart(latest.current);
+      saved.current = latest.current;
 
-      if (status === 200){
-          const response = await fetch("/api/checkout", {
-            method: "POST"})
+      const response = await fetch("/api/checkout", {
+        method: "POST"})
 
-          const data = await response.json();
+      const data = await response.json().catch(() => null);
 
-          if (!response.ok || !data.init_point) {
-            throw new Error("Não foi possível criar o checkout");
-          }
-
-          window.location.href = data.init_point;
-      }else{
-        setErrMessage("Erro ao atualizar o carrinho")
-        setErrDesc("Ocorreu um erro ao atualizar o carrinho! Tente novamente mais tarde")
-        setError(true)
+      if (!response.ok || !data?.init_point) {
+        throw new Error("Não foi possível criar o checkout");
       }
 
+      window.location.assign(data.init_point);
     }catch(err){
-      console.log(err)
-      setErrMessage("Erro ao realizar compra")
-      setErrDesc("Ocorreu um erro ao realizar a compra! Tente novamente mais tarde")
-      setError(true)
+      console.error(err)
+      setPaying(false)
+      showError(
+        "Erro ao realizar compra",
+        "Ocorreu um erro ao realizar a compra! Tente novamente mais tarde",
+      )
     }
-    }
+  }
 
   return (
     <>
     <AlertDialog open={error} onOpenChange={setError}>
-        <AlertDialogContent size="sm" className="font-[MontserratBold]">
+        <AlertDialogContent size="sm" className="font-montserrat-bold">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-[var(--darkerPink)] text-lg">
               {errMessage}
@@ -170,13 +214,17 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
             <article className="relative flex flex-row mt-[2%] mb-[1%] ml-[2%] h-[200px]">
               <div className="absolute flex left-[2%] w-[80%]">
                 <Link href={`/Product/${produto.produto}`} className="z-2">
-                  <Image
-                    src={produto.imagem ?? ""}
-                    width={200}
-                    height={200}
-                    alt={produto.nome ?? ""}
-                    className="rounded-[10%] select-none"
-                  />
+                  {produto.imagem ? (
+                    <Image
+                      src={produto.imagem}
+                      width={200}
+                      height={200}
+                      alt={produto.nome ?? ""}
+                      className="rounded-[10%] select-none"
+                    />
+                  ) : (
+                    <div className="h-[200px] w-[200px] rounded-[10%] bg-white" />
+                  )}
                 </Link>
 
                 <Link href={`/Product/${produto.produto}`} className="z-2">
@@ -231,9 +279,10 @@ export default function CartProducts({ cart }: { cart: [products, boolean] }) {
         <Button
           variant="main"
           className="mr-[5%] w-fit font-montserrat text-lg bg-white rounded-[10px] border-2 border-solid border-[var(--darkPink-Pastel)] p-[1.2%] text-black"
+          disabled={paying}
           onClick={() => buyButton()}
         >
-          Prosseguir para pagamento
+          {paying ? "Redirecionando..." : "Prosseguir para pagamento"}
         </Button>
       </div> : <p className="font-montserrat text-2xl m-[0_auto] mt-[2%] text-[var(--darkestPink)]">Nenhum produto no carrinho</p> }
     </>

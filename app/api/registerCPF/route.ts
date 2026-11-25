@@ -1,6 +1,7 @@
 import getClient from "@/lib/client";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { isValidCPF } from "@/lib/validation.mjs";
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +10,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Usuário não autenticado." }, { status: 401 });
     }
 
-    const body: unknown = await request.json();
+    const body: unknown = await request.json().catch(() => null);
     if (!body || typeof body !== "object" || typeof (body as Record<string, unknown>).CPF !== "string") {
       return NextResponse.json({ message: "CPF inválido." }, { status: 400 });
     }
@@ -19,9 +20,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "CPF deve conter 11 dígitos." }, { status: 400 });
     }
 
-    await prisma.enderecos.update({
+    if (cpfInput.length === 11 && !isValidCPF(cpfInput)) {
+      return NextResponse.json({ message: "CPF inválido." }, { status: 400 });
+    }
+
+    await prisma.enderecos.upsert({
       where: { id_client: client.id },
-      data: { cpf: cpfInput || null },
+      update: { cpf: cpfInput || null },
+      create: { id_client: client.id, cpf: cpfInput || null },
     });
 
     return NextResponse.json({ message: "CPF atualizado com sucesso!" }, { status: 200 });

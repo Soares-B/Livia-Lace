@@ -3,7 +3,10 @@ import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
-    const filtros = await request.json();
+    const filtros: unknown = await request.json().catch(() => null);
+    if (!filtros || typeof filtros !== "object") {
+      return NextResponse.json({ error: "Filtros inválidos." }, { status: 400 });
+    }
 
     const {
       laco,
@@ -14,21 +17,21 @@ export async function POST(request: Request) {
       pulseira,
       inicial,
       final,
-    } = filtros;
+    } = filtros as Record<string, unknown>;
 
     const tiposSelecionados: string[] = [];
 
-    if (laco) tiposSelecionados.push("Bico de pato");
-    if (xuxinha) tiposSelecionados.push("Xuxinha");
-    if (tiara) tiposSelecionados.push("Tiara");
-    if (faixaBebe) tiposSelecionados.push("Faixa de bebe");
-    if (presilha) tiposSelecionados.push("Presilha");
-    if (pulseira) tiposSelecionados.push("Pulseira");
+    if (laco === true) tiposSelecionados.push("Bico de pato");
+    if (xuxinha === true) tiposSelecionados.push("Xuxinha");
+    if (tiara === true) tiposSelecionados.push("Tiara");
+    if (faixaBebe === true) tiposSelecionados.push("Faixa de bebe");
+    if (presilha === true) tiposSelecionados.push("Presilha");
+    if (pulseira === true) tiposSelecionados.push("Pulseira");
 
     const nenhumSelecionado = tiposSelecionados.length === 0;
 
-    const precoInicial = typeof inicial === "number" ? inicial : undefined;
-    const precoFinal = typeof final === "number" ? final : undefined;
+    const precoInicial = typeof inicial === "number" && Number.isFinite(inicial) ? inicial : undefined;
+    const precoFinal = typeof final === "number" && Number.isFinite(final) ? final : undefined;
 
     const produtos = await prisma.produtos.findMany({
       where: {

@@ -9,7 +9,7 @@ export async function CPF(){
     const address = await getAddress();
 
     return (
-        <CPFform cpf={address!.cpf}/>
+        <CPFform cpf={address?.cpf ?? null}/>
     );
 }
 
@@ -18,12 +18,12 @@ export async function AddressProxy(){
 
     return (
         <AddressField
-  estado={address!.estado}
-  cidade={address!.cidade}
-  rua={address!.rua}
-  referencia={address!.referencia}
-  numero={address!.numero}
-  cep={address!.cep}
+  estado={address?.estado ?? null}
+  cidade={address?.cidade ?? null}
+  rua={address?.rua ?? null}
+  referencia={address?.referencia ?? null}
+  numero={address?.numero ?? null}
+  cep={address?.cep ?? null}
 />
     );
 

@@ -45,6 +45,7 @@ export default async function Cart() {
     address.cidade,
     address.rua,
     address.numero,
+    address.telefone,
     address.cep,
     address.cpf,
   ].some((valor) => typeof valor !== "string" || !valor.trim());

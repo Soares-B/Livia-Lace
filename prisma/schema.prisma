@@ -38,6 +38,7 @@ model Enderecos {
   rua        String?   @db.VarChar
   referencia String?   @db.VarChar
   numero     String?   @db.VarChar
+  telefone   String?   @db.VarChar
   cep        String? @db.VarChar(9)
   cpf        String? @db.VarChar(11)
   Clientes   Clientes @relation(fields: [id_client], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Endereços_id_client_fkey")
@@ -56,6 +57,7 @@ model Pedidos {
   endereco_cidade String? @db.VarChar
   endereco_rua String?    @db.VarChar
   endereco_numero String? @db.VarChar
+  endereco_telefone String? @db.VarChar
   endereco_referencia String? @db.VarChar
   endereco_cep String?    @db.VarChar(9)
 

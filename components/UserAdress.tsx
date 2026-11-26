@@ -22,6 +22,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { isValidHouseNumber } from "@/lib/validation.mjs";
 import { Button } from "@/components/ui/button";
 
 type AddressProps = {
@@ -30,6 +31,7 @@ type AddressProps = {
   rua: string | null;
   referencia: string | null;
   numero: string | null;
+  telefone: string | null;
   cep: string | null;
 };
 
@@ -44,13 +46,15 @@ export default function AddressField({
   rua: ruaInicial,
   referencia: referenciaInicial,
   numero: numeroInicial,
+  telefone: telefoneInicial,
   cep: cepInicial,
 }: AddressProps) {
   const [estado, setEstado] = useState(estadoInicial ?? "");
   const [cidade, setCidade] = useState(cidadeInicial ?? "");
   const [rua, setRua] = useState(ruaInicial ?? "");
   const [referencia, setReferencia] = useState(referenciaInicial ?? "");
-  const [telefone, setTelefone] = useState(numeroInicial ?? "");
+  const [numero, setNumero] = useState(numeroInicial ?? "");
+  const [telefone, setTelefone] = useState(telefoneInicial ?? "");
   // O CEP é salvo só com dígitos; sem formatar aqui, o "Salvar" recusava o CEP já cadastrado (8 < 9 caracteres).
   const [cep, setCep] = useState(formatCep(cepInicial ?? ""));
   const [saving, setSaving] = useState(false);
@@ -111,6 +115,7 @@ export default function AddressField({
       setEstado("");
       setRua("");
       setCidade("");
+      setNumero("");
       setTelefone("");
       setReferencia("");
       setError(true);
@@ -135,9 +140,16 @@ export default function AddressField({
       return;
     }
 
-    if (telefone.length < 14) {
+    if (!isValidHouseNumber(numero)) {
       setError(true);
       setErrMessage("Número inválido");
+      setErrDesc("Digite o número da casa (ex.: 123) ou S/N se não houver número.");
+      return;
+    }
+
+    if (telefone.length < 14) {
+      setError(true);
+      setErrMessage("Telefone inválido");
       setErrDesc("Por favor, digite um número de telefone válido");
       return;
     }
@@ -180,6 +192,7 @@ export default function AddressField({
           city,
           road,
           ref,
+          numero,
           telefone,
           cep,
         }),
@@ -275,18 +288,37 @@ export default function AddressField({
           />
         </div>
 
-        <div className="relative w-[90%] h-[60%]">
-          <h2 className="absolute top-[-45%] left-[2%] font-montserrat-bold">
-            Rua*
-          </h2>
-          <Input
-            type="text"
-            autoComplete="off"
-            required
-            value={rua}
-            onChange={(e) => setRua(e.target.value)}
-            className="w-full h-[95%] font-montserrat pl-[10px] text-lg box-border"
-          />
+        <div className="w-[90%] h-[60%] flex gap-[3%]">
+          <div className="relative w-[67%] h-full">
+            <h2 className="absolute top-[-45%] left-[2%] font-montserrat-bold">
+              Rua*
+            </h2>
+            <Input
+              type="text"
+              autoComplete="off"
+              required
+              value={rua}
+              onChange={(e) => setRua(e.target.value)}
+              className="w-full h-[95%] font-montserrat pl-[10px] text-lg box-border"
+            />
+          </div>
+          <div className="relative w-[30%] h-full">
+            <h2 className="absolute top-[-45%] left-[2%] font-montserrat-bold">
+              Número*
+            </h2>
+            <Input
+              type="text"
+              name="numero"
+              id="numero"
+              autoComplete="off"
+              required
+              maxLength={10}
+              placeholder="123 ou S/N"
+              value={numero}
+              onChange={(e) => setNumero(e.target.value)}
+              className="w-full h-[95%] font-montserrat pl-[10px] text-lg box-border"
+            />
+          </div>
         </div>
 
         <div className="relative w-[90%] h-[60%]">

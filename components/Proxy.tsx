@@ -23,6 +23,7 @@ export async function AddressProxy(){
   rua={address?.rua ?? null}
   referencia={address?.referencia ?? null}
   numero={address?.numero ?? null}
+  telefone={address?.telefone ?? null}
   cep={address?.cep ?? null}
 />
     );

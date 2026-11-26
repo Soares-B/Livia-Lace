@@ -1,6 +1,7 @@
 import getClient from "@/lib/client";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { isValidHouseNumber, normalizeHouseNumber } from "@/lib/validation.mjs";
 
 export async function POST(request: Request) {
   try {
@@ -15,12 +16,13 @@ export async function POST(request: Request) {
     }
 
     const data = body as Record<string, unknown>;
-    const { estado, city, road, ref, telefone, cep } = data;
+    const { estado, city, road, ref, numero, telefone, cep } = data;
     if (
       typeof estado !== "string" || !estado.trim() || estado.length > 100 ||
       typeof city !== "string" || city.trim().length < 3 || city.length > 150 ||
       typeof road !== "string" || road.trim().length < 3 || road.length > 200 ||
       typeof ref !== "string" || ref.length > 255 ||
+      !isValidHouseNumber(numero) ||
       typeof telefone !== "string" || !/^\d{10,11}$/.test(telefone.replace(/\D/g, "")) ||
       typeof cep !== "string" || !/^\d{5}-?\d{3}$/.test(cep)
     ) {
@@ -32,7 +34,8 @@ export async function POST(request: Request) {
       cidade: city.trim(),
       rua: road.trim(),
       referencia: ref.trim(),
-      numero: telefone,
+      numero: normalizeHouseNumber(numero as string),
+      telefone,
       cep: cep.replace(/\D/g, ""),
     };
 
@@ -67,6 +70,7 @@ export async function DELETE() {
       rua: null,
       referencia: null,
       numero: null,
+      telefone: null,
       cep: null,
     };
 

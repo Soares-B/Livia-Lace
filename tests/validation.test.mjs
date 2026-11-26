@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { isValidCPF, isValidEmail, isValidPassword } from "../lib/validation.mjs";
+import {
+  isValidCPF,
+  isValidEmail,
+  isValidHouseNumber,
+  isValidPassword,
+  normalizeHouseNumber,
+} from "../lib/validation.mjs";
 
 test("accepts valid CPFs with or without punctuation", () => {
   assert.equal(isValidCPF("52998224725"), true);
@@ -30,4 +36,15 @@ test("validates password length in characters and bytes", () => {
   assert.equal(isValidPassword("a".repeat(73)), false);
   assert.equal(isValidPassword("ã".repeat(37)), false); // 74 bytes
   assert.equal(isValidPassword(undefined), false);
+});
+
+test("accepts house numbers with digits or S/N and rejects the rest", () => {
+  for (const ok of ["1", "123", "45B", "12-A", "s/n", "SN", " S/N "]) {
+    assert.equal(isValidHouseNumber(ok), true, ok);
+  }
+  for (const bad of ["", "   ", "abc", "(15) 99999-9999", "12345678901", null, 12, undefined]) {
+    assert.equal(isValidHouseNumber(bad), false, String(bad));
+  }
+  assert.equal(normalizeHouseNumber(" sn "), "S/N");
+  assert.equal(normalizeHouseNumber(" 45B "), "45B");
 });

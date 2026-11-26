@@ -53,6 +53,7 @@ export async function POST() {
       address?.cidade,
       address?.rua,
       address?.numero,
+      address?.telefone,
       address?.cep,
       address?.cpf,
     ];
@@ -97,6 +98,7 @@ export async function POST() {
         endereco_cidade: address.cidade,
         endereco_rua: address.rua,
         endereco_numero: address.numero,
+        endereco_telefone: address.telefone,
         endereco_referencia: address.referencia,
         endereco_cep: address.cep,
         valor_total: (totalCents / 100).toFixed(2),

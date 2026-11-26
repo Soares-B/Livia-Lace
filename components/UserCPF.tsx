@@ -5,6 +5,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import Submit from "@/components/Animation/LoginAnimation";
 import { useState } from "react";
 import { isValidCPF } from "@/lib/validation.mjs";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function CPFform({ cpf }: { cpf: string | null }) {
   const [CPF, setCPF] = useState(cpf?.toString() ?? "");
@@ -74,6 +75,7 @@ export default function CPFform({ cpf }: { cpf: string | null }) {
           )}
         </Field>
       </form>
+      <LogoutButton />
     </div>
   );
 }

@@ -70,7 +70,10 @@ export default async function ProductSection() {
                   />
                 </Link>
                 <Link href={`/Product/${produto.product_id}`}>
-                  <ImageHoverOpacity produto={produto} />
+                  {/* Só os campos usados: o objeto do Prisma tem o preço como Decimal, que não pode ser enviado a um Client Component. */}
+                  <ImageHoverOpacity
+                    produto={{ nome: produto.nome, image_overlay: produto.image_overlay }}
+                  />
                 </Link>
                 <div className="absolute bottom-[15%] left-[3%] ">
                   <p className="font-montserrat font-bold text-sm h-[40px] mb-[3%]">
